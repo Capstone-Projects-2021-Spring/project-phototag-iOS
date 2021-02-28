@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86B6D80A268E948B2C250E74 /* Pods_PhotoTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */; };
 		D9B02DC525EC3D79009B5AC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B02DC425EC3D79009B5AC2 /* AppDelegate.swift */; };
 		D9B02DC725EC3D79009B5AC2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B02DC625EC3D79009B5AC2 /* SceneDelegate.swift */; };
 		D9B02DC925EC3D79009B5AC2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B02DC825EC3D79009B5AC2 /* ViewController.swift */; };
@@ -35,6 +36,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A4A2FCC700F62739B66D7DA /* Pods-PhotoTag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.debug.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.debug.xcconfig"; sourceTree = "<group>"; };
+		7D50361FE77CA582AF1073D8 /* Pods-PhotoTag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.release.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.release.xcconfig"; sourceTree = "<group>"; };
+		D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B02DC125EC3D79009B5AC2 /* PhotoTag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B02DC425EC3D79009B5AC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9B02DC625EC3D79009B5AC2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86B6D80A268E948B2C250E74 /* Pods_PhotoTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +81,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		166A955EE694328D2ECB4C3C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9060E0EDE6DD1C4861457A4C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4A4A2FCC700F62739B66D7DA /* Pods-PhotoTag.debug.xcconfig */,
+				7D50361FE77CA582AF1073D8 /* Pods-PhotoTag.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		D9B02DB825EC3D79009B5AC2 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +106,8 @@
 				D9B02DDA25EC3D7A009B5AC2 /* PhotoTagTests */,
 				D9B02DE525EC3D7A009B5AC2 /* PhotoTagUITests */,
 				D9B02DC225EC3D79009B5AC2 /* Products */,
+				9060E0EDE6DD1C4861457A4C /* Pods */,
+				166A955EE694328D2ECB4C3C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,9 +160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9B02DEB25EC3D7A009B5AC2 /* Build configuration list for PBXNativeTarget "PhotoTag" */;
 			buildPhases = (
+				A32F5A589B4B4C61917A8C0F /* [CP] Check Pods Manifest.lock */,
 				D9B02DBD25EC3D79009B5AC2 /* Sources */,
 				D9B02DBE25EC3D79009B5AC2 /* Frameworks */,
 				D9B02DBF25EC3D79009B5AC2 /* Resources */,
+				668183CE04852C432BAD5350 /* [CP] Embed Pods Frameworks */,
+				942D93C9DBF3DA4EC67AD6D8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -252,6 +280,65 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		668183CE04852C432BAD5350 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoTag/Pods-PhotoTag-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoTag/Pods-PhotoTag-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhotoTag/Pods-PhotoTag-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		942D93C9DBF3DA4EC67AD6D8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoTag/Pods-PhotoTag-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoTag/Pods-PhotoTag-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhotoTag/Pods-PhotoTag-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A32F5A589B4B4C61917A8C0F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhotoTag-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D9B02DBD25EC3D79009B5AC2 /* Sources */ = {
@@ -433,6 +520,7 @@
 		};
 		D9B02DEC25EC3D7A009B5AC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A4A2FCC700F62739B66D7DA /* Pods-PhotoTag.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -451,6 +539,7 @@
 		};
 		D9B02DED25EC3D7A009B5AC2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D50361FE77CA582AF1073D8 /* Pods-PhotoTag.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
