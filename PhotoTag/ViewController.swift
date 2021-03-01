@@ -146,10 +146,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         galleryCollectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
     }
     
+    /*
+     * Collection view function - Returns the number of individual cells the gallery view controler should display
+     */
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.photos.count
     }
     
+    /*
+     * Collection view function - Populates the individual gallery view cells with their associated photo
+     */
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryItem", for: indexPath) as! GalleryCollectionViewCell
         let asset = photos[indexPath.item]

@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import Photos
 
+/*
+ * A representation of a photo and all of its associated metadata.
+ */
+
 class Photo {
     var id: String
     var location: CLLocation?
@@ -25,6 +29,10 @@ class Photo {
         self.photoAsset = asset
     }
     
+    /*
+     * Create a lower resolution preview image of the photo asset
+     * @return  UIImage Low resolution preview image
+     */
     public func getPreviewImage() -> UIImage {
         // Facilitates retreving previews and the photo assets themselves
         let imageManager = PHImageManager.default()
@@ -32,9 +40,9 @@ class Photo {
         // Set the options for the retrieving individual photos
         let requestOptions = PHImageRequestOptions()
         
-        // Retreive data synchronously since we are not in matn threead
+        // Retreive data synchronously
         requestOptions.isSynchronous = true
-        requestOptions.deliveryMode = .highQualityFormat // Request high quality asset
+        requestOptions.deliveryMode = .highQualityFormat
         
         var retImage: UIImage = UIImage()
         
