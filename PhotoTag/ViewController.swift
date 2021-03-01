@@ -8,20 +8,24 @@
 import UIKit
 import Photos
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     // Storyboard outlets
     @IBOutlet weak var galleryCollectionView: UICollectionView!
     
-    
     // Class variables
     var photos = [PHAsset]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+        galleryCollectionView.dataSource = self
+        galleryCollectionView.delegate = self
         
+        // Register and modify the display of individual gallery elements within the gallery collection view
+        registerGalleryItemNib()
+        viewWillLayoutSubviews()
+        
+        getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
     }
     
     /*
@@ -30,6 +34,7 @@ class ViewController: UIViewController {
     private func postPermissionCheck() {
         print("Got the needed permissions")
         loadPhotos()
+        
     }
     
     /*
@@ -92,10 +97,66 @@ class ViewController: UIViewController {
             // Callback after retrieveing images is complete
             DispatchQueue.main.async {
                 print("Retrieved all local photos")
+                
+                // Refresh the gallery collection view to display new gallery data
+                print("Refreshing gallery collection view to display new photos")
+                self.galleryCollectionView.reloadData()
             }
         }
     }
-
-
+    
+    /*
+     * Registers the gallery collection view to use the GalleryItem cell as the primary view cell
+     */
+    private func registerGalleryItemNib() {
+        let nib = UINib(nibName: "GalleryCollectionViewCell", bundle: nil)
+        
+        // Register galleryItem (photo cell) xib file to the main gallery view
+        galleryCollectionView.register(nib, forCellWithReuseIdentifier: "GalleryItem")
+        print("Registered gallery item nib")
+    }
+    
+    /*
+     * Override the default collection view cell look
+     */
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        configureCollectionViewItemSize()
+    }
+    
+    /*
+     * Set the size of the individual photo elements within the gallery colelction view
+     */
+    private func configureCollectionViewItemSize() {
+        var collectionViewFlowLayout: UICollectionViewFlowLayout!
+        let numPhotosPerRow: CGFloat = 4
+        let lineSpacing: CGFloat = 5
+        let interItemSpacing: CGFloat = 5
+        
+        let width = (view.frame.size.width - (numPhotosPerRow - 1) * interItemSpacing) / numPhotosPerRow
+        let height = width
+        
+        collectionViewFlowLayout = UICollectionViewFlowLayout()
+        collectionViewFlowLayout.itemSize = CGSize(width: width, height: height)
+        collectionViewFlowLayout.sectionInset = UIEdgeInsets.zero
+        collectionViewFlowLayout.scrollDirection = .vertical
+        collectionViewFlowLayout.minimumLineSpacing = lineSpacing
+        collectionViewFlowLayout.minimumInteritemSpacing = interItemSpacing
+        
+        galleryCollectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        self.photos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryItem", for: indexPath) as! GalleryCollectionViewCell
+        let asset = photos[indexPath.item]
+        let photo = Photo(asset: asset)
+        
+        cell.imageDisplay.image = photo.getPreviewImage()
+        return cell
+    }
 }
 
