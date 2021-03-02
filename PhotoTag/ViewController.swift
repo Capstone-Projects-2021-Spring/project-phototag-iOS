@@ -16,6 +16,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     // Class variables
     var photos = [PHAsset]()
     
+    let galleryViewCellNibName = "GalleryCollectionViewCell"
+    let galleryViewCellIdentifier = "GalleryItem"
+    let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         galleryCollectionView.dataSource = self
@@ -34,7 +38,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     private func postPermissionCheck() {
         print("Got the needed permissions")
         loadPhotos()
-        
     }
     
     /*
@@ -47,6 +50,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     /*
      * Checks the user permission to make sure the application has access to the local photo gallery
      * @param   callback    Callback function to continue application execution post approval
+     * @param   callback    Callback function upon failure of getting permission
      */
     private func getGalleryPermission(callback: @escaping () -> (), failure: @escaping () -> ()) {
         let photosCheck = PHPhotoLibrary.authorizationStatus()
@@ -109,10 +113,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Registers the gallery collection view to use the GalleryItem cell as the primary view cell
      */
     private func registerGalleryItemNib() {
-        let nib = UINib(nibName: "GalleryCollectionViewCell", bundle: nil)
+        let nib = UINib(nibName: galleryViewCellNibName, bundle: nil)
         
         // Register galleryItem (photo cell) xib file to the main gallery view
-        galleryCollectionView.register(nib, forCellWithReuseIdentifier: "GalleryItem")
+        galleryCollectionView.register(nib, forCellWithReuseIdentifier: galleryViewCellIdentifier)
         print("Registered gallery item nib")
     }
     
@@ -163,6 +167,31 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         cell.imageDisplay.image = photo.getPreviewImage()
         return cell
+    }
+    
+    /*
+     * Segue action prepare statements. Helps send data between view controllers upon a new segue
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let item = sender as! Photo
+        
+        if segue.identifier == singlePhotoSegueIdentifier {
+            if let viewController = segue.destination as? SinglePhotoViewController {
+                viewController.photo = item
+            }
+        }
+    }
+    
+    /*
+     * Collection view function - Handles user selecting an image from the gallery view
+     */
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Selected item at \(indexPath)")
+        
+        let asset = photos[indexPath.item]
+        let photo = Photo(asset: asset)
+        
+        performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
 }
 
