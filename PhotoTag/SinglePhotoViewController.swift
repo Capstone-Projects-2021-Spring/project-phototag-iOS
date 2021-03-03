@@ -10,6 +10,9 @@ import UIKit
 class SinglePhotoViewController: UIViewController {
 
     @IBOutlet weak var imageDisplay: UIImageView!
+    @IBOutlet var tagLabel: UILabel!    //a label to display the tags
+    @IBOutlet var textField: UITextField!   //the text field used to manually tag
+    
     var photo: Photo!
     
     override func viewDidLoad() {
