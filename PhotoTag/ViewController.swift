@@ -118,7 +118,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 // Refresh the gallery collection view to display new gallery data
                 print("Refreshing gallery collection view to display new photos")
                 self.galleryCollectionView.reloadData()
-                self.processAllPhotos()
+                // self.processAllPhotos()
             }
         }
     }
