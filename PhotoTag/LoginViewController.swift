@@ -6,11 +6,22 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
 
+    @IBOutlet weak var emailTextField: UITextField!
+    
+    @IBOutlet weak var passwordTextField: UITextField!
+    
+    @IBOutlet weak var loginButton: UIButton!
+    
+    @IBOutlet weak var errorLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        errorLabel.alpha = 0
 
         // Do any additional setup after loading the view.
     }
@@ -26,4 +37,44 @@ class LoginViewController: UIViewController {
     }
     */
 
+    func valid() -> String? {
+        
+        if(emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+            return "Fill in all fields"
+        }
+        return nil
+    }
+    
+    @IBAction func loginClick(_ sender: Any) {
+        
+        let err = valid()
+        
+        //check if fields are filled
+        if(err != nil){
+            errorLabel.text = err!
+            errorLabel.alpha = 1
+        }
+        else{
+            Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (res, error) in
+                if error != nil {
+                    self.errorLabel.text = error!.localizedDescription
+                    self.errorLabel.alpha = 1
+                }else{
+                    self.goToGallery()
+                }
+            }
+            
+        
+        }
+        
+        
+    }
+    
+    func goToGallery(){
+        let galleryView = storyboard?.instantiateViewController(identifier: "GalleryView") as? ViewController
+        
+        view.window?.rootViewController = galleryView
+        view.window?.makeKeyAndVisible()
+    }
+    
 }

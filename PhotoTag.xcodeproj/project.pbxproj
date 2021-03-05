@@ -18,6 +18,10 @@
 		D9B02DCC25EC3D79009B5AC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9B02DCA25EC3D79009B5AC2 /* Main.storyboard */; };
 		D9B02DCE25EC3D79009B5AC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9B02DCD25EC3D79009B5AC2 /* Assets.xcassets */; };
 		D9B02DD125EC3D79009B5AC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9B02DCF25EC3D79009B5AC2 /* LaunchScreen.storyboard */; };
+		F442DF2D25F1D18000F2757C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F442DF2C25F1D18000F2757C /* LoginViewController.swift */; };
+		F442DF3225F1D1A100F2757C /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F442DF3125F1D1A100F2757C /* SignUpViewController.swift */; };
+		F442DF3725F1F0BB00F2757C /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F442DF3625F1F0BB00F2757C /* HomeScreenViewController.swift */; };
+		F4E4504425F1910600505F7E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4E4504325F1910600505F7E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +59,10 @@
 		D9B02DD225EC3D79009B5AC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9B02DD725EC3D7A009B5AC2 /* PhotoTagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B02DE225EC3D7A009B5AC2 /* PhotoTagUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F442DF2C25F1D18000F2757C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		F442DF3125F1D1A100F2757C /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		F442DF3625F1F0BB00F2757C /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
+		F4E4504325F1910600505F7E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,10 +131,12 @@
 		D9B02DC325EC3D79009B5AC2 /* PhotoTag */ = {
 			isa = PBXGroup;
 			children = (
+				F4E4504325F1910600505F7E /* GoogleService-Info.plist */,
 				D9B02DC425EC3D79009B5AC2 /* AppDelegate.swift */,
 				D9B02DC625EC3D79009B5AC2 /* SceneDelegate.swift */,
 				D9B02DC825EC3D79009B5AC2 /* ViewController.swift */,
 				D9B02DCA25EC3D79009B5AC2 /* Main.storyboard */,
+				F442DF3625F1F0BB00F2757C /* HomeScreenViewController.swift */,
 				D9B02DCD25EC3D79009B5AC2 /* Assets.xcassets */,
 				D9B02DCF25EC3D79009B5AC2 /* LaunchScreen.storyboard */,
 				D9B02DD225EC3D79009B5AC2 /* Info.plist */,
@@ -134,6 +144,8 @@
 				D94F753D25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib */,
 				D94F754625EDAF08007A0DA8 /* Photo.swift */,
 				D94F755325EDCA1C007A0DA8 /* SinglePhotoViewController.swift */,
+				F442DF2C25F1D18000F2757C /* LoginViewController.swift */,
+				F442DF3125F1D1A100F2757C /* SignUpViewController.swift */,
 			);
 			path = PhotoTag;
 			sourceTree = "<group>";
@@ -246,6 +258,7 @@
 			files = (
 				D9B02DD125EC3D79009B5AC2 /* LaunchScreen.storyboard in Resources */,
 				D9B02DCE25EC3D79009B5AC2 /* Assets.xcassets in Resources */,
+				F4E4504425F1910600505F7E /* GoogleService-Info.plist in Resources */,
 				D94F753F25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib in Resources */,
 				D9B02DCC25EC3D79009B5AC2 /* Main.storyboard in Resources */,
 			);
@@ -331,9 +344,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F442DF2D25F1D18000F2757C /* LoginViewController.swift in Sources */,
 				D94F755425EDCA1C007A0DA8 /* SinglePhotoViewController.swift in Sources */,
+				F442DF3225F1D1A100F2757C /* SignUpViewController.swift in Sources */,
 				D94F753E25EDAAB6007A0DA8 /* GalleryCollectionViewCell.swift in Sources */,
 				D9B02DC925EC3D79009B5AC2 /* ViewController.swift in Sources */,
+				F442DF3725F1F0BB00F2757C /* HomeScreenViewController.swift in Sources */,
 				D9B02DC525EC3D79009B5AC2 /* AppDelegate.swift in Sources */,
 				D9B02DC725EC3D79009B5AC2 /* SceneDelegate.swift in Sources */,
 				D94F754725EDAF08007A0DA8 /* Photo.swift in Sources */,

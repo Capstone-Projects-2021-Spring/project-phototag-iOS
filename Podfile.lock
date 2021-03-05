@@ -460,6 +460,8 @@ PODS:
 
 DEPENDENCIES:
   - Firebase
+  - Firebase/Auth
+  - Firebase/Firestore
   - FirebaseUI
   - GoogleMLKit/ImageLabeling
 
@@ -542,6 +544,6 @@ SPEC CHECKSUMS:
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
 
-PODFILE CHECKSUM: 7efb28cd43440bb2f5fc4f5be3bec47575eb1a68
+PODFILE CHECKSUM: 64cebed808c0ef191040ac89bdfa445782ab2d01
 
 COCOAPODS: 1.10.1

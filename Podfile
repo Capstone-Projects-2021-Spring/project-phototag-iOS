@@ -12,5 +12,9 @@ post_install do |installer|
 target 'PhotoTag' do
   pod 'GoogleMLKit/ImageLabeling'
   pod 'Firebase'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/FirestoreSwift'
   pod 'FirebaseUI'
 end
