@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		601A456525F1CD1000E782D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601A456425F1CD1000E782D1 /* User.swift */; };
 		60501BF925EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
 		60501BFA25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
 		60501BFB25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		4A4A2FCC700F62739B66D7DA /* Pods-PhotoTag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.debug.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.debug.xcconfig"; sourceTree = "<group>"; };
+		601A456425F1CD1000E782D1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		60501BF825EF130200DC86E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7D50361FE77CA582AF1073D8 /* Pods-PhotoTag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.release.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.release.xcconfig"; sourceTree = "<group>"; };
 		D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +141,7 @@
 				D94F753D25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib */,
 				D94F754625EDAF08007A0DA8 /* Photo.swift */,
 				D94F755325EDCA1C007A0DA8 /* SinglePhotoViewController.swift */,
+				601A456425F1CD1000E782D1 /* User.swift */,
 			);
 			path = PhotoTag;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				D9B02DC525EC3D79009B5AC2 /* AppDelegate.swift in Sources */,
 				D9B02DC725EC3D79009B5AC2 /* SceneDelegate.swift in Sources */,
 				D94F754725EDAF08007A0DA8 /* Photo.swift in Sources */,
+				601A456525F1CD1000E782D1 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
