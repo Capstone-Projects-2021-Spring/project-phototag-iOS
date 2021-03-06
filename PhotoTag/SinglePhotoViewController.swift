@@ -2,7 +2,6 @@
 //  SinglePhotoViewController.swift
 //  PhotoTag
 //
-//  Created by Seb Tota on 3/1/21.
 //
 
 import UIKit
@@ -13,6 +12,7 @@ class SinglePhotoViewController: UIViewController {
     @IBOutlet weak var imageDisplay: UIImageView!
     @IBOutlet var tagLabel: UILabel!    //a label to display the tags
     @IBOutlet var textField: UITextField!   //the text field used to manually tag
+    @IBOutlet weak var suggestedLabel: UILabel!
     
     let testUser = User(un: "testUsername")
     var photo: Photo!
@@ -62,7 +62,14 @@ class SinglePhotoViewController: UIViewController {
      * Populate the UIImageView with the full size photo
      */
     private func loadPhoto() {
-        imageDisplay.image = photo.getImage()
+        let image = photo.getImage()
+        imageDisplay.image = image
+        let labeler = MLKitProcess()
+        labeler.labelImage(image: image) { [self] (tags: [String]) -> () in
+            for tag in tags {
+                suggestedLabel.text! += "\(tag), "
+            }
+        }
     }
     
     //called when the keyboard animation changes

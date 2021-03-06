@@ -85,8 +85,8 @@
                                     <action selector="onTextFieldTouched:" destination="DnF-B5-VSm" eventType="touchDown" id="ahm-xK-JA2"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Suggested: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvO-jP-3rd">
-                                <rect key="frame" x="147" y="605" width="91.5" height="27"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Suggested: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvO-jP-3rd">
+                                <rect key="frame" x="20" y="609" width="374" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="27" id="Yhg-sw-nN0"/>
                                 </constraints>
@@ -103,12 +103,10 @@
                             <constraint firstItem="467-ze-1SG" firstAttribute="top" secondItem="sZa-bW-1FH" secondAttribute="top" constant="40" id="BXR-5g-vnX"/>
                             <constraint firstItem="9bK-Vv-qUj" firstAttribute="leading" secondItem="sZa-bW-1FH" secondAttribute="leading" constant="134" id="JW6-c6-GpS"/>
                             <constraint firstItem="sZa-bW-1FH" firstAttribute="bottom" secondItem="467-ze-1SG" secondAttribute="bottom" constant="326" id="LO5-ws-ERv"/>
-                            <constraint firstItem="fvO-jP-3rd" firstAttribute="leading" secondItem="sZa-bW-1FH" secondAttribute="leading" constant="147" id="N1P-Xg-fPI"/>
                             <constraint firstItem="9bK-Vv-qUj" firstAttribute="top" secondItem="467-ze-1SG" secondAttribute="bottom" constant="28" id="XtC-hf-bJB"/>
                             <constraint firstItem="9bK-Vv-qUj" firstAttribute="centerX" secondItem="sZa-bW-1FH" secondAttribute="centerX" id="cmH-WV-S8o"/>
                             <constraint firstItem="oAV-Sv-iZJ" firstAttribute="top" secondItem="9bK-Vv-qUj" secondAttribute="bottom" constant="75" id="fCZ-v5-NZb"/>
                             <constraint firstItem="467-ze-1SG" firstAttribute="centerX" secondItem="sZa-bW-1FH" secondAttribute="centerX" id="oA4-7o-lqJ"/>
-                            <constraint firstItem="sZa-bW-1FH" firstAttribute="trailing" secondItem="fvO-jP-3rd" secondAttribute="trailing" constant="175.5" id="scx-jj-6r7"/>
                             <constraint firstItem="oAV-Sv-iZJ" firstAttribute="centerX" secondItem="sZa-bW-1FH" secondAttribute="centerX" id="vHP-fC-XwZ"/>
                             <constraint firstItem="oAV-Sv-iZJ" firstAttribute="leading" secondItem="sZa-bW-1FH" secondAttribute="leading" constant="120" id="xtN-YQ-p08"/>
                         </constraints>
@@ -118,6 +116,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="imageDisplay" destination="467-ze-1SG" id="ioE-lQ-3gq"/>
+                        <outlet property="suggestedLabel" destination="fvO-jP-3rd" id="3c3-Jx-etq"/>
                         <outlet property="tagLabel" destination="9bK-Vv-qUj" id="sbW-pe-qyJ"/>
                         <outlet property="textField" destination="oAV-Sv-iZJ" id="cDR-Tx-xie"/>
                     </connections>

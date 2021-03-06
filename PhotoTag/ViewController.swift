@@ -2,7 +2,6 @@
 //  ViewController.swift
 //  PhotoTag
 //
-//  Created by Seb Tota on 2/28/21.
 //
 
 import UIKit
@@ -133,7 +132,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         // Register galleryItem (photo cell) xib file to the main gallery view
         galleryCollectionView.register(nib, forCellWithReuseIdentifier: galleryViewCellIdentifier)
-        print("Registered gallery item nib")
     }
     
     /*
@@ -200,9 +198,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     /*
      * Collection view function - Handles user selecting an image from the gallery view
      */
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Selected item at \(indexPath)")
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
         let photo = photos[indexPath.item]
         
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)

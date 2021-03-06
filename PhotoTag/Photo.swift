@@ -2,7 +2,6 @@
 //  Photo.swift
 //  PhotoTag
 //
-//  Created by Seb Tota on 3/1/21.
 //
 
 import Foundation
@@ -81,7 +80,7 @@ class Photo {
      * Getter for the tag list
      * @return  the string array of tags
      */
-    public func getTags() -> [String]{
+    public func getTags() -> [String] {
         return self.tags
     }
     
