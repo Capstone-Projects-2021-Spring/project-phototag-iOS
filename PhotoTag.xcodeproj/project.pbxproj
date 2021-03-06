@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		601A456525F1CD1000E782D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601A456425F1CD1000E782D1 /* User.swift */; };
 		60501BF925EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
 		60501BFA25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
 		60501BFB25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
@@ -15,6 +16,7 @@
 		D94F753F25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D94F753D25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib */; };
 		D94F754725EDAF08007A0DA8 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94F754625EDAF08007A0DA8 /* Photo.swift */; };
 		D94F755425EDCA1C007A0DA8 /* SinglePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94F755325EDCA1C007A0DA8 /* SinglePhotoViewController.swift */; };
+		D9A3A1A625F01AEB0057A7B8 /* MLKitProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A3A1A525F01AEA0057A7B8 /* MLKitProcess.swift */; };
 		D9B02DC525EC3D79009B5AC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B02DC425EC3D79009B5AC2 /* AppDelegate.swift */; };
 		D9B02DC725EC3D79009B5AC2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B02DC625EC3D79009B5AC2 /* SceneDelegate.swift */; };
 		D9B02DC925EC3D79009B5AC2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B02DC825EC3D79009B5AC2 /* ViewController.swift */; };
@@ -42,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		4A4A2FCC700F62739B66D7DA /* Pods-PhotoTag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.debug.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.debug.xcconfig"; sourceTree = "<group>"; };
+		601A456425F1CD1000E782D1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		60501BF825EF130200DC86E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7D50361FE77CA582AF1073D8 /* Pods-PhotoTag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.release.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.release.xcconfig"; sourceTree = "<group>"; };
 		D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +52,7 @@
 		D94F753D25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GalleryCollectionViewCell.xib; sourceTree = "<group>"; };
 		D94F754625EDAF08007A0DA8 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		D94F755325EDCA1C007A0DA8 /* SinglePhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePhotoViewController.swift; sourceTree = "<group>"; };
+		D9A3A1A525F01AEA0057A7B8 /* MLKitProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLKitProcess.swift; sourceTree = "<group>"; };
 		D9B02DC125EC3D79009B5AC2 /* PhotoTag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B02DC425EC3D79009B5AC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9B02DC625EC3D79009B5AC2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +143,8 @@
 				D94F753D25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib */,
 				D94F754625EDAF08007A0DA8 /* Photo.swift */,
 				D94F755325EDCA1C007A0DA8 /* SinglePhotoViewController.swift */,
+				601A456425F1CD1000E782D1 /* User.swift */,
+				D9A3A1A525F01AEA0057A7B8 /* MLKitProcess.swift */,
 			);
 			path = PhotoTag;
 			sourceTree = "<group>";
@@ -341,10 +347,12 @@
 			files = (
 				D94F755425EDCA1C007A0DA8 /* SinglePhotoViewController.swift in Sources */,
 				D94F753E25EDAAB6007A0DA8 /* GalleryCollectionViewCell.swift in Sources */,
+				D9A3A1A625F01AEB0057A7B8 /* MLKitProcess.swift in Sources */,
 				D9B02DC925EC3D79009B5AC2 /* ViewController.swift in Sources */,
 				D9B02DC525EC3D79009B5AC2 /* AppDelegate.swift in Sources */,
 				D9B02DC725EC3D79009B5AC2 /* SceneDelegate.swift in Sources */,
 				D94F754725EDAF08007A0DA8 /* Photo.swift in Sources */,
+				601A456525F1CD1000E782D1 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,13 +530,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5W9FB5T24W;
 				INFOPLIST_FILE = PhotoTag/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = photoTag.PhotoTag;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebtota;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -542,13 +551,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5W9FB5T24W;
 				INFOPLIST_FILE = PhotoTag/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = photoTag.PhotoTag;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebtota;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

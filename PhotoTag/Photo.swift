@@ -2,7 +2,6 @@
 //  Photo.swift
 //  PhotoTag
 //
-//  Created by Seb Tota on 3/1/21.
 //
 
 import Foundation
@@ -75,5 +74,39 @@ class Photo {
         })
         
         return retImage
+    }
+    
+    /*
+     * Getter for the tag list
+     * @return  the string array of tags
+     */
+    public func getTags() -> [String] {
+        return self.tags
+    }
+    
+    /*
+     * Setter for the tag list
+     * @return  true on success, false if the taglist given was empty
+     */
+    public func setTags(tags: [String]) -> Bool{
+        if tags.isEmpty{
+            return false
+        }else{
+            self.tags = tags
+            return true
+        }
+    }
+    
+    /*
+     * Adds a tag to the list of tags for this photo
+     * @return  true on success, false on used/empty string
+     */
+    public func addTag(tag : String) -> Bool{
+        if self.tags.contains(tag) || tag.isEmpty{
+            return false
+        }else{
+            self.tags.append(tag)
+            return true
+        }
     }
 }

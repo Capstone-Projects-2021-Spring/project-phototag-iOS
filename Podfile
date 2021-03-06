@@ -4,4 +4,6 @@ use_frameworks!
 target 'PhotoTag' do
   pod 'GoogleMLKit/ImageLabeling'
   pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
 end
