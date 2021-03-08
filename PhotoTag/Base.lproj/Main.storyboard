@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="L20-ue-c9D">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="L20-ue-c9D">
+                                <rect key="frame" x="0.0" y="89" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GfF-nS-uqJ">
                                     <size key="itemSize" width="128" height="128"/>
@@ -37,9 +37,18 @@
                             <constraint firstItem="L20-ue-c9D" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="wgw-8N-fZb"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="PhotoTag" id="sHw-IJ-mPk"/>
+                    <navigationItem key="navigationItem" title="PhotoTag" id="sHw-IJ-mPk">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="magnifyingglass" catalog="system" id="BdD-RA-DQ5">
+                            <connections>
+                                <action selector="onClick:" destination="BYZ-38-t0r" id="hVm-Rj-422"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="gearshape" catalog="system" id="5Ch-4E-eYS"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="galleryCollectionView" destination="L20-ue-c9D" id="AaL-JB-erP"/>
+                        <outlet property="navSearchButton" destination="BdD-RA-DQ5" id="GqT-ap-M4m"/>
+                        <outlet property="navSettingsButton" destination="5Ch-4E-eYS" id="cnB-9J-gi8"/>
                         <segue destination="DnF-B5-VSm" kind="show" identifier="SinglePhotoViewSegue" id="0iy-fG-87I"/>
                     </connections>
                 </viewController>
@@ -135,6 +144,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
