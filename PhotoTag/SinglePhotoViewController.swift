@@ -6,13 +6,28 @@
 
 import UIKit
 import Firebase
+import TaggerKit
 
-class SinglePhotoViewController: UIViewController {
+class SinglePhotoViewController: UIViewController, TKCollectionViewDelegate {
+    func tagIsBeingAdded(name: String?) {
+        // Example: save testCollection.tags to UserDefault
+        print("added \(name!)")
+        newTagCollection.removeOldTag(named: name!)
+    }
+    
+    func tagIsBeingRemoved(name: String?) {
+        print("removed \(name!)")
+    }
+    
 
     @IBOutlet weak var imageDisplay: UIImageView!
-    @IBOutlet var tagLabel: UILabel!    //a label to display the tags
-    @IBOutlet var textField: UITextField!   //the text field used to manually tag
-    @IBOutlet weak var suggestedLabel: UILabel!
+    //@IBOutlet var tagLabel: UILabel!    //a label to display the tags
+    //@IBOutlet weak var suggestedLabel: UILabel!
+    @IBOutlet weak var textField: TKTextField!
+    @IBOutlet weak var newTagView: UIView!
+    @IBOutlet weak var currentTagView: UIView!
+    var newTagCollection = TKCollectionView()
+    var currentTagCollection = TKCollectionView()
     
     let testUser = User(un: "testUsername")
     var photo: Photo!
@@ -21,6 +36,7 @@ class SinglePhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tagUISetup()
         loadPhoto()
         
         //here we need to check the DB to see if the photo has any tags
@@ -35,7 +51,11 @@ class SinglePhotoViewController: UIViewController {
             //when a change has been found to the tags, update the label
             let tags = snapshot.value as? [String]  //gets the tags as a string array
             if let nonNullTags = tags{
-                self.tagLabel.text = nonNullTags.joined(separator: " , ")   //updates the label with the tags
+                for tag in nonNullTags {
+                    self.newTagCollection.addNewTag(named: tag)
+                    self.newTagCollection.viewDidLoad()
+                }
+                // self.tagLabel.text = nonNullTags.joined(separator: " , ")   //updates the label with the tags
                 
                 //also ensure the local copy is updated
                 if !self.photo.setTags(tags: tags ?? [String]()){
@@ -58,6 +78,38 @@ class SinglePhotoViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
+    func tagUISetup() {
+        
+        currentTagCollection = TKCollectionView(tags: [],
+                                                action: .removeTag,
+                                                receiver: nil)
+        /*
+        newTagCollection = TKCollectionView(tags: [],
+                                            action: .addTag,
+                                            receiver: currentTagCollection)
+        */
+        // newTagCollection.delegate = self
+        currentTagCollection.delegate = self
+        
+        textField.sender = newTagCollection
+        textField.receiver = currentTagCollection
+        
+        // add(newTagCollection, toView: newTagView)
+        add(currentTagCollection, toView: currentTagView)
+    }
+    
+    
+    private func addSuggestedTags(tags: [String]) {
+        // newTagCollection.viewDidLoad()
+        
+        newTagCollection = TKCollectionView(tags: tags,
+                                            action: .addTag,
+                                            receiver: currentTagCollection)
+        newTagCollection.delegate = self
+        textField.sender = newTagCollection
+        add(newTagCollection, toView: newTagView)
+    }
+    
     /*
      * Populate the UIImageView with the full size photo
      */
@@ -65,10 +117,8 @@ class SinglePhotoViewController: UIViewController {
         let image = photo.getImage()
         imageDisplay.image = image
         let labeler = MLKitProcess()
-        labeler.labelImage(image: image) { [self] (tags: [String]) -> () in
-            for tag in tags {
-                suggestedLabel.text! += "\(tag), "
-            }
+        labeler.labelImage(image: image) { (tags: [String]) -> () in
+            self.addSuggestedTags(tags: tags)
         }
     }
     
@@ -127,9 +177,9 @@ class SinglePhotoViewController: UIViewController {
         }
         
         //clear the text in the textfield
-        if self.textField.text != ""{
-            self.textField.text = ""
-        }
+        //if self.textField.text != ""{
+        //    self.textField.text = ""//
+        //}
         
         self.textField.resignFirstResponder()
     }
