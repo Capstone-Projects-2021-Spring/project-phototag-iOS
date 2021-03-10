@@ -65,8 +65,13 @@ class Photo {
      * Pushes the entire object to Firebase to either override or create a new instance of said object in the Firebase Database
      */
     public func syncToFirebase() {
-        let obj = ["auto_tagged": self.autoTagged,
+        var obj = ["auto_tagged": self.autoTagged,
                    "photo_tags": self.tags] as [String : Any]
+        
+        if self.location != nil {
+            obj["location"] = ["latitude": self.location!.coordinate.latitude, "longitude": self.location!.coordinate.longitude]
+        }
+        
         self.ref.setValue(obj)
     }
     
@@ -129,18 +134,22 @@ class Photo {
     /*
      * Adds an array of tags, making sure to only add new tags
      */
-    public func addTags(tags: [String]){
+    public func addTags(tags: [String]) {
+        // Combine the current list of tags with the new tags, only keeping unique values
         self.tags = Array(Set(tags + self.tags))
         ref.child("photo_tags").setValue(self.tags)
     }
     
     /*
      * Add a single tag to the tag list, making sure the tag is a new tag
+     * @return  Bool    Returns true if the added tag is a new and unique tag
      */
-    public func addTag(tag : String){
+    public func addTag(tag : String) -> Bool {
         if !(self.tags.contains(tag) || tag.isEmpty) {
             self.tags.append(tag)
             ref.child("photo_tags").setValue(self.tags)
+            return true
         }
+        return false
     }
 }
