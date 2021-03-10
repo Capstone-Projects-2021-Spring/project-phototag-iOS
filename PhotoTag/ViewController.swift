@@ -11,6 +11,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // Storyboard outlets
     @IBOutlet weak var galleryCollectionView: UICollectionView!
+    @IBOutlet weak var navSearchButton: UIBarButtonItem!
+    @IBOutlet weak var navSettingsButton: UIBarButtonItem!
+    var searchBar: UISearchBar?
     
     // Class variables
     let user = User(un: "testUsername")
@@ -21,6 +24,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addHiddenSearchBar()
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate = self
         
@@ -28,7 +32,36 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         registerGalleryItemNib()
         viewWillLayoutSubviews()
         
+        // searchBarListener()
         getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+    }
+    
+    @IBAction func onClick(_ sender: Any) {
+        if sender as? NSObject == navSearchButton {
+            // Navbar - Search
+            if self.searchBar!.frame.minY != self.galleryCollectionView.frame.minY {
+                // Search bar is hidden so display it
+                UIView.animate(withDuration: 1.0, animations: { () -> Void in
+                    self.searchBar!.frame = CGRect(x: 0.0, y: self.galleryCollectionView.frame.minY, width: self.view.frame.width, height: 40.0)
+                }, completion: { (Bool) -> Void in
+                })
+            } else {
+                // Search bar is visible so hide it
+                UIView.animate(withDuration: 1.0, animations: { () -> Void in
+                    self.searchBar!.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 40.0)
+                }, completion: { (Bool) -> Void in
+                })
+            }
+            
+        }
+    }
+    
+    /*
+     * Add a search bar
+     */
+    private func addHiddenSearchBar() {
+        searchBar = UISearchBar(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 40.0))
+        self.view.addSubview(searchBar!)
     }
     
     /*
@@ -204,4 +237,3 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
 }
-
