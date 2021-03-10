@@ -47,7 +47,7 @@ class Photo {
     /*
      * Syncs local photo object with the infromation in the Firebase Database
      */
-    public func syncFromFirebase(snapshot: DataSnapshot) {
+    private func syncFromFirebase(snapshot: DataSnapshot) {
         // Sync tags from database
         if snapshot.hasChild("photo_tags") {
             let dbTags: [String] = snapshot.childSnapshot(forPath: "photo_tags").value! as! [String]
@@ -64,12 +64,16 @@ class Photo {
     /*
      * Pushes the entire object to Firebase to either override or create a new instance of said object in the Firebase Database
      */
-    public func syncToFirebase() {
+    private func syncToFirebase() {
         var obj = ["auto_tagged": self.autoTagged,
                    "photo_tags": self.tags] as [String : Any]
         
         if self.location != nil {
             obj["location"] = ["latitude": self.location!.coordinate.latitude, "longitude": self.location!.coordinate.longitude]
+        }
+        
+        if self.date != nil {
+            obj["date"] = self.dateToString(date: self.date!)
         }
         
         self.ref.setValue(obj)
@@ -151,5 +155,17 @@ class Photo {
             return true
         }
         return false
+    }
+    
+    /*
+     * Represent a Date object as a string, including complete date and time
+     * @param   Date    Date object to be changed to a string
+     * @return  String  Resulting String representation of the given Date object
+     */
+    private func dateToString(date: Date) -> String {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        
+        return dateFormater.string(from: date)
     }
 }
