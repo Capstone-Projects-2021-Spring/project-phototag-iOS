@@ -6,4 +6,13 @@ target 'PhotoTag' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
+  pod 'FirebaseUI'
 end
+
+
+
+
+
