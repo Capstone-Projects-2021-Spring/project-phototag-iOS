@@ -77,12 +77,6 @@ class LoginViewController: UIViewController {
         let galleryView = storyboard?.instantiateViewController(withIdentifier: "GalleryView") as! ViewController
         self.navigationController?.pushViewController(galleryView, animated: true)
         
-       /* let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        self.navigationController?.pushViewController(VC, animated: true)
-        
-        view.window?.rootViewController = galleryView
-        view.window?.makeKeyAndVisible()
- */
     }
     
 }
