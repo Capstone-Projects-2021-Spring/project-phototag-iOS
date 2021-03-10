@@ -17,4 +17,6 @@ target 'PhotoTag' do
   pod 'Firebase/Firestore'
   pod 'Firebase/FirestoreSwift'
   pod 'FirebaseUI'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Database'
 end
