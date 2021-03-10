@@ -7,6 +7,7 @@
 import Foundation
 import UIKit
 import Photos
+import Firebase
 
 /*
  * A representation of a photo and all of its associated metadata.
@@ -18,6 +19,8 @@ class Photo {
     var date: Date?
     var tags: [String] = []
     var photoAsset: PHAsset
+    var autoTagged: Bool = false
+    var ref: DatabaseReference = Database.database().reference()
     
     let galleyPreviewPhotoSize = CGSize(width:100, height: 100)
     
@@ -26,6 +29,45 @@ class Photo {
         self.location = asset.location
         self.date = asset.creationDate
         self.photoAsset = asset
+        
+        ref = ref.child("testUsername/Photos/\(id)")
+        ref.getData(completion: { (error, snapshot) in
+            if let error = error {
+                print("Error getting data for photo: \(self.id). Error: \(error)")
+            } else if snapshot.exists() {
+                // The photo object already exists in the DB
+                self.syncFromFirebase(snapshot: snapshot)
+            } else {
+                // The photo object does not yet exist in the DB
+                self.syncToFirebase()
+            }
+        })
+    }
+    
+    /*
+     * Syncs local photo object with the infromation in the Firebase Database
+     */
+    public func syncFromFirebase(snapshot: DataSnapshot) {
+        // Sync tags from database
+        if snapshot.hasChild("photo_tags") {
+            let dbTags: [String] = snapshot.childSnapshot(forPath: "photo_tags").value! as! [String]
+            self.addTags(tags: dbTags)
+        }
+        
+        // Sync auto-tagged boolean
+        if snapshot.hasChild("auto_tagged") {
+            let dbTagged: Bool = snapshot.childSnapshot(forPath: "auto_tagged").value! as! Bool
+            self.autoTagged = dbTagged
+        }
+    }
+    
+    /*
+     * Pushes the entire object to Firebase to either override or create a new instance of said object in the Firebase Database
+     */
+    public func syncToFirebase() {
+        let obj = ["auto_tagged": self.autoTagged,
+                   "photo_tags": self.tags] as [String : Any]
+        self.ref.setValue(obj)
     }
     
     /*
@@ -85,28 +127,20 @@ class Photo {
     }
     
     /*
-     * Setter for the tag list
-     * @return  true on success, false if the taglist given was empty
+     * Adds an array of tags, making sure to only add new tags
      */
-    public func setTags(tags: [String]) -> Bool{
-        if tags.isEmpty{
-            return false
-        }else{
-            self.tags = tags
-            return true
-        }
+    public func addTags(tags: [String]){
+        self.tags = Array(Set(tags + self.tags))
+        ref.child("photo_tags").setValue(self.tags)
     }
     
     /*
-     * Adds a tag to the list of tags for this photo
-     * @return  true on success, false on used/empty string
+     * Add a single tag to the tag list, making sure the tag is a new tag
      */
-    public func addTag(tag : String) -> Bool{
-        if self.tags.contains(tag) || tag.isEmpty{
-            return false
-        }else{
+    public func addTag(tag : String){
+        if !(self.tags.contains(tag) || tag.isEmpty) {
             self.tags.append(tag)
-            return true
+            ref.child("photo_tags").setValue(self.tags)
         }
     }
 }

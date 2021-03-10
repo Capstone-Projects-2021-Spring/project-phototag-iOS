@@ -20,6 +20,10 @@ class User{
         photos = [Photo]()
     }
     
+    /*
+     * Add a new photo to the user object
+     * @param   Photo   New photo to be added
+     */
     public func addPhoto(photo: Photo){
         photos.append(photo)
     }

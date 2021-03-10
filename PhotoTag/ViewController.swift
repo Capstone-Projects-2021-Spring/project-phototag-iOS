@@ -13,7 +13,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var galleryCollectionView: UICollectionView!
     
     // Class variables
-    var photos = [Photo]()
+    let user = User(un: "testUsername")
     
     let galleryViewCellNibName = "GalleryCollectionViewCell"
     let galleryViewCellIdentifier = "GalleryItem"
@@ -78,7 +78,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     private func processAllPhotos() {
         let labeler = MLKitProcess()
         
-        labeler.labelPhotos(photos: photos) {(lbdPhotos: [Photo]) in
+        labeler.labelPhotos(photos: user.photos) {(lbdPhotos: [Photo]) in
             for lbdPhoto in lbdPhotos {
                 print(lbdPhoto.tags)
             }
@@ -103,7 +103,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Append all images to photos array
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    self.photos.append(Photo(asset: photoResults[i]))
+                    self.user.photos.append(Photo(asset: photoResults[i]))
                 }
             } else {
                 // Returing array is 0 indcating the application can not view any of the local photos
@@ -168,7 +168,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Collection view function - Returns the number of individual cells the gallery view controler should display
      */
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.photos.count
+        self.user.photos.count
     }
     
     /*
@@ -176,7 +176,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      */
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryItem", for: indexPath) as! GalleryCollectionViewCell
-        let photo = photos[indexPath.item]
+        let photo = user.photos[indexPath.item]
         
         cell.imageDisplay.image = photo.getPreviewImage()
         return cell
@@ -199,7 +199,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Collection view function - Handles user selecting an image from the gallery view
      */
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
-        let photo = photos[indexPath.item]
+        let photo = user.photos[indexPath.item]
         
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
