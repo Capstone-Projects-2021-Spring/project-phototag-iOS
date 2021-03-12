@@ -26,15 +26,13 @@ class Photo {
     let galleyPreviewPhotoSize = CGSize(width:100, height: 100)
     
     init(asset: PHAsset) {
-        var idString = asset.localIdentifier
-        idString.removeLast(7)      //this trims off "/L0/001"
-
-        self.id = idString
+        self.id = asset.localIdentifier
         self.location = asset.location
         self.date = asset.creationDate
         self.photoAsset = asset
         
-        ref = ref.child("testUsername/Photos/\(id)")
+        let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        ref = ref.child("testUsername/Photos/\(escapedId)")
         tagRef = tagRef.child("photoTags")
 
         ref.getData(completion: { (error, snapshot) in
@@ -141,6 +139,9 @@ class Photo {
         return self.tags
     }
     
+    /*
+     * addTag() helper function. This should not be used directly.
+     */
     private func addTagHelper(tag: String) {
         tagRef.child(tag).getData(completion: { (error, snapshot) in
             if let error = error {
@@ -159,6 +160,11 @@ class Photo {
         })
     }
     
+    /*
+     * Update the photoId array for a given tag in the firebase db
+     * @param   String      Tag (key) to assign new array to
+     * @param   [String]    The array of strings (value) to set for the given tag
+     */
     private func fbSetTags(tag: String, photoIds: [String]) {
         tagRef.child(tag).setValue(photoIds)
     }
