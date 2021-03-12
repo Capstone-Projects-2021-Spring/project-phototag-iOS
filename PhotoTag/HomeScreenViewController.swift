@@ -6,7 +6,10 @@
 //
 import UIKit
 
-class HomeScreenViewController: UIViewController {
+import Firebase
+import GoogleSignIn
+
+class HomeScreenViewController: UIViewController, GIDSignInDelegate {
 
     //login, signUp buttons
     @IBOutlet weak var loginButton: UIButton!
@@ -14,8 +17,10 @@ class HomeScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        //GIDSignIn.sharedInstance().presentingViewController = self
         // Do any additional setup after loading the view.
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().signIn()
     }
 
 
@@ -27,5 +32,25 @@ class HomeScreenViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    //Sign in functionality will be handled here
+        if let error = error {
+        print(error.localizedDescription)
+        return
+        }
+        guard let auth = user.authentication else { return }
+        let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
+        Auth.auth().signIn(with: credentials) { (authResult, error) in
+        if let error = error {
+        print(error.localizedDescription)
+        } else {
+        print("Login Successful.")
+        //This is where you should add the functionality of successful login
+        //i.e. dismissing this view or push the home view controller etc
+        }
+        }
+        
+    }
 
 }

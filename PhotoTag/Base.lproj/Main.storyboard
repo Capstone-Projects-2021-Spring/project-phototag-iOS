@@ -150,7 +150,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KDx-a6-j6Y">
-                                <rect key="frame" x="40" y="762" width="334" height="60"/>
+                                <rect key="frame" x="40" y="666" width="334" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gbR-lB-5vn">
                                         <rect key="frame" x="0.0" y="0.0" width="334" height="30"/>
@@ -159,7 +159,7 @@
                                             <segue destination="tAk-mt-cyz" kind="show" id="BwO-ya-WMf"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Swt-wL-5Ov">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Swt-wL-5Ov">
                                         <rect key="frame" x="0.0" y="30" width="334" height="30"/>
                                         <state key="normal" title="Sign Up"/>
                                         <connections>
@@ -168,13 +168,20 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8B-9X-v7p">
+                                <rect key="frame" x="184" y="734" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="akU-fU-H3R"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="KDx-a6-j6Y" firstAttribute="leading" secondItem="akU-fU-H3R" secondAttribute="leading" constant="40" id="7y8-4l-oZb"/>
+                            <constraint firstItem="KDx-a6-j6Y" firstAttribute="top" secondItem="akU-fU-H3R" secondAttribute="top" constant="578" id="8Be-uU-1tB"/>
                             <constraint firstItem="akU-fU-H3R" firstAttribute="trailing" secondItem="KDx-a6-j6Y" secondAttribute="trailing" constant="40" id="Ugc-yh-AfW"/>
-                            <constraint firstItem="akU-fU-H3R" firstAttribute="bottom" secondItem="KDx-a6-j6Y" secondAttribute="bottom" constant="40" id="ov8-4V-y19"/>
+                            <constraint firstItem="KDx-a6-j6Y" firstAttribute="leading" secondItem="akU-fU-H3R" secondAttribute="leading" constant="40" id="fsq-Pe-JCk"/>
+                            <constraint firstItem="akU-fU-H3R" firstAttribute="trailing" secondItem="KDx-a6-j6Y" secondAttribute="trailing" constant="40" id="iOa-Vu-sbb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mdf-rj-uth"/>
