@@ -119,9 +119,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     //shows a dialogue box informing the user of an empty search
     private func presentEmptySearchDialogue(){
-        let alert = UIAlertController(title: "No photos found", message: "Modify your tag and try searching again", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
+        
+        dispatch_queue_main_t.main.async() {
+            let alert = UIAlertController(title: "No photos found", message: "Modify your tag and try searching again", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
     }
     
     /*

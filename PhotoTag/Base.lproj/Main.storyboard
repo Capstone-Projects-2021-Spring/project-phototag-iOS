@@ -317,10 +317,10 @@
             </objects>
             <point key="canvasLocation" x="-1870" y="-455"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--NavigationController-->
         <scene sceneID="hme-YD-NJG">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c4E-IT-vO8" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationController" title="NavigationController" automaticallyAdjustsScrollViewInsets="NO" id="c4E-IT-vO8" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oE9-jX-HNe">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -343,19 +343,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rWh-ST-ZQ6">
-                                <rect key="frame" x="20" y="44" width="374" height="764"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Na3-cz-NMj">
-                                    <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKF-lv-7cp">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Title" id="Z1y-K7-Mv2">
@@ -367,14 +356,25 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rWh-ST-ZQ6">
+                                <rect key="frame" x="10" y="25" width="394" height="783"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Na3-cz-NMj">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Rr6-rw-jMm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="rWh-ST-ZQ6" firstAttribute="bottom" secondItem="Rr6-rw-jMm" secondAttribute="bottom" id="L9C-Ct-3Js"/>
-                            <constraint firstItem="Rr6-rw-jMm" firstAttribute="trailing" secondItem="rWh-ST-ZQ6" secondAttribute="trailing" constant="20" id="LLy-25-OVr"/>
-                            <constraint firstItem="rWh-ST-ZQ6" firstAttribute="leading" secondItem="Rr6-rw-jMm" secondAttribute="leading" constant="20" id="pGt-YD-9MT"/>
-                            <constraint firstItem="rWh-ST-ZQ6" firstAttribute="top" secondItem="Rr6-rw-jMm" secondAttribute="top" constant="44" id="rhc-u8-waW"/>
+                            <constraint firstItem="Rr6-rw-jMm" firstAttribute="trailing" secondItem="rWh-ST-ZQ6" secondAttribute="trailing" constant="10" id="LLy-25-OVr"/>
+                            <constraint firstItem="rWh-ST-ZQ6" firstAttribute="leading" secondItem="Rr6-rw-jMm" secondAttribute="leading" constant="10" id="pGt-YD-9MT"/>
+                            <constraint firstItem="rWh-ST-ZQ6" firstAttribute="top" secondItem="Rr6-rw-jMm" secondAttribute="top" constant="25" id="rhc-u8-waW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="zsZ-R3-aqd"/>
@@ -385,7 +385,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l4S-Xf-5FI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="235" y="823"/>
+            <point key="canvasLocation" x="234.78260869565219" y="822.99107142857144"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
