@@ -14,7 +14,10 @@ class SinglePhotoViewController: UIViewController {
     @IBOutlet var textField: UITextField!   //the text field used to manually tag
     @IBOutlet weak var suggestedLabel: UILabel!
     
+    //TODO: Change this when Ryan's login code modifies a user object
+    let testUser = User(un: "testUsername")
     var photo: Photo!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +79,9 @@ class SinglePhotoViewController: UIViewController {
         let tagString = (sender.text ?? "") as String
         
         if !tagString.isEmpty{
-            photo.addTag(tag: tagString)
+            if !photo.addTag(tag: tagString){
+                print("failed to save")
+            }
         }else{
             print("Tag string empty")
         }

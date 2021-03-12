@@ -27,4 +27,16 @@ class User{
     public func addPhoto(photo: Photo){
         photos.append(photo)
     }
+    
+    //retrieves a photo from the user's list of photos
+    public func getPhoto(id: String) -> Photo {
+        var returnPhoto: Photo?
+        for photo in photos{
+            print("checking \(id) against \(photo.id)")
+            if photo.id == id{
+                returnPhoto = photo
+            }
+        }
+        return returnPhoto!
+    }
 }

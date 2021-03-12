@@ -25,7 +25,10 @@ class Photo {
     let galleyPreviewPhotoSize = CGSize(width:100, height: 100)
     
     init(asset: PHAsset) {
-        self.id = asset.localIdentifier
+        var idString = asset.localIdentifier
+        idString.removeLast(7)      //this trims off "/L0/001"
+
+        self.id = idString
         self.location = asset.location
         self.date = asset.creationDate
         self.photoAsset = asset
