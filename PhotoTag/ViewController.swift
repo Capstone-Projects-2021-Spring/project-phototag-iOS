@@ -182,13 +182,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     private func processAllPhotos() {
         let labeler = MLKitProcess()
         
-        /*
-        labeler.labelPhotos(photos: user.photos) {(lbdPhotos: [Photo]) in
-            for lbdPhoto in lbdPhotos {
-                print(lbdPhoto.tags)
-            }
+        labeler.labelAllPhotos(photos: user.photos) {() in
+            print("Done processing all photos")
         }
-         */
     }
     
     /*
@@ -223,7 +219,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 // Refresh the gallery collection view to display new gallery data
                 print("Refreshing gallery collection view to display new photos")
                 self.galleryCollectionView.reloadData()
-                // self.processAllPhotos()
+                self.processAllPhotos()
             }
         }
     }

@@ -32,8 +32,8 @@ class Photo {
         self.photoAsset = asset
         
         let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        ref = ref.child("testUsername/Photos/\(escapedId)")
-        tagRef = tagRef.child("photoTags")
+        ref = ref.child("iOS/testUsername/Photos/\(escapedId)")
+        tagRef = tagRef.child("iOS/photoTags")
 
         ref.getData(completion: { (error, snapshot) in
             if let error = error {
