@@ -21,6 +21,7 @@ class Photo {
     var photoAsset: PHAsset
     var autoTagged: Bool = false
     var ref: DatabaseReference = Database.database().reference()
+    var tagRef: DatabaseReference = Database.database().reference()
     
     let galleyPreviewPhotoSize = CGSize(width:100, height: 100)
     
@@ -31,6 +32,8 @@ class Photo {
         self.photoAsset = asset
         
         ref = ref.child("testUsername/Photos/\(id)")
+        tagRef = tagRef.child("photoTags")
+
         ref.getData(completion: { (error, snapshot) in
             if let error = error {
                 print("Error getting data for photo: \(self.id). Error: \(error)")
@@ -135,13 +138,40 @@ class Photo {
         return self.tags
     }
     
+    private func addTagHelper(tag: String) {
+        tagRef.child(tag).getData(completion: { (error, snapshot) in
+            if let error = error {
+                print("Error getting tag. Error: \(error)")
+            } else if snapshot.exists() {
+                // Get current photo id's associated with this tag
+                var photoIds: [String] = snapshot.value! as! [String]
+                // Add current photos id
+                photoIds.append(self.id)
+                // Update db to represent new change
+                self.fbSetTags(tag: tag, photoIds: photoIds)
+            } else {
+                // Tag doesn't exist in db
+                self.fbSetTags(tag: tag, photoIds: [self.id])
+            }
+        })
+    }
+    
+    private func fbSetTags(tag: String, photoIds: [String]) {
+        tagRef.child(tag).setValue(photoIds)
+    }
+    
     /*
      * Adds an array of tags, making sure to only add new tags
      */
+    //TODO: Fix this to actually ad multiple tags at once
     public func addTags(tags: [String]) {
         // Combine the current list of tags with the new tags, only keeping unique values
-        self.tags = Array(Set(tags + self.tags))
-        ref.child("photo_tags").setValue(self.tags)
+        //self.tags = Array(Set(tags + self.tags))
+        //ref.child("photo_tags").setValue(self.tags)
+        
+        for tag in tags {
+            self.addTag(tag: tag)
+        }
     }
     
     /*
@@ -152,9 +182,19 @@ class Photo {
         if !(self.tags.contains(tag) || tag.isEmpty) {
             self.tags.append(tag)
             ref.child("photo_tags").setValue(self.tags)
+            // tagRef.updateChildValues(["mountain": FieldValue.arrayUnion([self.id])])
+            self.addTagHelper(tag: tag)
             return true
         }
         return false
+    }
+    
+    /*
+     * Remove a single tag from the photo object
+     */
+    public func removeTag(tag: String) {
+        if (self.tags.contains(tag)) {
+        }
     }
     
     /*
