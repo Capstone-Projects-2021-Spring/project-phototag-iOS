@@ -25,7 +25,7 @@ class Photo {
     
     let galleyPreviewPhotoSize = CGSize(width:100, height: 100)
     
-    init(asset: PHAsset) {
+    init(asset: PHAsset, callback: @escaping () -> ()) {
         self.id = asset.localIdentifier
         self.location = asset.location
         self.date = asset.creationDate
@@ -45,6 +45,7 @@ class Photo {
                 // The photo object does not yet exist in the DB
                 self.syncToFirebase()
             }
+            callback()
         })
     }
     

@@ -18,6 +18,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // Class variables
     let user = User(un: "testUsername")
+    var numPhotosSynced = 0
     
     let galleryViewCellNibName = "GalleryCollectionViewCell"
     let galleryViewCellIdentifier = "GalleryItem"
@@ -188,6 +189,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     /*
+     * Callback function used upon syncing photo object from db to check when all photos have been synced.
+     * Needed to know when to start processing all photos since we need to sync if the object has already been
+     *      autotagged or not.
+     */
+    private func doneSyncingPhoto() {
+        numPhotosSynced += 1
+        if numPhotosSynced == user.photos.count {
+            // Done syncing all photos from database
+            self.processAllPhotos()
+        }
+    }
+    
+    /*
      * Create a list referncing all the local photos the application has access to
      */
     private func loadPhotos() {
@@ -205,7 +219,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Append all images to photos array
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    self.user.addPhoto(photo: Photo(asset: photoResults[i]))
+                    self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto))
                 }
             } else {
                 // Returing array is 0 indcating the application can not view any of the local photos
@@ -219,7 +233,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 // Refresh the gallery collection view to display new gallery data
                 print("Refreshing gallery collection view to display new photos")
                 self.galleryCollectionView.reloadData()
-                self.processAllPhotos()
             }
         }
     }
