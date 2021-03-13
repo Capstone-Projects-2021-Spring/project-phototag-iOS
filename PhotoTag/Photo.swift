@@ -150,9 +150,11 @@ class Photo {
                 // Get current photo id's associated with this tag
                 var photoIds: [String] = snapshot.value! as! [String]
                 // Add current photos id
-                photoIds.append(self.id)
-                // Update db to represent new change
-                self.fbSetTags(tag: tag, photoIds: photoIds)
+                if !photoIds.contains(self.id) {
+                    photoIds.append(self.id)
+                    // Update db to represent new change
+                    self.fbSetTags(tag: tag, photoIds: photoIds)
+                }
             } else {
                 // Tag doesn't exist in db
                 self.fbSetTags(tag: tag, photoIds: [self.id])
@@ -189,6 +191,7 @@ class Photo {
      */
     public func addTag(tag : String) -> Bool {
         if !(self.tags.contains(tag) || tag.isEmpty) {
+            let tag = tag.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
             self.tags.append(tag)
             ref.child("photo_tags").setValue(self.tags)
             // tagRef.updateChildValues(["mountain": FieldValue.arrayUnion([self.id])])
@@ -201,10 +204,11 @@ class Photo {
     /*
      * Remove a single tag from the photo object
      */
-    public func removeTag(tag: String) {
-        if (self.tags.contains(tag)) {
-        }
-    }
+//    public func removeTag(tag: String) {
+//        if (self.tags.contains(tag)) {
+//
+//        }
+//    }
     
     /*
      * Represent a Date object as a string, including complete date and time
@@ -216,5 +220,20 @@ class Photo {
         dateFormater.dateFormat = "yyyy-MM-dd hh:mm:ss"
         
         return dateFormater.string(from: date)
+    }
+    
+    /*
+     * Return if photo has already been processed using autotag
+     */
+    public func checkTagged() -> Bool {
+        return self.autoTagged
+    }
+    
+    /*
+     * Mark photo as having already been preocessed using autotag
+     */
+    public func markTagged() {
+        self.autoTagged = true
+        ref.child("auto_tagged").setValue(true)
     }
 }

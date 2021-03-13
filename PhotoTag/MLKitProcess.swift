@@ -38,8 +38,14 @@ class MLKitProcess {
             var i = 0
             
             for (_, photo) in photos {
+                
+                // Skip already tagged photos
+                if photo.checkTagged() == true {
+                    continue
+                }
+                
                 autoreleasepool  {
-                    var image: UIImage = photo.getImage()
+                    let image: UIImage = photo.getImage()
                     
                     let visionImage: VisionImage = VisionImage(image: image)
                     visionImage.orientation = image.imageOrientation
@@ -61,8 +67,7 @@ class MLKitProcess {
                     }
                     
                     photo.addTags(tags: foundTags)
-                    
-                    image = UIImage()
+                    photo.markTagged()
                     
                     print("processed photo \(i)")
                     i += 1

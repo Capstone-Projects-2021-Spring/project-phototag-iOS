@@ -84,7 +84,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         //search the taglist for any photos associated with that tag
-        ref = ref.child("photoTags/\(tagString)")
+        ref = ref.child("iOS/photoTags/\(tagString)")
         ref.getData(completion: { (error, snapshot) in
             if let error = error {
                 print("Error getting data for tag: \(tagString). Error: \(error)")
