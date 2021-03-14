@@ -6,27 +6,35 @@
 
 import UIKit
 import Photos
+import FirebaseDatabase
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
     // Storyboard outlets
     @IBOutlet weak var galleryCollectionView: UICollectionView!
     @IBOutlet weak var navSearchButton: UIBarButtonItem!
     @IBOutlet weak var navSettingsButton: UIBarButtonItem!
-    var searchBar: UISearchBar?
+    var searchBar: UISearchBar!
     
     // Class variables
     let user = User(un: "testUsername")
+    var numPhotosSynced = 0
     
     let galleryViewCellNibName = "GalleryCollectionViewCell"
     let galleryViewCellIdentifier = "GalleryItem"
     let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
+    let searchResultsSegueIdentifier = "SearchResultsViewSegue"
     
+    //TODO: remove this after user object is updated at login
+    let testUser = User(un: "testUsername")
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addHiddenSearchBar()
+        
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate = self
+        searchBar.delegate = self
         
         // Register and modify the display of individual gallery elements within the gallery collection view
         registerGalleryItemNib()
@@ -36,6 +44,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
     }
     
+    //onClick for the search button in the Nav bar
     @IBAction func onClick(_ sender: Any) {
         if sender as? NSObject == navSearchButton {
             // Navbar - Search
@@ -44,15 +53,78 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 UIView.animate(withDuration: 1.0, animations: { () -> Void in
                     self.searchBar!.frame = CGRect(x: 0.0, y: self.galleryCollectionView.frame.minY, width: self.view.frame.width, height: 40.0)
                 }, completion: { (Bool) -> Void in
+                    self.searchBar?.becomeFirstResponder()
                 })
             } else {
                 // Search bar is visible so hide it
                 UIView.animate(withDuration: 1.0, animations: { () -> Void in
                     self.searchBar!.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 40.0)
                 }, completion: { (Bool) -> Void in
+                    self.searchBar?.resignFirstResponder()
                 })
             }
             
+        }
+    }
+
+    /*
+     *   function that triggers the DB search. Called when
+     *   the search button is pressed on the keyboard
+     */
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        
+        var tagString = ""              //the tag being searched
+        var foundPhotos = [String]()    //an array of the photo objects returned by the search
+        var ref: DatabaseReference!     //reference to the database
+        ref = Database.database().reference()
+        
+        //get the tag from the search bar
+        if let stringvalue = searchBar.text{
+            tagString = stringvalue
+        }
+        
+        //search the taglist for any photos associated with that tag
+        ref = ref.child("iOS/photoTags/\(tagString)")
+        ref.getData(completion: { (error, snapshot) in
+            if let error = error {
+                print("Error getting data for tag: \(tagString). Error: \(error)")
+            } else if !snapshot.exists() {
+                print("No photos found with that tag")
+                self.presentEmptySearchDialogue()
+            } else {
+                foundPhotos = snapshot.value as! [String]
+                print("matching photo IDs: \(foundPhotos)")
+                self.segueToSearchResults(photos: foundPhotos)
+            }
+        })
+    }
+    
+    //executes the segue between the gallery view and the search results view controller
+    //ALSO handles converting the photo IDs into a list of the local photo objects
+    private func segueToSearchResults(photos: [String]){
+        
+        var photoObjects = [Photo]()
+        for id in photos{
+            print("trying id \(id)")
+            photoObjects.append(user.getPhoto(id: id))
+        }//photoObjects contains the local photo objects, not just their IDs
+        
+        //open the search results view controller
+        dispatch_queue_main_t.main.async() {
+            self.performSegue(withIdentifier: self.searchResultsSegueIdentifier, sender: photoObjects)
+        }
+        
+    }
+    
+
+    //shows a dialogue box informing the user of an empty search
+    private func presentEmptySearchDialogue(){
+        
+        dispatch_queue_main_t.main.async() {
+            let alert = UIAlertController(title: "No photos found", message: "Modify your tag and try searching again", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
         }
     }
     
@@ -111,10 +183,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     private func processAllPhotos() {
         let labeler = MLKitProcess()
         
-        labeler.labelPhotos(photos: user.photos) {(lbdPhotos: [Photo]) in
-            for lbdPhoto in lbdPhotos {
-                print(lbdPhoto.tags)
-            }
+        labeler.labelAllPhotos(photos: user.photos) {() in
+            print("Done processing all photos")
+        }
+    }
+    
+    /*
+     * Callback function used upon syncing photo object from db to check when all photos have been synced.
+     * Needed to know when to start processing all photos since we need to sync if the object has already been
+     *      autotagged or not.
+     */
+    private func doneSyncingPhoto() {
+        numPhotosSynced += 1
+        if numPhotosSynced == user.photos.count {
+            // Done syncing all photos from database
+            self.processAllPhotos()
         }
     }
     
@@ -136,7 +219,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Append all images to photos array
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    self.user.photos.append(Photo(asset: photoResults[i]))
+                    self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto))
                 }
             } else {
                 // Returing array is 0 indcating the application can not view any of the local photos
@@ -150,7 +233,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 // Refresh the gallery collection view to display new gallery data
                 print("Refreshing gallery collection view to display new photos")
                 self.galleryCollectionView.reloadData()
-                // self.processAllPhotos()
             }
         }
     }
@@ -209,7 +291,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      */
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryItem", for: indexPath) as! GalleryCollectionViewCell
-        let photo = user.photos[indexPath.item]
+        
+        // let photo = user.photos[indexPath.item]
+        let photo = user.getPhoto(index: indexPath.item)
         
         cell.imageDisplay.image = photo.getPreviewImage()
         return cell
@@ -219,11 +303,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Segue action prepare statements. Helps send data between view controllers upon a new segue
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let item = sender as! Photo
+        //let item = sender as! Photo
         
         if segue.identifier == singlePhotoSegueIdentifier {
             if let viewController = segue.destination as? SinglePhotoViewController {
-                viewController.photo = item
+                viewController.photo = (sender as! Photo)
+            }
+        }
+        else if segue.identifier == searchResultsSegueIdentifier{
+            if let viewController = segue.destination as? SearchResultsViewController{
+                viewController.photos = sender as! [Photo]
             }
         }
     }
@@ -232,7 +321,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Collection view function - Handles user selecting an image from the gallery view
      */
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
-        let photo = user.photos[indexPath.item]
+        //let photo = user.photos[indexPath.item]
+        let photo = user.getPhoto(index: indexPath.item)
         
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
