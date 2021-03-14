@@ -76,7 +76,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add labels here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oAV-Sv-iZJ">
-                                <rect key="frame" x="120" y="605" width="174" height="34"/>
+                                <rect key="frame" x="20" y="605" width="374" height="34"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -87,9 +87,9 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Suggested: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvO-jP-3rd">
-                                <rect key="frame" x="20" y="551" width="374" height="27"/>
+                                <rect key="frame" x="20" y="551" width="374" height="46"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="27" id="Yhg-sw-nN0"/>
+                                    <constraint firstAttribute="height" constant="46" id="Yhg-sw-nN0"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -111,7 +111,7 @@
                             <constraint firstItem="467-ze-1SG" firstAttribute="centerX" secondItem="sZa-bW-1FH" secondAttribute="centerX" id="oA4-7o-lqJ"/>
                             <constraint firstItem="oAV-Sv-iZJ" firstAttribute="centerX" secondItem="sZa-bW-1FH" secondAttribute="centerX" id="vHP-fC-XwZ"/>
                             <constraint firstItem="sZa-bW-1FH" firstAttribute="trailing" secondItem="fvO-jP-3rd" secondAttribute="trailing" constant="20" id="xjM-6s-tLR"/>
-                            <constraint firstItem="oAV-Sv-iZJ" firstAttribute="leading" secondItem="sZa-bW-1FH" secondAttribute="leading" constant="120" id="xtN-YQ-p08"/>
+                            <constraint firstItem="oAV-Sv-iZJ" firstAttribute="leading" secondItem="sZa-bW-1FH" secondAttribute="leading" constant="20" id="xtN-YQ-p08"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Kru-aS-8ex">
