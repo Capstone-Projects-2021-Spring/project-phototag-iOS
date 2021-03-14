@@ -107,7 +107,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         var photoObjects = [Photo]()
         for id in photos{
             print("trying id \(id)")
-            photoObjects.append(user.getPhoto(id: id))
+            
+            // Only add the photo object to the results list if the photo object exists locally
+            let tempPhoto = user.getPhoto(id: id)
+            if tempPhoto != nil {
+                photoObjects.append(tempPhoto!)
+            }
+            
         }//photoObjects contains the local photo objects, not just their IDs
         
         //open the search results view controller

@@ -34,7 +34,7 @@ class User{
     }
     
     //retrieves a photo from the user's list of photos
-    public func getPhoto(id: String) -> Photo {
-        return photos[id]!
+    public func getPhoto(id: String) -> Photo? {
+        return photos[id]
     }
 }
