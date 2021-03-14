@@ -18,6 +18,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // Class variables
     let user = User(un: "testUsername")
+    var numPhotosSynced = 0
     
     let galleryViewCellNibName = "GalleryCollectionViewCell"
     let galleryViewCellIdentifier = "GalleryItem"
@@ -84,7 +85,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         //search the taglist for any photos associated with that tag
-        ref = ref.child("photoTags/\(tagString)")
+        ref = ref.child("iOS/photoTags/\(tagString)")
         ref.getData(completion: { (error, snapshot) in
             if let error = error {
                 print("Error getting data for tag: \(tagString). Error: \(error)")
@@ -182,10 +183,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     private func processAllPhotos() {
         let labeler = MLKitProcess()
         
-        labeler.labelPhotos(photos: user.photos) {(lbdPhotos: [Photo]) in
-            for lbdPhoto in lbdPhotos {
-                print(lbdPhoto.tags)
-            }
+        labeler.labelAllPhotos(photos: user.photos) {() in
+            print("Done processing all photos")
+        }
+    }
+    
+    /*
+     * Callback function used upon syncing photo object from db to check when all photos have been synced.
+     * Needed to know when to start processing all photos since we need to sync if the object has already been
+     *      autotagged or not.
+     */
+    private func doneSyncingPhoto() {
+        numPhotosSynced += 1
+        if numPhotosSynced == user.photos.count {
+            // Done syncing all photos from database
+            self.processAllPhotos()
         }
     }
     
@@ -207,7 +219,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Append all images to photos array
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    self.user.photos.append(Photo(asset: photoResults[i]))
+                    self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto))
                 }
             } else {
                 // Returing array is 0 indcating the application can not view any of the local photos
@@ -221,7 +233,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 // Refresh the gallery collection view to display new gallery data
                 print("Refreshing gallery collection view to display new photos")
                 self.galleryCollectionView.reloadData()
-                // self.processAllPhotos()
             }
         }
     }
@@ -280,7 +291,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      */
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryItem", for: indexPath) as! GalleryCollectionViewCell
-        let photo = user.photos[indexPath.item]
+        
+        // let photo = user.photos[indexPath.item]
+        let photo = user.getPhoto(index: indexPath.item)
         
         cell.imageDisplay.image = photo.getPreviewImage()
         return cell
@@ -308,7 +321,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Collection view function - Handles user selecting an image from the gallery view
      */
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
-        let photo = user.photos[indexPath.item]
+        //let photo = user.photos[indexPath.item]
+        let photo = user.getPhoto(index: indexPath.item)
         
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
