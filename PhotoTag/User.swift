@@ -13,11 +13,14 @@ class User{
     var schedules: [String]     //list of user's schedules
     var photos: [Photo]         //local list of user's photos
     
+    let defaults = UserDefaults.standard
+    
     //initializer
     init(un: String){
         self.username = un
         schedules = [String]()
         photos = [Photo]()
+        settings()
     }
     
     /*
@@ -26,5 +29,13 @@ class User{
      */
     public func addPhoto(photo: Photo){
         photos.append(photo)
+    }
+    
+    //set default setting values
+    public func settings(){
+        if(UserDefaults.standard.object(forKey: "Autotag") == nil){
+            defaults.set(true, forKey: "Autotag")
+            defaults.set(true, forKey: "Localtag")
+        }
     }
 }
