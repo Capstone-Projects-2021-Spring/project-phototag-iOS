@@ -2,24 +2,18 @@
 //  SettingsViewController.swift
 //  PhotoTag
 //
-//  Created by Ryan on 3/12/21.
+//  Created by Ryan on 3/14/21.
 //
 
 import UIKit
 
 class SettingsViewController: UIViewController {
 
-    @IBOutlet weak var autmaticTagSwitch: UISwitch!
-    
-    @IBOutlet weak var localOrServerSwitch: UISwitch!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-    
     
 
     /*
