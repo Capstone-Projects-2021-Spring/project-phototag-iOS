@@ -11,10 +11,11 @@ class HomeScreenViewController: UIViewController {
     //login, signUp buttons
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet var logo: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
 

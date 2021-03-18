@@ -171,24 +171,37 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="u8Z-Sf-t6R">
+                                <rect key="frame" x="79" y="321" width="256" height="255"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="255" id="2Ll-G1-Z4i"/>
+                                    <constraint firstAttribute="width" constant="256" id="EWN-xh-aiA"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="akU-fU-H3R"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="KDx-a6-j6Y" firstAttribute="leading" secondItem="akU-fU-H3R" secondAttribute="leading" constant="40" id="7y8-4l-oZb"/>
                             <constraint firstItem="akU-fU-H3R" firstAttribute="trailing" secondItem="KDx-a6-j6Y" secondAttribute="trailing" constant="40" id="Ugc-yh-AfW"/>
+                            <constraint firstItem="u8Z-Sf-t6R" firstAttribute="top" secondItem="akU-fU-H3R" secondAttribute="top" constant="233" id="aVZ-1e-wNB"/>
                             <constraint firstItem="akU-fU-H3R" firstAttribute="bottom" secondItem="KDx-a6-j6Y" secondAttribute="bottom" constant="40" id="ov8-4V-y19"/>
+                            <constraint firstItem="u8Z-Sf-t6R" firstAttribute="leading" secondItem="akU-fU-H3R" secondAttribute="leading" constant="79" id="uPa-Jz-EUH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mdf-rj-uth"/>
                     <connections>
                         <outlet property="loginButton" destination="gbR-lB-5vn" id="wBQ-wH-zbu"/>
+                        <outlet property="logo" destination="u8Z-Sf-t6R" id="iG0-c4-jyG"/>
                         <outlet property="signupButton" destination="Swt-wL-5Ov" id="P7O-8O-Zz1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a5x-xJ-Fjj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3043" y="9"/>
+            <point key="canvasLocation" x="-3043.4782608695655" y="8.7053571428571423"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="Abz-ul-Gsg">
@@ -395,6 +408,7 @@
     <resources>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="logo" width="1024" height="1024"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
