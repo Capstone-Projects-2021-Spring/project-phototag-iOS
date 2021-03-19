@@ -35,7 +35,7 @@ class User{
     public func settings(){
         if(UserDefaults.standard.object(forKey: "Autotag") == nil){
             defaults.set(true, forKey: "Autotag")
-            defaults.set(true, forKey: "Localtag")
         }
+        defaults.set(true, forKey: "Localtag")
     }
 }
