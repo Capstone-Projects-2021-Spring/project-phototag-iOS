@@ -36,9 +36,7 @@ class Photo {
         self.date = asset.creationDate
         self.photoAsset = asset
         
-        autoreleasepool {
-            self.id = hashImage(image: self.getPreviewImage()!)
-        }
+        self.id = hashImage(image: self.getPreviewImage()!)
         
         let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         ref = ref.child("iOS/testUsername/Photos/\(escapedId)")
@@ -131,6 +129,7 @@ class Photo {
         // Retreive data synchronously
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.isNetworkAccessAllowed = true
         
         var retImage:UIImage? = nil
         

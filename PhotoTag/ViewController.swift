@@ -18,6 +18,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // Class variables
     let user = User(un: "testUsername")
+    var processingAllPhotos: Bool = false
     var numPhotosSynced = 0
     
     let galleryViewCellNibName = "GalleryCollectionViewCell"
@@ -187,10 +188,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Process all of the photos in the gallery view
      */
     private func processAllPhotos() {
-        let labeler = MLKitProcess()
+        if processingAllPhotos == true {
+            return
+        }
+        processingAllPhotos = true
         
+        let labeler = MLKitProcess()
         labeler.labelAllPhotos(photos: user.photos) {() in
             print("Done processing all photos")
+            self.processingAllPhotos = false
         }
     }
     
