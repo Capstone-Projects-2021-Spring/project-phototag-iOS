@@ -9,6 +9,11 @@ import UIKit
 import Photos
 import Firebase
 
+import Foundation
+import var CommonCrypto.CC_MD5_DIGEST_LENGTH
+import func CommonCrypto.CC_MD5
+import typealias CommonCrypto.CC_LONG
+
 /*
  * A representation of a photo and all of its associated metadata.
  */
@@ -31,6 +36,10 @@ class Photo {
         self.date = asset.creationDate
         self.photoAsset = asset
         
+        autoreleasepool {
+            self.id = hashImage(image: self.getPreviewImage()!)
+        }
+        
         let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         ref = ref.child("iOS/testUsername/Photos/\(escapedId)")
         tagRef = tagRef.child("iOS/photoTags")
@@ -47,6 +56,30 @@ class Photo {
             }
             callback()
         })
+    }
+    
+    private func hashImage(image: UIImage) -> String {
+        return autoreleasepool  { () -> String in
+            let data: Data = image.pngData()!
+            return MD5(string: data.base64EncodedString(options: .endLineWithLineFeed))
+        }
+    }
+    
+    func MD5(string: String) -> String {
+        let length = Int(CC_MD5_DIGEST_LENGTH)
+        let messageData = string.data(using:.utf8)!
+        var digestData = Data(count: length)
+
+        _ = digestData.withUnsafeMutableBytes { digestBytes -> UInt8 in
+            messageData.withUnsafeBytes { messageBytes -> UInt8 in
+                if let messageBytesBaseAddress = messageBytes.baseAddress, let digestBytesBlindMemory = digestBytes.bindMemory(to: UInt8.self).baseAddress {
+                    let messageLength = CC_LONG(messageData.count)
+                    CC_MD5(messageBytesBaseAddress, messageLength, digestBytesBlindMemory)
+                }
+            return 0
+            }
+        }
+        return digestData.base64EncodedString()
     }
     
     /*
@@ -88,7 +121,7 @@ class Photo {
      * Create a lower resolution preview image of the photo asset
      * @return  UIImage Low resolution preview image
      */
-    public func getPreviewImage() -> UIImage {
+    public func getPreviewImage() -> UIImage? {
         // Facilitates retreving previews and the photo assets themselves
         let imageManager = PHImageManager.default()
         
@@ -99,10 +132,10 @@ class Photo {
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
         
-        var retImage: UIImage = UIImage()
+        var retImage:UIImage? = nil
         
         imageManager.requestImage(for: photoAsset, targetSize: galleyPreviewPhotoSize, contentMode: .default, options: requestOptions, resultHandler: { (image, error) in
-            retImage = image!
+            retImage = image
         })
         
         return retImage
@@ -112,7 +145,7 @@ class Photo {
      * Create a full resolution image of the photo asset
      * @return  UIImage Full resolution image
      */
-    public func getImage() -> UIImage {
+    public func getImage() -> UIImage? {
         // Facilitates retreving previews and the photo assets themselves
         let imageManager = PHImageManager.default()
         
@@ -122,11 +155,12 @@ class Photo {
         // Retreive data synchronously
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.isNetworkAccessAllowed = true
         
-        var retImage: UIImage = UIImage()
+        var retImage: UIImage? = nil
         
         imageManager.requestImage(for: photoAsset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: requestOptions, resultHandler: { (image, error) in
-            retImage = image!
+            retImage = image
         })
         
         return retImage

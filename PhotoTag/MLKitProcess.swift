@@ -45,31 +45,39 @@ class MLKitProcess {
                 }
                 
                 autoreleasepool  {
-                    let image: UIImage = photo.getImage()
+                    let tempImage: UIImage? = photo.getImage()
                     
-                    let visionImage: VisionImage = VisionImage(image: image)
-                    visionImage.orientation = image.imageOrientation
+                    var image: UIImage = UIImage()
                     
-                    var objects: [ImageLabel]
-                    do {
-                      objects = try onDeviceLabeler.results(in: visionImage)
-                    } catch let error {
-                      print("Failed to detect object with error: \(error.localizedDescription).")
-                      return
+                    if tempImage != nil {
+                        image = photo.getImage()!
+                        
+                        let visionImage: VisionImage = VisionImage(image: image)
+                        visionImage.orientation = image.imageOrientation
+                        
+                        var objects: [ImageLabel]
+                        do {
+                          objects = try onDeviceLabeler.results(in: visionImage)
+                        } catch let error {
+                          print("Failed to detect object with error: \(error.localizedDescription).")
+                          return
+                        }
+                        // Iterate over all the found tags and the associated metadata
+                        
+                        var foundTags: [String] = []
+                        
+                        for obj in objects {
+                            // Only add new tags to the photo object
+                            foundTags.append(obj.text)
+                        }
+                        
+                        photo.addTags(tags: foundTags)
+                        photo.markTagged()
+                        
+                        print("processed photo \(i)")
+                        
                     }
-                    // Iterate over all the found tags and the associated metadata
                     
-                    var foundTags: [String] = []
-                    
-                    for obj in objects {
-                        // Only add new tags to the photo object
-                        foundTags.append(obj.text)
-                    }
-                    
-                    photo.addTags(tags: foundTags)
-                    photo.markTagged()
-                    
-                    print("processed photo \(i)")
                     i += 1
                 }
             }

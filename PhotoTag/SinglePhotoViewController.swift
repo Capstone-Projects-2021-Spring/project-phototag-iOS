@@ -22,7 +22,8 @@ class SinglePhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadPhoto()
-        self.tagLabel.text = photo.getTags().joined(separator: ", ")
+        // self.tagLabel.text = photo.getTags().joined(separator: ", ")
+        tagLabel.text = photo.id
         
         // listen for keyboard events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -42,7 +43,7 @@ class SinglePhotoViewController: UIViewController {
      * Populate the UIImageView with the full size photo
      */
     private func loadPhoto() {
-        let image = photo.getImage()
+        let image: UIImage = photo.getImage()!
         imageDisplay.image = image
         let labeler = MLKitProcess()
         labeler.labelImage(image: image) { [self] (tags: [String]) -> () in
