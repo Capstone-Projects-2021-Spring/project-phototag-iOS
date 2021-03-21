@@ -10,6 +10,8 @@ import FirebaseDatabase
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
+    private var foregroundObserver: NSObjectProtocol?
+    
     // Storyboard outlets
     @IBOutlet weak var galleryCollectionView: UICollectionView!
     @IBOutlet weak var navSearchButton: UIBarButtonItem!
@@ -39,6 +41,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Register and modify the display of individual gallery elements within the gallery collection view
         registerGalleryItemNib()
         viewWillLayoutSubviews()
+        
+        // Register a new foreground observer to notify the application when it has re-entered the foreground (main application)
+        foregroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { [unowned self] notification in
+            getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+        }
         
         // searchBarListener()
         getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
@@ -211,6 +218,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Create a list referncing all the local photos the application has access to
      */
     private func loadPhotos() {
+        // Reset current photos as permissions for certain photos could have changed
+        self.user.photos = [:]
+        self.user.photosMap = []
         
         // Create a background task
         DispatchQueue.global(qos: .utility).async {
@@ -332,4 +342,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
+    
+    deinit {
+        if let foregroundObserver = foregroundObserver {
+            NotificationCenter.default.removeObserver(foregroundObserver)
+            
+        }
+    }
 }
+
