@@ -18,6 +18,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // Class variables
     let user = User(un: "testUsername")
+    var loadingPhotos: Bool = true
     var processingAllPhotos: Bool = false
     var numPhotosSynced = 0
     
@@ -207,6 +208,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      */
     private func doneSyncingPhoto() {
         numPhotosSynced += 1
+        
+        if loadingPhotos == true {
+            return
+        }
+        
         if numPhotosSynced == user.photos.count {
             // Done syncing all photos from database
             self.processAllPhotos()
@@ -241,6 +247,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Callback after retrieveing images is complete
             DispatchQueue.main.async {
                 print("Retrieved all local photos")
+                self.loadingPhotos = false
                 
                 // Refresh the gallery collection view to display new gallery data
                 print("Refreshing gallery collection view to display new photos")

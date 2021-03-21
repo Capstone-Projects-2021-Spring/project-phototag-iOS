@@ -8,11 +8,7 @@ import Foundation
 import UIKit
 import Photos
 import Firebase
-
-import Foundation
-import var CommonCrypto.CC_MD5_DIGEST_LENGTH
-import func CommonCrypto.CC_MD5
-import typealias CommonCrypto.CC_LONG
+import CryptoKit
 
 /*
  * A representation of a photo and all of its associated metadata.
@@ -36,11 +32,13 @@ class Photo {
         self.date = asset.creationDate
         self.photoAsset = asset
         
-        self.id = hashImage(image: self.getPreviewImage()!)
+        autoreleasepool {
+            self.id = hashImage(image: self.getImage()!)
+        }
         
         let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        ref = ref.child("iOS/testUsername/Photos/\(escapedId)")
-        tagRef = tagRef.child("iOS/photoTags")
+        ref = ref.child("iOS/sebastiantota/Photos/\(escapedId)")
+        tagRef = tagRef.child("iOS/sebastiantota/photoTags")
 
         ref.getData(completion: { (error, snapshot) in
             if let error = error {
@@ -57,27 +55,8 @@ class Photo {
     }
     
     private func hashImage(image: UIImage) -> String {
-        return autoreleasepool  { () -> String in
-            let data: Data = image.pngData()!
-            return MD5(string: data.base64EncodedString(options: .endLineWithLineFeed))
-        }
-    }
-    
-    func MD5(string: String) -> String {
-        let length = Int(CC_MD5_DIGEST_LENGTH)
-        let messageData = string.data(using:.utf8)!
-        var digestData = Data(count: length)
-
-        _ = digestData.withUnsafeMutableBytes { digestBytes -> UInt8 in
-            messageData.withUnsafeBytes { messageBytes -> UInt8 in
-                if let messageBytesBaseAddress = messageBytes.baseAddress, let digestBytesBlindMemory = digestBytes.bindMemory(to: UInt8.self).baseAddress {
-                    let messageLength = CC_LONG(messageData.count)
-                    CC_MD5(messageBytesBaseAddress, messageLength, digestBytesBlindMemory)
-                }
-            return 0
-            }
-        }
-        return digestData.base64EncodedString()
+        let data: Data = image.pngData()!
+        return SHA256.hash(data: data).description
     }
     
     /*
