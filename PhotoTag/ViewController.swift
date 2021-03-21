@@ -309,9 +309,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Segue action prepare statements. Helps send data between view controllers upon a new segue
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //let item = sender as! Photo
-        
         if segue.identifier == singlePhotoSegueIdentifier {
+            //this assignmnet needs to be in here in the event that we want to segue to settings
+            let item = sender as! Photo
             if let viewController = segue.destination as? SinglePhotoViewController {
                 viewController.photo = (sender as! Photo)
             }
