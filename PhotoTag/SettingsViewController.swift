@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import QuickTableViewController
 
 class SettingsViewController: UIViewController{
 
