@@ -27,6 +27,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
     let searchResultsSegueIdentifier = "SearchResultsViewSegue"
     
+    let autoTagGlobalVarName = "Autotag"
+    let onDeviceProcessingGlobalVarName = "Localtag"
+    
     //TODO: remove this after user object is updated at login
     let testUser = User(un: "testUsername")
 
@@ -194,10 +197,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Process all of the photos in the gallery view
      */
     private func processAllPhotos() {
-        let labeler = MLKitProcess()
-        
-        labeler.labelAllPhotos(photos: user.photos) {() in
-            print("Done processing all photos")
+        if let autoTagCheck: Bool = UserDefaults.standard.object(forKey: autoTagGlobalVarName) as? Bool {
+            if autoTagCheck == true {
+                let labeler = MLKitProcess()
+                
+                labeler.labelAllPhotos(photos: user.photos) {() in
+                    print("Done processing all photos")
+                }
+            }
         }
     }
     
