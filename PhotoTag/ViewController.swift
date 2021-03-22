@@ -102,7 +102,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 if let error = error {
                     print("Error getting data for tag: \(key). Error: \(error)")
                 } else if !snapshot.exists() {
-                    print("No photos found with specified tag/s. ")
+                    print("At least one of these tags was not found. Please try again")
                     self.presentEmptySearchDialogue()
                 } else {
                     //let the callback handle adding the new entries into the combined list
@@ -131,7 +131,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         //if that was the last term, segue to the search results view
         if searchCounter == totalSearchTerms{
-            self.segueToSearchResults(photos: searchResults)
+            //as long as the result list is not empty
+            if !searchResults.isEmpty{
+                self.segueToSearchResults(photos: searchResults)
+            }else{
+                presentEmptySearchDialogue()
+            }
         }
     }
     
@@ -161,7 +166,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     private func presentEmptySearchDialogue(){
         
         dispatch_queue_main_t.main.async() {
-            let alert = UIAlertController(title: "No photos found", message: "Modify your tag and try searching again", preferredStyle: .alert)
+            let alert = UIAlertController(title: "No photos found", message: "At least one of these tags was not found. Please try again", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
             self.present(alert, animated: true)
         }
