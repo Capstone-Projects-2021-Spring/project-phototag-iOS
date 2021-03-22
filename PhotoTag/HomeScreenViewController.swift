@@ -9,20 +9,28 @@ import UIKit
 import Firebase
 import GoogleSignIn
 
+import FirebaseAuth
+
+
 class HomeScreenViewController: UIViewController, GIDSignInDelegate {
+
 
     //login, signUp buttons
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     
+    //google sign in button
+    @IBOutlet var gIDSignInButton: GIDSignInButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //GIDSignIn.sharedInstance().presentingViewController = self
-        // Do any additional setup after loading the view.
+        
+        
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance().signIn()
+        GIDSignIn.sharedInstance()?.delegate = self
+        //GIDSignIn.sharedInstance().signIn()
     }
-
 
     /*
     // MARK: - Navigation
@@ -32,25 +40,37 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-    
+    //handle google sign in
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-    //Sign in functionality will be handled here
-        if let error = error {
-        print(error.localizedDescription)
-        return
-        }
-        guard let auth = user.authentication else { return }
-        let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
-        Auth.auth().signIn(with: credentials) { (authResult, error) in
-        if let error = error {
-        print(error.localizedDescription)
+
+        if (error == nil) {
+        // successful sign in
+            //get Google id & access tokens
+            guard let authentication = user.authentication else {return}
+            let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+            
+            //authenticate with firebase
+            Auth.auth().signIn(with: credential) { (authResult, error) in
+                if let error = error {
+                }
+                // User is signed in
+                self.goToGallery()
+            }
         } else {
-        print("Login Successful.")
-        //This is where you should add the functionality of successful login
-        //i.e. dismissing this view or push the home view controller etc
+          print("\(error.localizedDescription)")
         }
-        }
-        
+    }
+    
+    //handle open url request
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
+      -> Bool {
+      return GIDSignIn.sharedInstance().handle(url)
     }
 
+    
+    func goToGallery(){
+       //performSegue
+        let galleryView = storyboard?.instantiateViewController(withIdentifier: "GalleryView") as! ViewController
+        self.navigationController?.pushViewController(galleryView, animated: true)
+    }
 }
