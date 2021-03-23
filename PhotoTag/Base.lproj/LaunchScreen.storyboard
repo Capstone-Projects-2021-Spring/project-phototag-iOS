@@ -17,23 +17,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="g3P-GA-oof">
-                                <rect key="frame" x="79" y="321" width="256" height="255"/>
+                                <rect key="frame" x="79" y="325.5" width="256" height="255"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                 </accessibility>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="256" id="5OY-IZ-RC0"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="256" id="chi-8A-hfB"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="255" id="mZm-29-aTW"/>
-                                    <constraint firstAttribute="height" constant="255" id="sDu-wO-S2l"/>
+                                    <constraint firstAttribute="width" constant="256" id="J3S-9A-OsE"/>
+                                    <constraint firstAttribute="height" constant="255" id="lO4-Ym-V5q"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="g3P-GA-oof" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="79" id="7Ve-oT-wne"/>
-                            <constraint firstItem="g3P-GA-oof" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="277" id="eBf-1v-bDg"/>
+                            <constraint firstItem="g3P-GA-oof" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="WbH-OT-7YU"/>
+                            <constraint firstItem="g3P-GA-oof" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="sma-SB-CXl"/>
                         </constraints>
                     </view>
                 </viewController>
