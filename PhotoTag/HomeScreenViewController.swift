@@ -18,6 +18,7 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
     //login, signUp buttons
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet var logo: UIImageView!
     
     //google sign in button
     @IBOutlet var gIDSignInButton: GIDSignInButton!
@@ -25,6 +26,7 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Do any additional setup after loading the view.
         
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance()?.presentingViewController = self

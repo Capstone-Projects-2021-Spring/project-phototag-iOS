@@ -67,29 +67,29 @@
             <objects>
                 <viewController id="uea-SY-bCe" customClass="SettingsViewController" customModule="PhotoTag" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y22-Z3-feN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dB2-OK-YDB">
-                                <rect key="frame" x="313" y="156" width="51" height="31"/>
+                                <rect key="frame" x="313" y="68" width="51" height="31"/>
                                 <connections>
                                     <action selector="automaticTagSwitchChange:" destination="uea-SY-bCe" eventType="valueChanged" id="M8Z-z2-mUC"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Automatic Tagging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SZD-cU-iOp" userLabel="Automatic Tagging Label">
-                                <rect key="frame" x="60" y="161" width="142.5" height="21"/>
+                                <rect key="frame" x="60" y="73" width="142.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Local Tagging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwK-bz-xcY">
-                                <rect key="frame" x="60" y="224" width="105.5" height="21"/>
+                                <rect key="frame" x="60" y="136" width="105.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qvl-GE-gwr">
-                                <rect key="frame" x="313" y="219" width="51" height="31"/>
+                                <rect key="frame" x="313" y="131" width="51" height="31"/>
                                 <connections>
                                     <action selector="localTagSwitchChange:" destination="uea-SY-bCe" eventType="valueChanged" id="77T-WV-s3m"/>
                                 </connections>
@@ -214,25 +214,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOh-5N-TFT" customClass="GIDSignInButton">
-                                <rect key="frame" x="40" y="762" width="334" height="60"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="097-mx-24C"/>
-                                </constraints>
-                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KDx-a6-j6Y">
-                                <rect key="frame" x="100" y="682" width="214" height="60"/>
+                                <rect key="frame" x="40" y="722" width="334" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gbR-lB-5vn">
-                                        <rect key="frame" x="0.0" y="0.0" width="214" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="334" height="30"/>
                                         <state key="normal" title="Login"/>
                                         <connections>
                                             <segue destination="tAk-mt-cyz" kind="show" id="BwO-ya-WMf"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Swt-wL-5Ov">
-                                        <rect key="frame" x="0.0" y="30" width="214" height="30"/>
+                                        <rect key="frame" x="0.0" y="30" width="334" height="30"/>
                                         <state key="normal" title="Sign Up"/>
                                         <connections>
                                             <segue destination="KIy-R9-TqE" kind="show" id="JnD-nt-3gU"/>
@@ -240,28 +233,48 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="u8Z-Sf-t6R">
+                                <rect key="frame" x="79" y="320.5" width="256" height="255"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="255" id="2Ll-G1-Z4i"/>
+                                    <constraint firstAttribute="width" constant="256" id="EWN-xh-aiA"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOh-5N-TFT" customClass="GIDSignInButton">
+                                <rect key="frame" x="40" y="782" width="334" height="60"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="097-mx-24C"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="akU-fU-H3R"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="KDx-a6-j6Y" firstAttribute="leading" secondItem="akU-fU-H3R" secondAttribute="leading" constant="100" id="Cnf-Ae-gFg"/>
-                            <constraint firstItem="cOh-5N-TFT" firstAttribute="leading" secondItem="akU-fU-H3R" secondAttribute="leading" constant="40" id="IVk-8e-XGe"/>
-                            <constraint firstItem="akU-fU-H3R" firstAttribute="trailing" secondItem="KDx-a6-j6Y" secondAttribute="trailing" constant="100" id="OIa-rc-bho"/>
-                            <constraint firstItem="akU-fU-H3R" firstAttribute="bottom" secondItem="cOh-5N-TFT" secondAttribute="bottom" constant="40" id="QR0-k6-bzB"/>
-                            <constraint firstItem="akU-fU-H3R" firstAttribute="trailing" secondItem="cOh-5N-TFT" secondAttribute="trailing" constant="40" id="e9x-IH-FhN"/>
-                            <constraint firstItem="cOh-5N-TFT" firstAttribute="top" secondItem="KDx-a6-j6Y" secondAttribute="bottom" constant="20" id="tTt-UQ-GQg"/>
+                            <constraint firstItem="KDx-a6-j6Y" firstAttribute="leading" secondItem="akU-fU-H3R" secondAttribute="leading" constant="40" id="7y8-4l-oZb"/>
+                            <constraint firstItem="akU-fU-H3R" firstAttribute="bottom" secondItem="cOh-5N-TFT" secondAttribute="bottom" constant="20" id="9bG-K0-Ivu"/>
+                            <constraint firstItem="cOh-5N-TFT" firstAttribute="trailing" secondItem="Swt-wL-5Ov" secondAttribute="trailing" id="NRS-UV-YhP"/>
+                            <constraint firstItem="u8Z-Sf-t6R" firstAttribute="centerY" secondItem="3Ja-mb-k8Z" secondAttribute="centerY" id="T5u-ki-vxo"/>
+                            <constraint firstItem="akU-fU-H3R" firstAttribute="trailing" secondItem="KDx-a6-j6Y" secondAttribute="trailing" constant="40" id="Ugc-yh-AfW"/>
+                            <constraint firstItem="u8Z-Sf-t6R" firstAttribute="centerX" secondItem="3Ja-mb-k8Z" secondAttribute="centerX" id="jeW-mi-Vr7"/>
+                            <constraint firstItem="cOh-5N-TFT" firstAttribute="leading" secondItem="KDx-a6-j6Y" secondAttribute="leading" id="nkV-ov-tZ4"/>
+                            <constraint firstItem="akU-fU-H3R" firstAttribute="bottom" secondItem="KDx-a6-j6Y" secondAttribute="bottom" constant="80" id="ov8-4V-y19"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mdf-rj-uth"/>
                     <connections>
                         <outlet property="gIDSignInButton" destination="cOh-5N-TFT" id="4Qr-dD-ylz"/>
                         <outlet property="loginButton" destination="gbR-lB-5vn" id="wBQ-wH-zbu"/>
+                        <outlet property="logo" destination="u8Z-Sf-t6R" id="iG0-c4-jyG"/>
                         <outlet property="signupButton" destination="Swt-wL-5Ov" id="P7O-8O-Zz1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a5x-xJ-Fjj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3043" y="9"/>
+            <point key="canvasLocation" x="-3043.4782608695655" y="8.7053571428571423"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="Abz-ul-Gsg">
@@ -468,6 +481,7 @@
     <resources>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="logo" width="1024" height="1024"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
