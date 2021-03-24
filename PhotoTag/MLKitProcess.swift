@@ -18,17 +18,14 @@ class MLKitProcess {
     
     /*
      * Labels a collection of Photo objects and adds any newly found tags to the photo object
-     * @param  callback([Photo]) Callback function to call upon completion, passing the updated Photo objects as an argument
+     * @param   [String: Photo] User photo dictionary object
+     * @param   () -> ()        Callback upon finishing labeling all photos
      */
-    func labelPhotos(photos: [Photo]?, callback: @escaping ([Photo])->()) {
+    func labelAllPhotos(photos: [String: Photo]?, callback: @escaping ()->()) {
         guard let photos = photos else { return }
         
         // Create a background task
         DispatchQueue.global(qos: .background).async {
-            
-            // Array holding all the processed photos
-            var labeledPhotos: [Photo] = []
-
             var options: CommonImageLabelerOptions!
             options = ImageLabelerOptions()
             
@@ -40,41 +37,46 @@ class MLKitProcess {
             
             var i = 0
             
-            for photo in photos {
-                // Memory Issue: Memory issue with images not clearing out of memory upon completion
-                // let image: UIImage = photo.getImage()
+            for (_, photo) in photos {
                 
-                let image: UIImage = photo.getPreviewImage()
-                
-                let visionImage: VisionImage = VisionImage(image: image)
-                visionImage.orientation = image.imageOrientation
-                
-                var objects: [ImageLabel]
-                do {
-                  objects = try onDeviceLabeler.results(in: visionImage)
-                } catch let error {
-                  print("Failed to detect object with error: \(error.localizedDescription).")
-                  return
+                // Skip already tagged photos
+                if photo.checkTagged() == true {
+                    continue
                 }
-                                // Iterate over all the found tags and the associated metadata
-                for obj in objects {
-                    // Only add new tags to the photo object
-                    if !photo.tags.contains(obj.text) {
-                        photo.tags.append(obj.text)
+                
+                autoreleasepool  {
+                    let image: UIImage = photo.getImage()
+                    
+                    let visionImage: VisionImage = VisionImage(image: image)
+                    visionImage.orientation = image.imageOrientation
+                    
+                    var objects: [ImageLabel]
+                    do {
+                      objects = try onDeviceLabeler.results(in: visionImage)
+                    } catch let error {
+                      print("Failed to detect object with error: \(error.localizedDescription).")
+                      return
                     }
+                    // Iterate over all the found tags and the associated metadata
+                    
+                    var foundTags: [String] = []
+                    
+                    for obj in objects {
+                        // Only add new tags to the photo object
+                        foundTags.append(obj.text)
+                    }
+                    
+                    photo.addTags(tags: foundTags)
+                    photo.markTagged()
+                    
+                    print("processed photo \(i)")
+                    i += 1
                 }
-                
-                // Append processed photo to the array of completed photos
-                labeledPhotos.append(photo)
-                
-                print("processed photo \(i)")
-                i += 1
             }
             
             // Run after all the photos have been proceessed leaving the async function
             DispatchQueue.main.async {
-                // Return the processed photos as part of a callback
-                callback(labeledPhotos)
+                callback()
             }
         }
     }

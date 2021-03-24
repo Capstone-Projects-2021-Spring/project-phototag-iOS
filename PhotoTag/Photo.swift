@@ -21,16 +21,20 @@ class Photo {
     var photoAsset: PHAsset
     var autoTagged: Bool = false
     var ref: DatabaseReference = Database.database().reference()
+    var tagRef: DatabaseReference = Database.database().reference()
     
     let galleyPreviewPhotoSize = CGSize(width:100, height: 100)
     
-    init(asset: PHAsset) {
+    init(asset: PHAsset, callback: @escaping () -> ()) {
         self.id = asset.localIdentifier
         self.location = asset.location
         self.date = asset.creationDate
         self.photoAsset = asset
         
-        ref = ref.child("testUsername/Photos/\(id)")
+        let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        ref = ref.child("iOS/testUsername/Photos/\(escapedId)")
+        tagRef = tagRef.child("iOS/photoTags")
+
         ref.getData(completion: { (error, snapshot) in
             if let error = error {
                 print("Error getting data for photo: \(self.id). Error: \(error)")
@@ -41,6 +45,7 @@ class Photo {
                 // The photo object does not yet exist in the DB
                 self.syncToFirebase()
             }
+            callback()
         })
     }
     
@@ -136,12 +141,49 @@ class Photo {
     }
     
     /*
+     * addTag() helper function. This should not be used directly.
+     */
+    private func addTagHelper(tag: String) {
+        tagRef.child(tag).getData(completion: { (error, snapshot) in
+            if let error = error {
+                print("Error getting tag. Error: \(error)")
+            } else if snapshot.exists() {
+                // Get current photo id's associated with this tag
+                var photoIds: [String] = snapshot.value! as! [String]
+                // Add current photos id
+                if !photoIds.contains(self.id) {
+                    photoIds.append(self.id)
+                    // Update db to represent new change
+                    self.fbSetTags(tag: tag, photoIds: photoIds)
+                }
+            } else {
+                // Tag doesn't exist in db
+                self.fbSetTags(tag: tag, photoIds: [self.id])
+            }
+        })
+    }
+    
+    /*
+     * Update the photoId array for a given tag in the firebase db
+     * @param   String      Tag (key) to assign new array to
+     * @param   [String]    The array of strings (value) to set for the given tag
+     */
+    private func fbSetTags(tag: String, photoIds: [String]) {
+        tagRef.child(tag).setValue(photoIds)
+    }
+    
+    /*
      * Adds an array of tags, making sure to only add new tags
      */
+    //TODO: Fix this to actually ad multiple tags at once
     public func addTags(tags: [String]) {
         // Combine the current list of tags with the new tags, only keeping unique values
-        self.tags = Array(Set(tags + self.tags))
-        ref.child("photo_tags").setValue(self.tags)
+        //self.tags = Array(Set(tags + self.tags))
+        //ref.child("photo_tags").setValue(self.tags)
+        
+        for tag in tags {
+            self.addTag(tag: tag)
+        }
     }
     
     /*
@@ -150,12 +192,24 @@ class Photo {
      */
     public func addTag(tag : String) -> Bool {
         if !(self.tags.contains(tag) || tag.isEmpty) {
+            let tag = tag.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
             self.tags.append(tag)
             ref.child("photo_tags").setValue(self.tags)
+            // tagRef.updateChildValues(["mountain": FieldValue.arrayUnion([self.id])])
+            self.addTagHelper(tag: tag)
             return true
         }
         return false
     }
+    
+    /*
+     * Remove a single tag from the photo object
+     */
+//    public func removeTag(tag: String) {
+//        if (self.tags.contains(tag)) {
+//
+//        }
+//    }
     
     /*
      * Represent a Date object as a string, including complete date and time
@@ -167,5 +221,20 @@ class Photo {
         dateFormater.dateFormat = "yyyy-MM-dd hh:mm:ss"
         
         return dateFormater.string(from: date)
+    }
+    
+    /*
+     * Return if photo has already been processed using autotag
+     */
+    public func checkTagged() -> Bool {
+        return self.autoTagged
+    }
+    
+    /*
+     * Mark photo as having already been preocessed using autotag
+     */
+    public func markTagged() {
+        self.autoTagged = true
+        ref.child("auto_tagged").setValue(true)
     }
 }
