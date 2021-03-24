@@ -29,9 +29,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     let autoTagGlobalVarName = "Autotag"
     let onDeviceProcessingGlobalVarName = "Localtag"
-    
-    //TODO: remove this after user object is updated at login
-    let testUser = User(un: "testUsername")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -223,11 +220,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     /*
      * Create a list referncing all the local photos the application has access to
+     * Is only refreshing photos, specify which index the photos should be added at
+     * @param   Bool    Indcates if this is the first time the photos are being added or if the photos are being refreshed
      */
-    private func loadPhotos() {
+    private func loadPhotos(refresh: Bool = false) {
         // Reset current photos as permissions for certain photos could have changed
-        self.user.photos = [:]
-        self.user.photosMap = []
+        // self.user.photos = [:]
+        // self.user.photosMap = []
         
         // Create a background task
         DispatchQueue.global(qos: .utility).async {
@@ -240,9 +239,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let photoResults: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             
             // Append all images to photos array
+            var counter = 0
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto))
+                    if !self.user.photosMap.contains(photoResults[i].localIdentifier) {
+                        self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto), index: counter)
+                    }
+                    counter += 1
+                    
+                    //self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto))
+                    
+//                    if !self.user.photosMap.contains(photoResults[i].localIdentifier) {
+//                        if refresh == false {
+//                            self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto))
+//                        } else {
+//                            self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto), index: i)
+//                        }
+//                    }
                 }
             } else {
                 // Returing array is 0 indcating the application can not view any of the local photos
@@ -259,6 +272,51 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
     }
+    
+    // MARK: Background gallery listener
+    
+//    func photoLibraryDidChange(_ changeInstance: PHChange) {
+//        guard let collectionView = self.collectionView else { return }
+//        // Change notifications may be made on a background queue.
+//        // Re-dispatch to the main queue to update the UI.
+//        DispatchQueue.main.sync {
+//            // Check for changes to the displayed album itself
+//            // (its existence and metadata, not its member assets).
+//            if let albumChanges = changeInstance.changeDetails(for: assetCollection) {
+//                // Fetch the new album and update the UI accordingly.
+//                assetCollection = albumChanges.objectAfterChanges! as! PHAssetCollection
+//                navigationController?.navigationItem.title = assetCollection.localizedTitle
+//            }
+//            // Check for changes to the list of assets (insertions, deletions, moves, or updates).
+//            if let changes = changeInstance.changeDetails(for: fetchResult) {
+//                // Keep the new fetch result for future use.
+//                fetchResult = changes.fetchResultAfterChanges
+//                if changes.hasIncrementalChanges {
+//                    // If there are incremental diffs, animate them in the collection view.
+//                    collectionView.performBatchUpdates({
+//                        // For indexes to make sense, updates must be in this order:
+//                        // delete, insert, reload, move
+//                        if let removed = changes.removedIndexes where removed.count > 0 {
+//                            collectionView.deleteItems(at: removed.map { IndexPath(item: $0, section:0) })
+//                        }
+//                        if let inserted = changes.insertedIndexes where inserted.count > 0 {
+//                            collectionView.insertItems(at: inserted.map { IndexPath(item: $0, section:0) })
+//                        }
+//                        if let changed = changes.changedIndexes where changed.count > 0 {
+//                            collectionView.reloadItems(at: changed.map { IndexPath(item: $0, section:0) })
+//                        }
+//                        changes.enumerateMoves { fromIndex, toIndex in
+//                            collectionView.moveItem(at: IndexPath(item: fromIndex, section: 0),
+//                                                    to: IndexPath(item: toIndex, section: 0))
+//                        }
+//                    })
+//                } else {
+//                    // Reload the collection view if incremental diffs are not available.
+//                    collectionView.reloadData()
+//                }
+//            }
+//        }
+//    }
     
     // MARK: Single Gallery View Nib Functions
     
