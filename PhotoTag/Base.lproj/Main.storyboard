@@ -215,16 +215,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KDx-a6-j6Y">
-                                <rect key="frame" x="40" y="762" width="334" height="60"/>
+                                <rect key="frame" x="40" y="722" width="334" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gbR-lB-5vn">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gbR-lB-5vn">
                                         <rect key="frame" x="0.0" y="0.0" width="334" height="30"/>
                                         <state key="normal" title="Login"/>
                                         <connections>
                                             <segue destination="tAk-mt-cyz" kind="show" id="BwO-ya-WMf"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Swt-wL-5Ov">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Swt-wL-5Ov">
                                         <rect key="frame" x="0.0" y="30" width="334" height="30"/>
                                         <state key="normal" title="Sign Up"/>
                                         <connections>
@@ -243,19 +243,30 @@
                                     <constraint firstAttribute="width" constant="256" id="EWN-xh-aiA"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOh-5N-TFT" customClass="GIDSignInButton">
+                                <rect key="frame" x="40" y="782" width="334" height="60"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="097-mx-24C"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="akU-fU-H3R"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="KDx-a6-j6Y" firstAttribute="leading" secondItem="akU-fU-H3R" secondAttribute="leading" constant="40" id="7y8-4l-oZb"/>
+                            <constraint firstItem="akU-fU-H3R" firstAttribute="bottom" secondItem="cOh-5N-TFT" secondAttribute="bottom" constant="20" id="9bG-K0-Ivu"/>
+                            <constraint firstItem="cOh-5N-TFT" firstAttribute="trailing" secondItem="Swt-wL-5Ov" secondAttribute="trailing" id="NRS-UV-YhP"/>
                             <constraint firstItem="u8Z-Sf-t6R" firstAttribute="centerY" secondItem="3Ja-mb-k8Z" secondAttribute="centerY" id="T5u-ki-vxo"/>
                             <constraint firstItem="akU-fU-H3R" firstAttribute="trailing" secondItem="KDx-a6-j6Y" secondAttribute="trailing" constant="40" id="Ugc-yh-AfW"/>
                             <constraint firstItem="u8Z-Sf-t6R" firstAttribute="centerX" secondItem="3Ja-mb-k8Z" secondAttribute="centerX" id="jeW-mi-Vr7"/>
-                            <constraint firstItem="akU-fU-H3R" firstAttribute="bottom" secondItem="KDx-a6-j6Y" secondAttribute="bottom" constant="40" id="ov8-4V-y19"/>
+                            <constraint firstItem="cOh-5N-TFT" firstAttribute="leading" secondItem="KDx-a6-j6Y" secondAttribute="leading" id="nkV-ov-tZ4"/>
+                            <constraint firstItem="akU-fU-H3R" firstAttribute="bottom" secondItem="KDx-a6-j6Y" secondAttribute="bottom" constant="80" id="ov8-4V-y19"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mdf-rj-uth"/>
                     <connections>
+                        <outlet property="gIDSignInButton" destination="cOh-5N-TFT" id="4Qr-dD-ylz"/>
                         <outlet property="loginButton" destination="gbR-lB-5vn" id="wBQ-wH-zbu"/>
                         <outlet property="logo" destination="u8Z-Sf-t6R" id="iG0-c4-jyG"/>
                         <outlet property="signupButton" destination="Swt-wL-5Ov" id="P7O-8O-Zz1"/>

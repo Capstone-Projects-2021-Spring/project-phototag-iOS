@@ -8,6 +8,8 @@ target 'PhotoTag' do
   pod 'Firebase/Database'
   
   pod 'Firebase/Firestore'
+  
+  pod 'GoogleSignIn'
 end
 
 
