@@ -20,6 +20,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // Class variables
     let user = User(un: "testUsername")
+    
+    var photoResults: PHFetchResult<PHAsset>?
     var numPhotosSynced = 0
     
     let galleryViewCellNibName = "GalleryCollectionViewCell"
@@ -45,10 +47,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Register a new foreground observer to notify the application when it has re-entered the foreground (main application)
         foregroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { [unowned self] notification in
             getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+            // PHPhotoLibrary.shared().register(self)
         }
         
         // searchBarListener()
         getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+        
     }
     
     //onClick for the search button in the Nav bar
@@ -236,14 +240,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             
             // Retrieve local photos (photos only, no video)
-            let photoResults: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+            self.photoResults = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             
             // Append all images to photos array
             var counter = 0
-            if (photoResults.count > 0) {
-                for i in 0..<photoResults.count {
-                    if !self.user.photosMap.contains(photoResults[i].localIdentifier) {
-                        self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto), index: counter)
+            if (self.photoResults!.count > 0) {
+                for i in 0..<self.photoResults!.count {
+                    if !self.user.photosMap.contains(self.photoResults![i].localIdentifier) {
+                        self.user.addPhoto(photo: Photo(asset: self.photoResults![i], callback: self.doneSyncingPhoto), index: counter)
                     }
                     counter += 1
                     
@@ -276,44 +280,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     // MARK: Background gallery listener
     
 //    func photoLibraryDidChange(_ changeInstance: PHChange) {
-//        guard let collectionView = self.collectionView else { return }
-//        // Change notifications may be made on a background queue.
-//        // Re-dispatch to the main queue to update the UI.
+//        print("Hey, I noticed a change in the gallery")
+//
 //        DispatchQueue.main.sync {
-//            // Check for changes to the displayed album itself
-//            // (its existence and metadata, not its member assets).
-//            if let albumChanges = changeInstance.changeDetails(for: assetCollection) {
-//                // Fetch the new album and update the UI accordingly.
-//                assetCollection = albumChanges.objectAfterChanges! as! PHAssetCollection
-//                navigationController?.navigationItem.title = assetCollection.localizedTitle
-//            }
-//            // Check for changes to the list of assets (insertions, deletions, moves, or updates).
-//            if let changes = changeInstance.changeDetails(for: fetchResult) {
-//                // Keep the new fetch result for future use.
-//                fetchResult = changes.fetchResultAfterChanges
-//                if changes.hasIncrementalChanges {
-//                    // If there are incremental diffs, animate them in the collection view.
-//                    collectionView.performBatchUpdates({
-//                        // For indexes to make sense, updates must be in this order:
-//                        // delete, insert, reload, move
-//                        if let removed = changes.removedIndexes where removed.count > 0 {
-//                            collectionView.deleteItems(at: removed.map { IndexPath(item: $0, section:0) })
-//                        }
-//                        if let inserted = changes.insertedIndexes where inserted.count > 0 {
-//                            collectionView.insertItems(at: inserted.map { IndexPath(item: $0, section:0) })
-//                        }
-//                        if let changed = changes.changedIndexes where changed.count > 0 {
-//                            collectionView.reloadItems(at: changed.map { IndexPath(item: $0, section:0) })
-//                        }
-//                        changes.enumerateMoves { fromIndex, toIndex in
-//                            collectionView.moveItem(at: IndexPath(item: fromIndex, section: 0),
-//                                                    to: IndexPath(item: toIndex, section: 0))
-//                        }
-//                    })
-//                } else {
-//                    // Reload the collection view if incremental diffs are not available.
-//                    collectionView.reloadData()
-//                }
+//            if let albumChanges = changeInstance.changeDetails(for: photoResults!) {
+//
+//                print(albumChanges)
+//
 //            }
 //        }
 //    }
