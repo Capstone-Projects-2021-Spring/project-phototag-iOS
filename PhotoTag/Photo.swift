@@ -18,7 +18,7 @@ class Photo {
     var id: String
     var location: CLLocation?
     var date: Date?
-    var tags: [String] = []
+    var tags: Set<String> = []
     var photoAsset: PHAsset
     var autoTagged: Bool = false
     var ref: DatabaseReference = Database.database().reference()
@@ -68,12 +68,16 @@ class Photo {
      */
     private func syncFromFirebase(snapshot: DataSnapshot) {
         // Sync tags from database
-        /*
         if snapshot.hasChild("photo_tags") {
-            let dbTags: [String] = snapshot.childSnapshot(forPath: "photo_tags").value! as! [String]
-            self.addTags(tags: dbTags)
+            let childTags = snapshot.childSnapshot(forPath: "photo_tags")
+            for child in childTags.children {
+                let childTag = child as! DataSnapshot
+                let tag = childTag.key
+                self.tags.insert(tag)
+            }
+            
+            // self.addTags(tags: dbTags)
         }
-         */
         
         // Sync auto-tagged boolean
         if snapshot.hasChild("auto_tagged") {
@@ -154,39 +158,7 @@ class Photo {
      * @return  the string array of tags
      */
     public func getTags() -> [String] {
-        return self.tags
-    }
-    
-    /*
-     * addTag() helper function. This should not be used directly.
-     */
-    private func addTagHelper(tag: String) {
-        tagRef.child(tag).getData(completion: { (error, snapshot) in
-            if let error = error {
-                print("Error getting tag. Error: \(error)")
-            } else if snapshot.exists() {
-                // Get current photo id's associated with this tag
-                var photoIds: [String] = snapshot.value! as! [String]
-                // Add current photos id
-                if !photoIds.contains(self.id) {
-                    photoIds.append(self.id)
-                    // Update db to represent new change
-                    self.fbSetTags(tag: tag, photoIds: photoIds)
-                }
-            } else {
-                // Tag doesn't exist in db
-                self.fbSetTags(tag: tag, photoIds: [self.id])
-            }
-        })
-    }
-    
-    /*
-     * Update the photoId array for a given tag in the firebase db
-     * @param   String      Tag (key) to assign new array to
-     * @param   [String]    The array of strings (value) to set for the given tag
-     */
-    private func fbSetTags(tag: String, photoIds: [String]) {
-        tagRef.child(tag).setValue(photoIds)
+        return Array(self.tags)
     }
     
     /*
@@ -210,7 +182,7 @@ class Photo {
     public func addTag(tag : String) -> Bool {
         if !(self.tags.contains(tag) || tag.isEmpty) {
             let tag = tag.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-            self.tags.append(tag)
+            self.tags.insert(tag)
             ref.child("photo_tags").child(tag).setValue(true)
             tagRef.child(tag).child(self.id).setValue(true)
             // tagRef.updateChildValues(["mountain": FieldValue.arrayUnion([self.id])])

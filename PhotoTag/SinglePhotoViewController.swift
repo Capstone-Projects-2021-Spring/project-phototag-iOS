@@ -22,8 +22,7 @@ class SinglePhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadPhoto()
-        // self.tagLabel.text = photo.getTags().joined(separator: ", ")
-        tagLabel.text = photo.id
+        self.tagLabel.text = photo.getTags().joined(separator: ", ")
         
         // listen for keyboard events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
