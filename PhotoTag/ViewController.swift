@@ -17,7 +17,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var searchBar: UISearchBar!
     
     // Class variables
-    let user = User(un: "testUsername")
+    let user = User(un: "sebastiantota")
     var loadingPhotos: Bool = true
     var processingAllPhotos: Bool = false
     var numPhotosSynced = 0
@@ -27,9 +27,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
     let searchResultsSegueIdentifier = "SearchResultsViewSegue"
     
-    //TODO: remove this after user object is updated at login
-    let testUser = User(un: "testUsername")
-
     override func viewDidLoad() {
         super.viewDidLoad()
         addHiddenSearchBar()

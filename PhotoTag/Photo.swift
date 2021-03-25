@@ -32,12 +32,16 @@ class Photo {
         self.date = asset.creationDate
         self.photoAsset = asset
         
+        /*
         autoreleasepool {
             self.id = hashImage(image: self.getImage()!)
         }
+        */
         
         let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        ref = ref.child("iOS/sebastiantota/Photos/\(escapedId)")
+        self.id = escapedId
+        
+        ref = ref.child("iOS/sebastiantota/Photos/\(self.id)")
         tagRef = tagRef.child("iOS/sebastiantota/photoTags")
 
         ref.getData(completion: { (error, snapshot) in
@@ -64,10 +68,12 @@ class Photo {
      */
     private func syncFromFirebase(snapshot: DataSnapshot) {
         // Sync tags from database
+        /*
         if snapshot.hasChild("photo_tags") {
             let dbTags: [String] = snapshot.childSnapshot(forPath: "photo_tags").value! as! [String]
             self.addTags(tags: dbTags)
         }
+         */
         
         // Sync auto-tagged boolean
         if snapshot.hasChild("auto_tagged") {
@@ -80,8 +86,7 @@ class Photo {
      * Pushes the entire object to Firebase to either override or create a new instance of said object in the Firebase Database
      */
     private func syncToFirebase() {
-        var obj = ["auto_tagged": self.autoTagged,
-                   "photo_tags": self.tags] as [String : Any]
+        var obj = ["auto_tagged": self.autoTagged] as [String : Any]
         
         if self.location != nil {
             obj["location"] = ["latitude": self.location!.coordinate.latitude, "longitude": self.location!.coordinate.longitude]
@@ -206,9 +211,10 @@ class Photo {
         if !(self.tags.contains(tag) || tag.isEmpty) {
             let tag = tag.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
             self.tags.append(tag)
-            ref.child("photo_tags").setValue(self.tags)
+            ref.child("photo_tags").child(tag).setValue(true)
+            tagRef.child(tag).child(self.id).setValue(true)
             // tagRef.updateChildValues(["mountain": FieldValue.arrayUnion([self.id])])
-            self.addTagHelper(tag: tag)
+            // self.addTagHelper(tag: tag)
             return true
         }
         return false
@@ -217,11 +223,11 @@ class Photo {
     /*
      * Remove a single tag from the photo object
      */
-//    public func removeTag(tag: String) {
-//        if (self.tags.contains(tag)) {
-//
-//        }
-//    }
+    public func removeTag(tag: String) {
+        if let index = tags.firstIndex(of: tag) {
+            tags.remove(at: index)
+        }
+    }
     
     /*
      * Represent a Date object as a string, including complete date and time
