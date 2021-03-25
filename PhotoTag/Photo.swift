@@ -26,7 +26,7 @@ class Photo {
     
     let galleyPreviewPhotoSize = CGSize(width:100, height: 100)
     
-    init(asset: PHAsset, callback: @escaping () -> ()) {
+    init(asset: PHAsset, username: String, callback: @escaping () -> ()) {
         self.id = asset.localIdentifier
         self.location = asset.location
         self.date = asset.creationDate
@@ -41,8 +41,8 @@ class Photo {
         let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         self.id = escapedId
         
-        ref = ref.child("iOS/sebastiantota/Photos/\(self.id)")
-        tagRef = tagRef.child("iOS/sebastiantota/photoTags")
+        ref = ref.child("iOS/\(username)/Photos/\(self.id)")
+        tagRef = tagRef.child("iOS/\(username)/photoTags")
 
         ref.getData(completion: { (error, snapshot) in
             if let error = error {

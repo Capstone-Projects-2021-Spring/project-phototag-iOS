@@ -240,7 +240,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Append all images to photos array
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto))
+                    self.user.addPhoto(photo: Photo(asset: photoResults[i], username: self.user.username, callback: self.doneSyncingPhoto))
                 }
             } else {
                 // Returing array is 0 indcating the application can not view any of the local photos
