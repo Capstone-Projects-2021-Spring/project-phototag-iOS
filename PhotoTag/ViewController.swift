@@ -424,16 +424,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    /*
-     * Collection view function - Handles user selecting an image from the gallery view
-     */
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
-        //let photo = user.photos[indexPath.item]
-        let photo = user.getPhoto(index: indexPath.item)
-        
-        performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
-    }
-    
     deinit {
         if let foregroundObserver = foregroundObserver {
             NotificationCenter.default.removeObserver(foregroundObserver)
