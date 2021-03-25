@@ -74,7 +74,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         searchBar.resignFirstResponder()
         
         var tagString = ""              //the tag being searched
-        var foundPhotos = [String]()    //an array of the photo objects returned by the search
+        var foundPhotos: Set<String> = []  // A set of the photo objects returned by the search
         var ref: DatabaseReference!     //reference to the database
         ref = Database.database().reference()
         
@@ -84,7 +84,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         //search the taglist for any photos associated with that tag
-        ref = ref.child("iOS/photoTags/\(tagString)")
+        ref = ref.child("iOS/\(user.username)/photoTags/\(tagString)")
         ref.getData(completion: { (error, snapshot) in
             if let error = error {
                 print("Error getting data for tag: \(tagString). Error: \(error)")
@@ -92,9 +92,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 print("No photos found with that tag")
                 self.presentEmptySearchDialogue()
             } else {
-                foundPhotos = snapshot.value as! [String]
+                for child in snapshot.children {
+                    let childTag = child as! DataSnapshot
+                    let tag = childTag.key
+                    foundPhotos.insert(tag)
+                }
+                
+                // foundPhotos = snapshot.value as! [String]
                 print("matching photo IDs: \(foundPhotos)")
-                self.segueToSearchResults(photos: foundPhotos)
+                self.segueToSearchResults(photos: Array(foundPhotos))
             }
         })
     }

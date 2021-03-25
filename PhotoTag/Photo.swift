@@ -75,8 +75,6 @@ class Photo {
                 let tag = childTag.key
                 self.tags.insert(tag)
             }
-            
-            // self.addTags(tags: dbTags)
         }
         
         // Sync auto-tagged boolean
