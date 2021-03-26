@@ -10,6 +10,8 @@ import FirebaseDatabase
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
+    private var foregroundObserver: NSObjectProtocol?
+    
     // Storyboard outlets
     @IBOutlet weak var galleryCollectionView: UICollectionView!
     @IBOutlet weak var navSearchButton: UIBarButtonItem!
@@ -20,6 +22,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let user = User(un: "sebastiantota")
     var loadingPhotos: Bool = true
     var processingAllPhotos: Bool = false
+
     var numPhotosSynced = 0
     var searchResults: Set<String> = []  //a set of the photo objects returned by the search
     var totalSearchTerms = 0        //the total number of search terms
@@ -30,6 +33,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
     let searchResultsSegueIdentifier = "SearchResultsViewSegue"
     
+    let autoTagGlobalVarName = "Autotag"
+    let onDeviceProcessingGlobalVarName = "Localtag"
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addHiddenSearchBar()
@@ -42,8 +48,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         registerGalleryItemNib()
         viewWillLayoutSubviews()
         
+        // Register a new foreground observer to notify the application when it has re-entered the foreground (main application)
+        foregroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { [unowned self] notification in
+            getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+            // PHPhotoLibrary.shared().register(self)
+        }
+        
         // searchBarListener()
         getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+        
     }
     
     //MARK: Search functions
@@ -235,12 +248,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if processingAllPhotos == true {
             return
         }
-        processingAllPhotos = true
         
-        let labeler = MLKitProcess()
-        labeler.labelAllPhotos(photos: user.photos) {() in
-            print("Done processing all photos")
-            self.processingAllPhotos = false
+        if let autoTagCheck: Bool = UserDefaults.standard.object(forKey: autoTagGlobalVarName) as? Bool {
+            if autoTagCheck == true {
+                processingAllPhotos = true
+                let labeler = MLKitProcess()
+                
+                labeler.labelAllPhotos(photos: user.photos) {() in
+                    self.processingAllPhotos = false
+                    print("Done processing all photos")
+                }
+            }
         }
     }
     
@@ -252,10 +270,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     private func doneSyncingPhoto() {
         numPhotosSynced += 1
         
-        if loadingPhotos == true {
-            return
-        }
-        
         if numPhotosSynced == user.photos.count {
             // Done syncing all photos from database
             self.processAllPhotos()
@@ -264,8 +278,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     /*
      * Create a list referncing all the local photos the application has access to
+     * Is only refreshing photos, specify which index the photos should be added at
+     * @param   Bool    Indcates if this is the first time the photos are being added or if the photos are being refreshed
      */
-    private func loadPhotos() {
+    private func loadPhotos(refresh: Bool = false) {
+        // Reset current photos as permissions for certain photos could have changed
+        // self.user.photos = [:]
+        // self.user.photosMap = []
         
         // Create a background task
         DispatchQueue.global(qos: .utility).async {
@@ -277,10 +296,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Retrieve local photos (photos only, no video)
             let photoResults: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             
-            // Append all images to photos array
+            var counter = 0
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    self.user.addPhoto(photo: Photo(asset: photoResults[i], username: self.user.username, callback: self.doneSyncingPhoto))
+                    if !self.user.photosMap.contains(photoResults[i].localIdentifier) {
+                        self.user.addPhoto(photo: Photo(asset: photoResults[i], username: self.user.username, callback: self.doneSyncingPhoto), index: counter)
+                    }
+                    counter += 1
                 }
             } else {
                 // Returing array is 0 indcating the application can not view any of the local photos
@@ -298,6 +320,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
     }
+    
     
     // MARK: Single Gallery View Nib Functions
     
@@ -388,4 +411,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
     }
+    
+    deinit {
+        if let foregroundObserver = foregroundObserver {
+            NotificationCenter.default.removeObserver(foregroundObserver)
+            
+        }
+    }
 }
+
