@@ -32,6 +32,16 @@ class User{
         photos[photo.id] = photo
     }
     
+    /*
+     * Add a new photo to the user object at a specific index in the array
+     * @param   Photo   New photo to be added
+     * @param   Int     Index at which the photo should be inserted
+     */
+    public func addPhoto(photo: Photo, index: Int) {
+        photosMap.insert(photo.id, at: index)
+        photos[photo.id] = photo
+    }
+    
     public func getPhoto(index: Int) -> Photo {
         return photos[photosMap[index]]!
     }

@@ -10,6 +10,8 @@ import FirebaseDatabase
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
+    private var foregroundObserver: NSObjectProtocol?
+    
     // Storyboard outlets
     @IBOutlet weak var galleryCollectionView: UICollectionView!
     @IBOutlet weak var navSearchButton: UIBarButtonItem!
@@ -17,9 +19,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var searchBar: UISearchBar!
     
     // Class variables
-    let user = User(un: "testUsername")
+    let user = User(un: "sebastiantota")
+    var loadingPhotos: Bool = true
+    var processingAllPhotos: Bool = false
+
     var numPhotosSynced = 0
-    var searchResults = [String]()  //an array of the photo objects returned by the search
+    var searchResults: Set<String> = []  //a set of the photo objects returned by the search
     var totalSearchTerms = 0        //the total number of search terms
     var searchCounter = 0           //the number of search terms already retrieved by DB
     
@@ -28,6 +33,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
     let searchResultsSegueIdentifier = "SearchResultsViewSegue"
     
+    let autoTagGlobalVarName = "Autotag"
+    let onDeviceProcessingGlobalVarName = "Localtag"
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addHiddenSearchBar()
@@ -40,8 +48,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         registerGalleryItemNib()
         viewWillLayoutSubviews()
         
+        // Register a new foreground observer to notify the application when it has re-entered the foreground (main application)
+        foregroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { [unowned self] notification in
+            getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+            // PHPhotoLibrary.shared().register(self)
+        }
+        
         // searchBarListener()
         getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
+        
     }
     
     //MARK: Search functions
@@ -77,6 +92,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         searchCounter = 0   //reset the counter for search terms
         searchResults.removeAll()   //clear out the search results
         
+//        var tagString = ""              //the tag being searched
+//        var foundPhotos: Set<String> = []  // A set of the photo objects returned by the search
+
         var searchKeys = [String]()     //the list of search terms
         var ref: DatabaseReference!     //reference to the database
         ref = Database.database().reference()
@@ -89,7 +107,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 searchKeys.append(stringvalue)
             }//searchKeys now contains the user-defined search terms as a comma-separated, lowercase list
         }
-        
+
         //set the totalSearchTerms
         totalSearchTerms = searchKeys.count
         
@@ -97,7 +115,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             //search the database for that tag
             print("searching DB for: |\(key)|")
             //ref = ref.child("iOS/\(user.username)/photoTags/\(key)")
-            let tempRef = ref.child("iOS/photoTags/\(key)")
+            let tempRef = ref.child("iOS/\(self.user.username)/photoTags/\(key)")
             tempRef.getData(completion: { (error, snapshot) in
                 if let error = error {
                     print("Error getting data for tag: \(key). Error: \(error)")
@@ -106,8 +124,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.presentEmptySearchDialogue()
                 } else {
                     //let the callback handle adding the new entries into the combined list
-                    print("ids for \(key): \(snapshot.value as! [String])")
-                    self.processSearchResults(photoIds: snapshot.value as! [String])
+                    
+                    self.searchCounter += 1
+                    for child in snapshot.children {
+                        let childTag = child as! DataSnapshot
+                        let tag = childTag.key
+                        self.searchResults.insert(tag)
+                    }
+                    print(self.searchResults)
+                    self.processSearchResults()
+                    
+                    // print("ids for \(key): \(snapshot.value as! [String])")
+                    // self.processSearchResults(photoIds: snapshot.value as! [String])
                 }
             })
         }
@@ -118,22 +146,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      *  this function adds the sent ids to the class-level
      *  search results array as a join, one search term at a time.
      */
-    private func processSearchResults(photoIds: [String]){
-        searchCounter += 1
-        
-        //if its the first DB return, add all photos to final collection
-        if searchResults.count == 0{
-            searchResults = photoIds
-        }else{
-            //perform join on two arrays, and store the results in searchResults
-            searchResults = searchResults.filter(photoIds.contains)
-        }
-        
+    private func processSearchResults(){
         //if that was the last term, segue to the search results view
         if searchCounter == totalSearchTerms{
             //as long as the result list is not empty
             if !searchResults.isEmpty{
-                self.segueToSearchResults(photos: searchResults)
+                self.segueToSearchResults(photos: Array(searchResults))
             }else{
                 presentEmptySearchDialogue()
             }
@@ -227,10 +245,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Process all of the photos in the gallery view
      */
     private func processAllPhotos() {
-        let labeler = MLKitProcess()
+        if processingAllPhotos == true {
+            return
+        }
         
-        labeler.labelAllPhotos(photos: user.photos) {() in
-            print("Done processing all photos")
+        if let autoTagCheck: Bool = UserDefaults.standard.object(forKey: autoTagGlobalVarName) as? Bool {
+            if autoTagCheck == true {
+                processingAllPhotos = true
+                let labeler = MLKitProcess()
+                
+                labeler.labelAllPhotos(photos: user.photos) {() in
+                    self.processingAllPhotos = false
+                    print("Done processing all photos")
+                }
+            }
         }
     }
     
@@ -241,6 +269,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      */
     private func doneSyncingPhoto() {
         numPhotosSynced += 1
+        
         if numPhotosSynced == user.photos.count {
             // Done syncing all photos from database
             self.processAllPhotos()
@@ -249,8 +278,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     /*
      * Create a list referncing all the local photos the application has access to
+     * Is only refreshing photos, specify which index the photos should be added at
+     * @param   Bool    Indcates if this is the first time the photos are being added or if the photos are being refreshed
      */
-    private func loadPhotos() {
+    private func loadPhotos(refresh: Bool = false) {
+        // Reset current photos as permissions for certain photos could have changed
+        // self.user.photos = [:]
+        // self.user.photosMap = []
         
         // Create a background task
         DispatchQueue.global(qos: .utility).async {
@@ -262,10 +296,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Retrieve local photos (photos only, no video)
             let photoResults: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             
-            // Append all images to photos array
+            var counter = 0
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    self.user.addPhoto(photo: Photo(asset: photoResults[i], callback: self.doneSyncingPhoto))
+                    if !self.user.photosMap.contains(photoResults[i].localIdentifier) {
+                        self.user.addPhoto(photo: Photo(asset: photoResults[i], username: self.user.username, callback: self.doneSyncingPhoto), index: counter)
+                    }
+                    counter += 1
                 }
             } else {
                 // Returing array is 0 indcating the application can not view any of the local photos
@@ -275,6 +312,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Callback after retrieveing images is complete
             DispatchQueue.main.async {
                 print("Retrieved all local photos")
+                self.loadingPhotos = false
                 
                 // Refresh the gallery collection view to display new gallery data
                 print("Refreshing gallery collection view to display new photos")
@@ -282,6 +320,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
     }
+    
     
     // MARK: Single Gallery View Nib Functions
     
@@ -372,4 +411,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
     }
+    
+    deinit {
+        if let foregroundObserver = foregroundObserver {
+            NotificationCenter.default.removeObserver(foregroundObserver)
+            
+        }
+    }
 }
+

@@ -39,14 +39,19 @@ class SinglePhotoViewController: UIViewController {
     }
     
     /*
-     * Populate the UIImageView with the full size photo
+     * Populate the UIImageView with the full size photo asynchonously
      */
     private func loadPhoto() {
-        let image = photo.getImage()
-        imageDisplay.image = image
-        let labeler = MLKitProcess()
-        labeler.labelImage(image: image) { [self] (tags: [String]) -> () in
-            suggestedLabel.text! = tags.joined(separator: ", ")
+        DispatchQueue.global(qos: .utility).async {
+            let image: UIImage = self.photo.getImage()!
+            
+            DispatchQueue.main.async {
+                self.imageDisplay.image = image
+                let labeler = MLKitProcess()
+                labeler.labelImage(image: image) { [self] (tags: [String]) -> () in
+                    suggestedLabel.text! = tags.joined(separator: ", ")
+                }
+            }
         }
     }
     

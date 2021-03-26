@@ -8,6 +8,7 @@ import Foundation
 import UIKit
 import Photos
 import Firebase
+import CryptoKit
 
 /*
  * A representation of a photo and all of its associated metadata.
@@ -17,7 +18,7 @@ class Photo {
     var id: String
     var location: CLLocation?
     var date: Date?
-    var tags: [String] = []
+    var tags: Set<String> = []
     var photoAsset: PHAsset
     var autoTagged: Bool = false
     var ref: DatabaseReference = Database.database().reference()
@@ -25,15 +26,23 @@ class Photo {
     
     let galleyPreviewPhotoSize = CGSize(width:100, height: 100)
     
-    init(asset: PHAsset, callback: @escaping () -> ()) {
+    init(asset: PHAsset, username: String, callback: @escaping () -> ()) {
         self.id = asset.localIdentifier
         self.location = asset.location
         self.date = asset.creationDate
         self.photoAsset = asset
         
+        /*
+        autoreleasepool {
+            self.id = hashImage(image: self.getImage()!)
+        }
+        */
+        
         let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        ref = ref.child("iOS/testUsername/Photos/\(escapedId)")
-        tagRef = tagRef.child("iOS/photoTags")
+        self.id = escapedId
+        
+        ref = ref.child("iOS/\(username)/Photos/\(self.id)")
+        tagRef = tagRef.child("iOS/\(username)/photoTags")
 
         ref.getData(completion: { (error, snapshot) in
             if let error = error {
@@ -49,14 +58,23 @@ class Photo {
         })
     }
     
+    private func hashImage(image: UIImage) -> String {
+        let data: Data = image.pngData()!
+        return SHA256.hash(data: data).description
+    }
+    
     /*
      * Syncs local photo object with the infromation in the Firebase Database
      */
     private func syncFromFirebase(snapshot: DataSnapshot) {
         // Sync tags from database
         if snapshot.hasChild("photo_tags") {
-            let dbTags: [String] = snapshot.childSnapshot(forPath: "photo_tags").value! as! [String]
-            self.addTags(tags: dbTags)
+            let childTags = snapshot.childSnapshot(forPath: "photo_tags")
+            for child in childTags.children {
+                let childTag = child as! DataSnapshot
+                let tag = childTag.key
+                self.tags.insert(tag)
+            }
         }
         
         // Sync auto-tagged boolean
@@ -70,8 +88,7 @@ class Photo {
      * Pushes the entire object to Firebase to either override or create a new instance of said object in the Firebase Database
      */
     private func syncToFirebase() {
-        var obj = ["auto_tagged": self.autoTagged,
-                   "photo_tags": self.tags] as [String : Any]
+        var obj = ["auto_tagged": self.autoTagged] as [String : Any]
         
         if self.location != nil {
             obj["location"] = ["latitude": self.location!.coordinate.latitude, "longitude": self.location!.coordinate.longitude]
@@ -88,7 +105,7 @@ class Photo {
      * Create a lower resolution preview image of the photo asset
      * @return  UIImage Low resolution preview image
      */
-    public func getPreviewImage() -> UIImage {
+    public func getPreviewImage() -> UIImage? {
         // Facilitates retreving previews and the photo assets themselves
         let imageManager = PHImageManager.default()
         
@@ -98,11 +115,12 @@ class Photo {
         // Retreive data synchronously
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.isNetworkAccessAllowed = true
         
-        var retImage: UIImage = UIImage()
+        var retImage:UIImage? = nil
         
         imageManager.requestImage(for: photoAsset, targetSize: galleyPreviewPhotoSize, contentMode: .default, options: requestOptions, resultHandler: { (image, error) in
-            retImage = image!
+            retImage = image
         })
         
         return retImage
@@ -112,7 +130,7 @@ class Photo {
      * Create a full resolution image of the photo asset
      * @return  UIImage Full resolution image
      */
-    public func getImage() -> UIImage {
+    public func getImage() -> UIImage? {
         // Facilitates retreving previews and the photo assets themselves
         let imageManager = PHImageManager.default()
         
@@ -122,11 +140,12 @@ class Photo {
         // Retreive data synchronously
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.isNetworkAccessAllowed = true
         
-        var retImage: UIImage = UIImage()
+        var retImage: UIImage? = nil
         
         imageManager.requestImage(for: photoAsset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: requestOptions, resultHandler: { (image, error) in
-            retImage = image!
+            retImage = image
         })
         
         return retImage
@@ -137,39 +156,7 @@ class Photo {
      * @return  the string array of tags
      */
     public func getTags() -> [String] {
-        return self.tags
-    }
-    
-    /*
-     * addTag() helper function. This should not be used directly.
-     */
-    private func addTagHelper(tag: String) {
-        tagRef.child(tag).getData(completion: { (error, snapshot) in
-            if let error = error {
-                print("Error getting tag. Error: \(error)")
-            } else if snapshot.exists() {
-                // Get current photo id's associated with this tag
-                var photoIds: [String] = snapshot.value! as! [String]
-                // Add current photos id
-                if !photoIds.contains(self.id) {
-                    photoIds.append(self.id)
-                    // Update db to represent new change
-                    self.fbSetTags(tag: tag, photoIds: photoIds)
-                }
-            } else {
-                // Tag doesn't exist in db
-                self.fbSetTags(tag: tag, photoIds: [self.id])
-            }
-        })
-    }
-    
-    /*
-     * Update the photoId array for a given tag in the firebase db
-     * @param   String      Tag (key) to assign new array to
-     * @param   [String]    The array of strings (value) to set for the given tag
-     */
-    private func fbSetTags(tag: String, photoIds: [String]) {
-        tagRef.child(tag).setValue(photoIds)
+        return Array(self.tags)
     }
     
     /*
@@ -193,10 +180,11 @@ class Photo {
     public func addTag(tag : String) -> Bool {
         if !(self.tags.contains(tag) || tag.isEmpty) {
             let tag = tag.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-            self.tags.append(tag)
-            ref.child("photo_tags").setValue(self.tags)
+            self.tags.insert(tag)
+            ref.child("photo_tags").child(tag).setValue(true)
+            tagRef.child(tag).child(self.id).setValue(true)
             // tagRef.updateChildValues(["mountain": FieldValue.arrayUnion([self.id])])
-            self.addTagHelper(tag: tag)
+            // self.addTagHelper(tag: tag)
             return true
         }
         return false
@@ -205,11 +193,11 @@ class Photo {
     /*
      * Remove a single tag from the photo object
      */
-//    public func removeTag(tag: String) {
-//        if (self.tags.contains(tag)) {
-//
-//        }
-//    }
+    public func removeTag(tag: String) {
+        if let index = tags.firstIndex(of: tag) {
+            tags.remove(at: index)
+        }
+    }
     
     /*
      * Represent a Date object as a string, including complete date and time
