@@ -21,6 +21,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var loadingPhotos: Bool = true
     var processingAllPhotos: Bool = false
     var numPhotosSynced = 0
+    var searchResults: Set<String> = []  //a set of the photo objects returned by the search
+    var totalSearchTerms = 0        //the total number of search terms
+    var searchCounter = 0           //the number of search terms already retrieved by DB
     
     let galleryViewCellNibName = "GalleryCollectionViewCell"
     let galleryViewCellIdentifier = "GalleryItem"
@@ -43,6 +46,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
     }
     
+    //MARK: Search functions
+    
     //onClick for the search button in the Nav bar
     @IBAction func onClick(_ sender: Any) {
         if sender as? NSObject == navSearchButton {
@@ -62,7 +67,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.searchBar?.resignFirstResponder()
                 })
             }
-            
         }
     }
 
@@ -71,45 +75,81 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      *   the search button is pressed on the keyboard
      */
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()    //resigns the keyboard
+        searchCounter = 0   //reset the counter for search terms
+        searchResults.removeAll()   //clear out the search results
         
-        var tagString = ""              //the tag being searched
-        var foundPhotos: Set<String> = []  // A set of the photo objects returned by the search
+//        var tagString = ""              //the tag being searched
+//        var foundPhotos: Set<String> = []  // A set of the photo objects returned by the search
+
+        var searchKeys = [String]()     //the list of search terms
         var ref: DatabaseReference!     //reference to the database
         ref = Database.database().reference()
         
         //get the tag from the search bar
-        if let stringvalue = searchBar.text{
-            tagString = stringvalue
+        if let stringvalue = searchBar.text?.lowercased() {
+            if(stringvalue.contains(",")){  //ONLY SUPPORTS COMMA-SEPARATED LIST
+                searchKeys = stringvalue.components(separatedBy: ",")
+            }else{
+                searchKeys.append(stringvalue)
+            }//searchKeys now contains the user-defined search terms as a comma-separated, lowercase list
         }
+
+        //set the totalSearchTerms
+        totalSearchTerms = searchKeys.count
         
-        //search the taglist for any photos associated with that tag
-        ref = ref.child("iOS/\(user.username)/photoTags/\(tagString)")
-        ref.getData(completion: { (error, snapshot) in
-            if let error = error {
-                print("Error getting data for tag: \(tagString). Error: \(error)")
-            } else if !snapshot.exists() {
-                print("No photos found with that tag")
-                self.presentEmptySearchDialogue()
-            } else {
-                for child in snapshot.children {
-                    let childTag = child as! DataSnapshot
-                    let tag = childTag.key
-                    foundPhotos.insert(tag)
+        for key in searchKeys {  //for each term the user is searching for
+            //search the database for that tag
+            print("searching DB for: |\(key)|")
+            //ref = ref.child("iOS/\(user.username)/photoTags/\(key)")
+            let tempRef = ref.child("iOS/\(self.user.username)/photoTags/\(key)")
+            tempRef.getData(completion: { (error, snapshot) in
+                if let error = error {
+                    print("Error getting data for tag: \(key). Error: \(error)")
+                } else if !snapshot.exists() {
+                    print("At least one of these tags was not found. Please try again")
+                    self.presentEmptySearchDialogue()
+                } else {
+                    //let the callback handle adding the new entries into the combined list
+                    
+                    self.searchCounter += 1
+                    for child in snapshot.children {
+                        let childTag = child as! DataSnapshot
+                        let tag = childTag.key
+                        self.searchResults.insert(tag)
+                    }
+                    print(self.searchResults)
+                    self.processSearchResults()
+                    
+                    // print("ids for \(key): \(snapshot.value as! [String])")
+                    // self.processSearchResults(photoIds: snapshot.value as! [String])
                 }
-                
-                // foundPhotos = snapshot.value as! [String]
-                print("matching photo IDs: \(foundPhotos)")
-                self.segueToSearchResults(photos: Array(foundPhotos))
+            })
+        }
+    }
+    
+    /*
+     *  Callback function for searching multiple tags.
+     *  this function adds the sent ids to the class-level
+     *  search results array as a join, one search term at a time.
+     */
+    private func processSearchResults(){
+        //if that was the last term, segue to the search results view
+        if searchCounter == totalSearchTerms{
+            //as long as the result list is not empty
+            if !searchResults.isEmpty{
+                self.segueToSearchResults(photos: Array(searchResults))
+            }else{
+                presentEmptySearchDialogue()
             }
-        })
+        }
     }
     
     //executes the segue between the gallery view and the search results view controller
     //ALSO handles converting the photo IDs into a list of the local photo objects
     private func segueToSearchResults(photos: [String]){
-        
         var photoObjects = [Photo]()
+        
         for id in photos{
             print("trying id \(id)")
             
@@ -125,15 +165,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         dispatch_queue_main_t.main.async() {
             self.performSegue(withIdentifier: self.searchResultsSegueIdentifier, sender: photoObjects)
         }
-        
     }
     
-
     //shows a dialogue box informing the user of an empty search
     private func presentEmptySearchDialogue(){
         
         dispatch_queue_main_t.main.async() {
-            let alert = UIAlertController(title: "No photos found", message: "Modify your tag and try searching again", preferredStyle: .alert)
+            let alert = UIAlertController(title: "No photos found", message: "At least one of these tags was not found. Please try again", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
             self.present(alert, animated: true)
         }
@@ -146,6 +184,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         searchBar = UISearchBar(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 40.0))
         self.view.addSubview(searchBar!)
     }
+    
+    //MARK: Permissions functions
     
     /*
      * Callback function after gallery permissions have been sucessfully granted
@@ -322,6 +362,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     /*
+     * Collection view function - Handles user selecting an image from the gallery view
+     */
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
+        //let photo = user.photos[indexPath.item]
+        let photo = user.getPhoto(index: indexPath.item)
+        
+        performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
+    }
+    
+    /*
      * Segue action prepare statements. Helps send data between view controllers upon a new segue
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -337,15 +387,5 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 viewController.photos = sender as! [Photo]
             }
         }
-    }
-    
-    /*
-     * Collection view function - Handles user selecting an image from the gallery view
-     */
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
-        //let photo = user.photos[indexPath.item]
-        let photo = user.getPhoto(index: indexPath.item)
-        
-        performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
 }
