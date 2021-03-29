@@ -8,6 +8,7 @@
 import Foundation
 import Photos
 import MLKit
+import Alamofire
 
 /*
  * Process an image, or collection of images, using Google ML Kit API.
@@ -124,4 +125,48 @@ class MLKitProcess {
             callback(labels)
         }
     }
+    
+    func labelImageServer(photo: Photo){
+        let photoMedia = photo.getImage()?.jpegData(compressionQuality: 1.0)!
+            
+        let headers: HTTPHeaders = [
+            "Content-type": "multipart/form-data"
+            ]
+        
+//        let params: [String: String] = ["email": "sebastiantota",
+//                                        "password": "admin123",
+//                                        "platform": "iOS",
+//                                        "photo_identifier": photo.id]
+            
+            AF.upload(
+                multipartFormData: { multipartFormData in
+                    multipartFormData.append(
+                        photoMedia!,
+                        withName: "image",
+                        fileName: "image",
+                        mimeType: "image/jpeg"
+                    )
+                    multipartFormData.append(Data("sebastiantota".utf8), withName: "email")
+                    multipartFormData.append(Data("admin123".utf8), withName: "password")
+                    multipartFormData.append(Data("iOS".utf8), withName: "platform")
+                    multipartFormData.append(Data(photo.id.utf8), withName: "photo_identifier")
+//                    for param in params {
+//                        let value = param.value.data(using: String.Encoding.utf8)!
+//                        multipartFormData.append(value, withName: param.key)
+//                    }
+                },
+                to: "http://localhost:5000/uploadImage",
+                method: .post ,
+                headers: headers
+            )
+            .response { response in
+                print(response)
+                
+                if let data = response.data {
+                    let json = String(data: data, encoding: String.Encoding.utf8)
+                    print("Response: \(json!)")
+                }
+
+            }
+        }
 }

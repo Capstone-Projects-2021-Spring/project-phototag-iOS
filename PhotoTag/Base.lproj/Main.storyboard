@@ -67,29 +67,29 @@
             <objects>
                 <viewController id="uea-SY-bCe" customClass="SettingsViewController" customModule="PhotoTag" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="y22-Z3-feN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dB2-OK-YDB">
-                                <rect key="frame" x="313" y="68" width="51" height="31"/>
+                                <rect key="frame" x="313" y="156" width="51" height="31"/>
                                 <connections>
                                     <action selector="automaticTagSwitchChange:" destination="uea-SY-bCe" eventType="valueChanged" id="M8Z-z2-mUC"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Automatic Tagging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SZD-cU-iOp" userLabel="Automatic Tagging Label">
-                                <rect key="frame" x="60" y="73" width="142.5" height="21"/>
+                                <rect key="frame" x="60" y="161" width="142.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Local Tagging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwK-bz-xcY">
-                                <rect key="frame" x="60" y="136" width="105.5" height="21"/>
+                                <rect key="frame" x="60" y="224" width="105.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qvl-GE-gwr">
-                                <rect key="frame" x="313" y="131" width="51" height="31"/>
+                                <rect key="frame" x="313" y="219" width="51" height="31"/>
                                 <connections>
                                     <action selector="localTagSwitchChange:" destination="uea-SY-bCe" eventType="valueChanged" id="77T-WV-s3m"/>
                                 </connections>
