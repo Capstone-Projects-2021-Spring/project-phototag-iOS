@@ -391,6 +391,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //let photo = user.photos[indexPath.item]
         let photo = user.getPhoto(index: indexPath.item)
         
+        let serverProcess = MLKitProcess()
+        serverProcess.labelImageServer(photo: self.user.getPhoto(index: indexPath.item))
+        
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
     

@@ -39,7 +39,7 @@ class Photo {
         */
         
         let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        self.id = escapedId
+        self.id = escapedId.replacingOccurrences(of: "%", with: "|")
         
         ref = ref.child("iOS/\(username)/Photos/\(self.id)")
         tagRef = tagRef.child("iOS/\(username)/photoTags")
