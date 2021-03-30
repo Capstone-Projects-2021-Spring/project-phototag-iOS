@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import GoogleSignIn
 
-class SettingsViewController: UIViewController{
+class SettingsViewController: UIViewController, GIDSignInDelegate{
 
     
     
@@ -39,6 +40,25 @@ class SettingsViewController: UIViewController{
     
     @IBAction func localTagSwitchChange(_ sender: Any) {
     }
+    
+    //sign out
+    @IBAction func signOutButtonClicked(_ sender: Any) {
+        //print(GIDSignIn.sharedInstance()?.hasPreviousSignIn())
+        GIDSignIn.sharedInstance()?.signOut()
+        GIDSignIn.sharedInstance()?.disconnect()
+        //print(GIDSignIn.sharedInstance().hasPreviousSignIn())
+        navigationController?.popToRootViewController(animated: true)
+        //let homeView = storyboard?.instantiateViewController(withIdentifier: "Home") as! HomeScreenViewController
+        //self.navigationController?.pushViewController(homeView, animated: true)
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+
+    }
+
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+    }
+
     
     
 }
