@@ -95,8 +95,11 @@
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xc8-xU-Z4a">
-                                <rect key="frame" x="184" y="460" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="172" y="458" width="70" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Sign Out">
+                                    <color key="titleColor" systemColor="systemRedColor"/>
+                                </state>
                                 <connections>
                                     <action selector="signOutButtonClicked:" destination="uea-SY-bCe" eventType="touchUpInside" id="C6W-DN-G4r"/>
                                 </connections>
