@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    var username = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,7 @@ class LoginViewController: UIViewController {
                     self.errorLabel.text = error!.localizedDescription
                     self.errorLabel.alpha = 1
                 }else{
+                    self.username = Auth.auth().currentUser!.uid
                     self.goToGallery()
                 }
             }
@@ -75,6 +77,7 @@ class LoginViewController: UIViewController {
        //performSegue(
         
         let galleryView = storyboard?.instantiateViewController(withIdentifier: "GalleryView") as! ViewController
+        galleryView.username = username
         self.navigationController?.pushViewController(galleryView, animated: true)
         
     }
