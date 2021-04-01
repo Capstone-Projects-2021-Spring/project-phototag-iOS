@@ -19,7 +19,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var searchBar: UISearchBar!
     
     // Class variables
-    let user = User(un: "sebastiantota")
+    var username = ""
+    var user = User(un: "")
     var loadingPhotos: Bool = true
     var processingAllPhotos: Bool = false
 
@@ -35,10 +36,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     let autoTagGlobalVarName = "Autotag"
     let onDeviceProcessingGlobalVarName = "Localtag"
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addHiddenSearchBar()
+        
+        user = User(un: username)
+        print(Date())
+        print(username)
+        print(user)
         
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate = self
