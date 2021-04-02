@@ -147,14 +147,14 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     @IBAction func ReturnButtonTriggered(_ sender: UITextField) {
         let tagString = (sender.text ?? "") as String
         
+        print(tagString)
+        
         if !tagString.isEmpty{
-            
-            
-            
-//            if !photo.addTag(tag: tagString){
-//                print("failed to save")
-//            }
-            // suggestedTagsCollectionView.addNewTag(named: tagString)
+            if !photo.addTag(tag: tagString){
+                print("Failed to add tag: \(tagString) to photo: \(photo.id)")
+            } else {
+                addTagsToView(tagList: [tagString], selected: true)
+            }
         }else{
             print("Tag string empty")
         }

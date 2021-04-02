@@ -137,6 +137,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="ReturnButtonTriggered:" destination="DnF-B5-VSm" eventType="editingDidEnd" id="a6A-MO-bEZ"/>
+                                    <action selector="onTextFieldTouched:" destination="DnF-B5-VSm" eventType="editingDidEnd" id="9iQ-1G-5vx"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sZa-bW-1FH"/>
