@@ -13,8 +13,8 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     @IBOutlet weak var imageDisplay: UIImageView!
     
     @IBOutlet weak var textField: UITextField!
-    let existingTagsCollectionView = TTGTextTagCollectionView()
-    let suggestedTagsCollectionView = TTGTextTagCollectionView()
+    let tagCollectionView = TTGTextTagCollectionView()
+    var tags: [String: Bool] = [:]
     
     //TODO: Change this when Ryan's login code modifies a user object
     let testUser = User(un: "testUsername")
@@ -25,8 +25,7 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
         super.viewDidLoad()
         loadPhoto()
 
-        existingTagsCollectionView.addTags(photo.getTags())
-        // self.tagLabel.text = photo.getTags().joined(separator: ", ")
+        tagCollectionView.addTags(photo.getTags())
         
         setupTagUI()
         
@@ -38,14 +37,36 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     }
     
     private func setupTagUI() {
-        existingTagsCollectionView.alignment = .center
-        existingTagsCollectionView.delegate = self
-        existingTagsCollectionView.frame = CGRect(x: 0, y: view.frame.size.height - 250, width: view.frame.size.width, height: 200)
-        view.addSubview(existingTagsCollectionView)
+        tagCollectionView.alignment = .center
+        tagCollectionView.delegate = self
+        tagCollectionView.frame = CGRect(x: 0, y: view.frame.size.height - 200, width: view.frame.size.width, height: 200)
+        view.addSubview(tagCollectionView)
     }
     
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
         print("Tag: \(tagText) : Selected: \(selected)")
+    }
+    
+    /*
+     * Add a list of tags to the tag view. Tag them as selected or not
+     * @param   [String]    List of tags to add
+     * @param   Bool        True - Tags should be marked as selected, False otherwise
+     */
+    private func addTagsToView(tagList: [String], tagged: Bool) {
+        for tag in tagList {
+            if tags[tag] != nil {
+                /*
+                 * The tag already exists in the list.
+                 * If the tag is currently marked as not selected then mark it as selected
+                 */
+                if tags[tag] != true {
+                    
+                }
+            } else {
+                // Tag doesn't yet exist, add new tag
+                tags[tag] = tagged
+            }
+        }
     }
     
     //removes the listeners for keyboard events after theyre needed
