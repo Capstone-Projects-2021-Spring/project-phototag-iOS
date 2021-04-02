@@ -119,7 +119,7 @@ class MLKitProcess {
             // Iterate through all the labels, only keeping the label text and dropping the confidence score and other
             // unnecessary data
             for i in mlLables! {
-                labels.append(i.text)
+                labels.append(i.text.lowercased())
             }
             
             callback(labels)

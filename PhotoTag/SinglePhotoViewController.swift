@@ -14,7 +14,9 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     
     @IBOutlet weak var textField: UITextField!
     let tagCollectionView = TTGTextTagCollectionView()
-    var tags: [String: Bool] = [:]
+    
+    var tags: [String] = []
+    var selectedTagIndex = 0
     
     //TODO: Change this when Ryan's login code modifies a user object
     let testUser = User(un: "testUsername")
@@ -23,9 +25,10 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(photo.id)
         loadPhoto()
 
-        tagCollectionView.addTags(photo.getTags())
+        addTagsToView(tagList: photo.getTags(), selected: true)
         
         setupTagUI()
         
@@ -52,20 +55,43 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
      * @param   [String]    List of tags to add
      * @param   Bool        True - Tags should be marked as selected, False otherwise
      */
-    private func addTagsToView(tagList: [String], tagged: Bool) {
+    private func addTagsToView(tagList: [String], selected: Bool) {
         for tag in tagList {
-            if tags[tag] != nil {
-                /*
-                 * The tag already exists in the list.
-                 * If the tag is currently marked as not selected then mark it as selected
-                 */
-                if tags[tag] != true {
+            
+            if tags.contains(tag) {
+                // Tag already exists, so only update the tag to marked if the selected bool is true
+                if selected == true && tags.firstIndex(of: tag) != nil && tags.firstIndex(of: tag)! > selectedTagIndex {
+                    let curIndex = tags.firstIndex(of: tag)!
+                    print("Current index: \(curIndex), SelectedTagIndex: \(selectedTagIndex)")
                     
+                    // Remove tag from current index
+                    tags.remove(at: curIndex)
+                    tagCollectionView.removeTag(at: UInt(curIndex))
+                    
+                    // Insert at new index
+                    tags.insert(tag, at: selectedTagIndex)
+                    tagCollectionView.insertTag(tag, at: UInt(selectedTagIndex))
+                    
+                    // Mark tag as selected
+                    tagCollectionView.setTagAt(UInt(selectedTagIndex), selected: true)
+                    
+                    selectedTagIndex += 1
                 }
             } else {
-                // Tag doesn't yet exist, add new tag
-                tags[tag] = tagged
+                // Tag doesn't yet exist. Add it as a marked tag or an unmarked tag
+                if selected == true {
+                    // Add new tag to the end of the selected tags and mark as selected
+                    tags.insert(tag, at: selectedTagIndex)
+                    tagCollectionView.insertTag(tag, at: UInt(selectedTagIndex))
+                    tagCollectionView.setTagAt(UInt(selectedTagIndex), selected: true)
+                    selectedTagIndex += 1
+                } else {
+                    // Add new tag to the end of the list and do NOT mark as selected
+                    tags.append(tag)
+                    tagCollectionView.addTag(tag)
+                }
             }
+            
         }
     }
     
@@ -87,7 +113,7 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
                 self.imageDisplay.image = image
                 let labeler = MLKitProcess()
                 labeler.labelImage(image: image) { (tags: [String]) -> () in
-                    print(tags)
+                    self.addTagsToView(tagList: tags, selected: false)
                 }
             }
         }
