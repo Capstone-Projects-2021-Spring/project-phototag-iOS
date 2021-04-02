@@ -47,7 +47,28 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     }
     
     func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
-        print("Tag: \(tagText) : Selected: \(selected)")
+        
+        if tagText != nil {
+            print("Tag: \(tagText!) : Selected: \(selected)")
+            
+            if selected == true {
+                // A suggested tag was added
+                if photo.addTag(tag: tagText!) == false {
+                    return
+                }
+                
+                // Send tag location to the end of the selected tag list
+                tagCollectionView.removeTag(at: index)
+                tagCollectionView.insertTag(tagText!, at: UInt(selectedTagIndex))
+                selectedTagIndex += 1
+            } else {
+                // An existing tag was de-selected
+                photo.removeTag(tag: tagText!)
+                selectedTagIndex -= 1
+                
+            }
+
+        }
     }
     
     /*

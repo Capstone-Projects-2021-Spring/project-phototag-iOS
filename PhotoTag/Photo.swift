@@ -196,6 +196,8 @@ class Photo {
     public func removeTag(tag: String) {
         if let index = tags.firstIndex(of: tag) {
             tags.remove(at: index)
+            ref.child("photo_tags").child(tag).removeValue()
+            tagRef.child(tag).child(self.id).removeValue()
         }
     }
     
