@@ -33,7 +33,7 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.delegate = self
-        //GIDSignIn.sharedInstance().signIn()
+        //GIDSignIn.sharedInstance()?.signOut()
     }
 
     /*
@@ -50,7 +50,6 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
         if (error == nil) {
         // successful sign in
             //get Google id & access tokens
-            g_username = Auth.auth().currentUser!.uid
            // g_username = Auth.auth().currentUser!.email!
             
             guard let authentication = user.authentication else {return}
@@ -61,6 +60,7 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
                 if let error = error {
                 }
                 // User is signed in
+                self.g_username = Auth.auth().currentUser!.email! //Auth.auth().currentUser!.uid
                 self.goToGallery()
             }
         } else {

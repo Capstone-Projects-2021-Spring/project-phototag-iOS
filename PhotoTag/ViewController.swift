@@ -42,9 +42,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         addHiddenSearchBar()
         
         user = User(un: username)
-        print(Date())
-        print(username)
-        print(user)
+        print("Username: ", username)
         
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate = self

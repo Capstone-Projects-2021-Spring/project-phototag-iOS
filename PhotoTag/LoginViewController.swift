@@ -61,7 +61,7 @@ class LoginViewController: UIViewController {
                     self.errorLabel.text = error!.localizedDescription
                     self.errorLabel.alpha = 1
                 }else{
-                    self.username = Auth.auth().currentUser!.uid
+                    self.username = Auth.auth().currentUser!.email! //Auth.auth().currentUser!.uid
                     self.goToGallery()
                 }
             }

@@ -93,7 +93,7 @@ class SignUpViewController: UIViewController {
                 }
 
             }
-            self.username = Auth.auth().currentUser!.uid
+            self.username = Auth.auth().currentUser!.email! //Auth.auth().currentUser!.uid
             self.goToGallery()
         }
 

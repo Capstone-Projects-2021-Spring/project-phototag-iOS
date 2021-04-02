@@ -63,4 +63,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         // ...
     }
     
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+       // try! Auth.auth().signOut()
+    }
+    
+    //sign out user on application close
+    func applicationWillTerminate(_ application: UIApplication) {
+      //  try! Auth.auth().signOut()
+    }
 }
