@@ -6,13 +6,15 @@
 
 import UIKit
 import Firebase
+import TTGTagCollectionView
 
-class SinglePhotoViewController: UIViewController {
+class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDelegate {
 
     @IBOutlet weak var imageDisplay: UIImageView!
-    @IBOutlet var tagLabel: UILabel!    //a label to display the tags
-    @IBOutlet var textField: UITextField!   //the text field used to manually tag
-    @IBOutlet weak var suggestedLabel: UILabel!
+    
+    @IBOutlet weak var textField: UITextField!
+    let existingTagsCollectionView = TTGTextTagCollectionView()
+    let suggestedTagsCollectionView = TTGTextTagCollectionView()
     
     //TODO: Change this when Ryan's login code modifies a user object
     let testUser = User(un: "testUsername")
@@ -22,13 +24,28 @@ class SinglePhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadPhoto()
-        self.tagLabel.text = photo.getTags().joined(separator: ", ")
+
+        existingTagsCollectionView.addTags(photo.getTags())
+        // self.tagLabel.text = photo.getTags().joined(separator: ", ")
+        
+        setupTagUI()
         
         // listen for keyboard events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
+    }
+    
+    private func setupTagUI() {
+        existingTagsCollectionView.alignment = .center
+        existingTagsCollectionView.delegate = self
+        existingTagsCollectionView.frame = CGRect(x: 0, y: view.frame.size.height - 250, width: view.frame.size.width, height: 200)
+        view.addSubview(existingTagsCollectionView)
+    }
+    
+    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
+        print("Tag: \(tagText) : Selected: \(selected)")
     }
     
     //removes the listeners for keyboard events after theyre needed
@@ -48,8 +65,8 @@ class SinglePhotoViewController: UIViewController {
             DispatchQueue.main.async {
                 self.imageDisplay.image = image
                 let labeler = MLKitProcess()
-                labeler.labelImage(image: image) { [self] (tags: [String]) -> () in
-                    suggestedLabel.text! = tags.joined(separator: ", ")
+                labeler.labelImage(image: image) { (tags: [String]) -> () in
+                    print(tags)
                 }
             }
         }
@@ -84,20 +101,24 @@ class SinglePhotoViewController: UIViewController {
         let tagString = (sender.text ?? "") as String
         
         if !tagString.isEmpty{
-            if !photo.addTag(tag: tagString){
-                print("failed to save")
-            }
+            
+            
+            
+//            if !photo.addTag(tag: tagString){
+//                print("failed to save")
+//            }
+            // suggestedTagsCollectionView.addNewTag(named: tagString)
         }else{
             print("Tag string empty")
         }
         
-        // Update tag label
-        self.tagLabel.text = photo.getTags().joined(separator: ", ")
-        
-        //clear the text in the textfield
-        if self.textField.text != ""{
-            self.textField.text = ""
-        }
+//        // Update tag label
+//        self.tagLabel.text = photo.getTags().joined(separator: ", ")
+//
+//        //clear the text in the textfield
+//        if self.textField.text != ""{
+//            self.textField.text = ""
+//        }
         
         self.textField.resignFirstResponder()
     }

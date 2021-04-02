@@ -1,4 +1,4 @@
-platform :ios, '10.0'
+platform :ios, '11.0'
 use_frameworks!
 
 target 'PhotoTag' do
@@ -9,6 +9,7 @@ target 'PhotoTag' do
   pod 'Firebase/Firestore'
   pod 'GoogleSignIn'
   pod 'Alamofire', '~> 5.2'
+  pod "TTGTagCollectionView"
 end
 
 
