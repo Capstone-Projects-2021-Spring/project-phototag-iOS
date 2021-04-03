@@ -32,7 +32,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let galleryViewCellIdentifier = "GalleryItem"
     let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
     let searchResultsSegueIdentifier = "SearchResultsViewSegue"
-    
+    let mapViewSegueIdentifier = "MapViewSegue"
     let autoTagGlobalVarName = "Autotag"
     let onDeviceProcessingGlobalVarName = "Localtag"
 
@@ -213,6 +213,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      */
     private func failedPermissionCheck() {
         print("Did not receive the appropriate permission to view gallery")
+    }
+    
+    //MARK: Map View Segue
+    @IBAction func onMapButtonClicked(_ sender: Any) {
+        self.performSegue(withIdentifier: self.mapViewSegueIdentifier, sender: self.user)
     }
     
     /*
@@ -397,13 +402,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
     
+    //MARK: Segue Preparation
+    
     /*
      * Segue action prepare statements. Helps send data between view controllers upon a new segue
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == singlePhotoSegueIdentifier {
             //this assignmnet needs to be in here in the event that we want to segue to settings
-            let item = sender as! Photo
+            //let item = sender as! Photo
             if let viewController = segue.destination as? SinglePhotoViewController {
                 viewController.photo = (sender as! Photo)
             }
@@ -413,12 +420,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 viewController.photos = sender as! [Photo]
             }
         }
+        else if segue.identifier == mapViewSegueIdentifier{
+            if let viewController = segue.destination as? MapViewController{
+                viewController.user = sender as? User
+            }
+        }
     }
     
     deinit {
         if let foregroundObserver = foregroundObserver {
             NotificationCenter.default.removeObserver(foregroundObserver)
-            
         }
     }
 }

@@ -5,8 +5,9 @@ import Foundation
 import MapKit
 
 class MapViewController: UIViewController{
-    @IBOutlet var mapView: MKMapView!
+
     var user: User!
+    @IBOutlet var mapView: MKMapView!
     
     //view loaded, pull all location data from photos in DB
     override func viewDidLoad() {

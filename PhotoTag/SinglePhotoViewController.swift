@@ -1,8 +1,5 @@
-//
 //  SinglePhotoViewController.swift
 //  PhotoTag
-//
-//
 
 import UIKit
 import Firebase
@@ -15,9 +12,7 @@ class SinglePhotoViewController: UIViewController {
     @IBOutlet weak var suggestedLabel: UILabel!
     
     //TODO: Change this when Ryan's login code modifies a user object
-    let testUser = User(un: "testUsername")
     var photo: Photo!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
