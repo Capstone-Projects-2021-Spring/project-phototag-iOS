@@ -79,6 +79,8 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     private func addTagsToView(tagList: [String], selected: Bool) {
         for tag in tagList {
             
+            print("Adding tag: \(tag)")
+            
             if tags.contains(tag) {
                 // Tag already exists, so only update the tag to marked if the selected bool is true
                 if selected == true && tags.firstIndex(of: tag) != nil && tags.firstIndex(of: tag)! > selectedTagIndex {
@@ -161,6 +163,7 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     
     //when the user clicks on the text box, bring up the keyboard
     @IBAction func onTextFieldTouched(_ sender: UITextField) {
+        print("Became first responder")
         self.textField.becomeFirstResponder()
     }
     
@@ -170,23 +173,16 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
         
         print(tagString)
         
-        if !tagString.isEmpty{
+        if !tagString.isEmpty {
             if !photo.addTag(tag: tagString){
                 print("Failed to add tag: \(tagString) to photo: \(photo.id)")
             } else {
                 addTagsToView(tagList: [tagString], selected: true)
             }
-        }else{
+        } else {
             print("Tag string empty")
         }
-        
-//        // Update tag label
-//        self.tagLabel.text = photo.getTags().joined(separator: ", ")
-//
-//        //clear the text in the textfield
-//        if self.textField.text != ""{
-//            self.textField.text = ""
-//        }
+        textField.text = ""
         
         self.textField.resignFirstResponder()
     }

@@ -138,8 +138,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="ReturnButtonTriggered:" destination="DnF-B5-VSm" eventType="editingDidEnd" id="a6A-MO-bEZ"/>
-                                    <action selector="onTextFieldTouched:" destination="DnF-B5-VSm" eventType="editingDidEnd" id="9iQ-1G-5vx"/>
+                                    <action selector="ReturnButtonTriggered:" destination="DnF-B5-VSm" eventType="editingDidEndOnExit" id="z0e-tY-JL3"/>
+                                    <action selector="onTextFieldTouched:" destination="DnF-B5-VSm" eventType="editingDidBegin" id="2tN-Sv-nJr"/>
                                 </connections>
                             </textField>
                         </subviews>
