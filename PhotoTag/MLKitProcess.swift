@@ -155,7 +155,7 @@ class MLKitProcess {
 //                        multipartFormData.append(value, withName: param.key)
 //                    }
                 },
-                to: "http://localhost:5000/uploadImage",
+                to: "https://api.sebtota.com:5000/uploadImage",
                 method: .post ,
                 headers: headers
             )
