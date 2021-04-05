@@ -82,16 +82,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Local Tagging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwK-bz-xcY">
-                                <rect key="frame" x="60" y="224" width="105.5" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Server Tagging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwK-bz-xcY" userLabel="Server Tagging Label">
+                                <rect key="frame" x="60" y="224" width="114.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qvl-GE-gwr">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qvl-GE-gwr" userLabel="Server Tagging Switch">
                                 <rect key="frame" x="313" y="219" width="51" height="31"/>
                                 <connections>
-                                    <action selector="localTagSwitchChange:" destination="uea-SY-bCe" eventType="valueChanged" id="77T-WV-s3m"/>
+                                    <action selector="serverTagSwitchChange:" destination="uea-SY-bCe" eventType="valueChanged" id="Wyi-bc-Ff2"/>
                                 </connections>
                             </switch>
                         </subviews>
@@ -112,8 +112,8 @@
                     <connections>
                         <outlet property="automaticTaggingLabel" destination="SZD-cU-iOp" id="APa-io-ctN"/>
                         <outlet property="automaticTaggingSwitch" destination="dB2-OK-YDB" id="fPP-vT-3v7"/>
-                        <outlet property="localTaggingLabel" destination="GwK-bz-xcY" id="gmc-kF-tLy"/>
-                        <outlet property="localTaggingSwitch" destination="Qvl-GE-gwr" id="4lO-qS-DIf"/>
+                        <outlet property="serverTaggingLabel" destination="GwK-bz-xcY" id="s3E-Mo-KgJ"/>
+                        <outlet property="serverTaggingSwitch" destination="Qvl-GE-gwr" id="ZxD-M4-Vwb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Xp-YB-O62" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

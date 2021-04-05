@@ -52,10 +52,13 @@ class User{
     }
     
     //set default setting values
+    //if no settings exist, then default auto tag to true, server tag to false
     public func settings(){
         if(UserDefaults.standard.object(forKey: "Autotag") == nil){
             defaults.set(true, forKey: "Autotag")
         }
-        defaults.set(true, forKey: "Localtag")
+        if(UserDefaults.standard.object(forKey: "Servertag") == nil){
+            defaults.set(false, forKey: "Servertag")
+        }
     }
 }
