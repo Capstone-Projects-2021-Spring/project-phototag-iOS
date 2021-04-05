@@ -22,7 +22,7 @@ class MLKitProcess {
      * @param   [String: Photo] User photo dictionary object
      * @param   () -> ()        Callback upon finishing labeling all photos
      */
-    func labelAllPhotos(photos: [String: Photo]?, localProcess: Bool = true, username: String = "", callback: @escaping ()->()) {
+    func labelAllPhotos(photos: [String: Photo]?, serverProcess: Bool = true, username: String = "", callback: @escaping ()->()) {
         guard let photos = photos else { return }
         
         // Create a background task
@@ -45,7 +45,7 @@ class MLKitProcess {
                     continue
                 }
                 
-                if localProcess == true {
+                if serverProcess == false {
                     // Process on device
                     autoreleasepool  {
                         let tempImage: UIImage? = photo.getImage()
