@@ -250,14 +250,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         if let autoTagCheck: Bool = UserDefaults.standard.object(forKey: autoTagGlobalVarName) as? Bool {
-            if autoTagCheck == true {
-                processingAllPhotos = true
-                let labeler = MLKitProcess()
+            
+            if let localProcessCheck: Bool = UserDefaults.standard.object(forKey: onDeviceProcessingGlobalVarName) as? Bool {
                 
-                labeler.labelAllPhotos(photos: user.photos) {() in
-                    self.processingAllPhotos = false
-                    print("Done processing all photos")
+                print("Autotag: \(autoTagCheck)")
+                print("On device processing: \(localProcessCheck)")
+                
+                if autoTagCheck == true {
+                    processingAllPhotos = true
+                    let labeler = MLKitProcess()
+                    
+                    labeler.labelAllPhotos(photos: user.photos, localProcess: localProcessCheck, username: user.username) {() in
+                        self.processingAllPhotos = false
+                        print("Done processing all photos")
+                    }
                 }
+
+                
             }
         }
     }
@@ -390,10 +399,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
         //let photo = user.photos[indexPath.item]
         let photo = user.getPhoto(index: indexPath.item)
-        
-        let serverProcess = MLKitProcess()
-        serverProcess.labelImageServer(photo: self.user.getPhoto(index: indexPath.item))
-        
+
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
     

@@ -22,7 +22,7 @@ class MLKitProcess {
      * @param   [String: Photo] User photo dictionary object
      * @param   () -> ()        Callback upon finishing labeling all photos
      */
-    func labelAllPhotos(photos: [String: Photo]?, callback: @escaping ()->()) {
+    func labelAllPhotos(photos: [String: Photo]?, localProcess: Bool = true, username: String = "", callback: @escaping ()->()) {
         guard let photos = photos else { return }
         
         // Create a background task
@@ -45,42 +45,53 @@ class MLKitProcess {
                     continue
                 }
                 
-                autoreleasepool  {
-                    let tempImage: UIImage? = photo.getImage()
-                    
-                    var image: UIImage = UIImage()
-                    
-                    if tempImage != nil {
-                        image = photo.getImage()!
+                if localProcess == true {
+                    // Process on device
+                    autoreleasepool  {
+                        let tempImage: UIImage? = photo.getImage()
                         
-                        let visionImage: VisionImage = VisionImage(image: image)
-                        visionImage.orientation = image.imageOrientation
+                        var image: UIImage = UIImage()
                         
-                        var objects: [ImageLabel]
-                        do {
-                          objects = try onDeviceLabeler.results(in: visionImage)
-                        } catch let error {
-                          print("Failed to detect object with error: \(error.localizedDescription).")
-                          return
+                        if tempImage != nil {
+                            image = photo.getImage()!
+                            
+                            let visionImage: VisionImage = VisionImage(image: image)
+                            visionImage.orientation = image.imageOrientation
+                            
+                            var objects: [ImageLabel]
+                            do {
+                              objects = try onDeviceLabeler.results(in: visionImage)
+                            } catch let error {
+                              print("Failed to detect object with error: \(error.localizedDescription).")
+                              return
+                            }
+                            // Iterate over all the found tags and the associated metadata
+                            
+                            var foundTags: [String] = []
+                            
+                            for obj in objects {
+                                // Only add new tags to the photo object
+                                foundTags.append(obj.text)
+                            }
+                            
+                            photo.addTags(tags: foundTags)
+                            photo.markTagged()
+                            
+                            print("processed photo \(i)")
+                            
                         }
-                        // Iterate over all the found tags and the associated metadata
                         
-                        var foundTags: [String] = []
-                        
-                        for obj in objects {
-                            // Only add new tags to the photo object
-                            foundTags.append(obj.text)
-                        }
-                        
-                        photo.addTags(tags: foundTags)
-                        photo.markTagged()
-                        
-                        print("processed photo \(i)")
                         
                     }
-                    
-                    i += 1
+                } else {
+                    // Process on server
+                    self.labelImageServer(username: username, photo: photo)
+                    print("Uploadeed photo \(i)")
                 }
+                
+                
+                i += 1
+                
             }
             
             // Run after all the photos have been proceessed leaving the async function
@@ -126,7 +137,7 @@ class MLKitProcess {
         }
     }
     
-    func labelImageServer(photo: Photo){
+    func labelImageServer(username: String, photo: Photo) {
         let photoMedia = photo.getImage()?.jpegData(compressionQuality: 1.0)!
             
         let headers: HTTPHeaders = [
@@ -146,8 +157,8 @@ class MLKitProcess {
                         fileName: "image",
                         mimeType: "image/jpeg"
                     )
-                    multipartFormData.append(Data("sebastiantota".utf8), withName: "email")
-                    multipartFormData.append(Data("admin123".utf8), withName: "password")
+                    multipartFormData.append(Data(username.utf8), withName: "email")
+                    // multipartFormData.append(Data("admin123".utf8), withName: "password")
                     multipartFormData.append(Data("iOS".utf8), withName: "platform")
                     multipartFormData.append(Data(photo.id.utf8), withName: "photo_identifier")
 //                    for param in params {
