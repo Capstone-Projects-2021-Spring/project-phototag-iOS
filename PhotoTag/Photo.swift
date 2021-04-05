@@ -38,8 +38,7 @@ class Photo {
         }
         */
         
-        let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        self.id = escapedId.replacingOccurrences(of: "%", with: "|")
+        self.id = Photo.firebaseEncodeString(str: self.id)
         
         ref = ref.child("iOS/\(username)/Photos/\(self.id)")
         tagRef = tagRef.child("iOS/\(username)/photoTags")
@@ -56,6 +55,22 @@ class Photo {
             }
             callback()
         })
+    }
+    
+    /*
+     * Encode a string to be firebase key friendly
+     * @param   String  String to encode
+     * @return  String  Endoded, firebase friendly, string
+     */
+    static func firebaseEncodeString(str: String) -> String {
+        var newStr = str
+        newStr = newStr.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        newStr = newStr.replacingOccurrences(of: ".", with: "---|")
+        newStr = newStr.replacingOccurrences(of: "#", with: "--|-")
+        newStr = newStr.replacingOccurrences(of: "$", with: "-|--")
+        newStr = newStr.replacingOccurrences(of: "[", with: "|---")
+        newStr = newStr.replacingOccurrences(of: "]", with: "|--|")
+        return newStr
     }
     
     private func hashImage(image: UIImage) -> String {
