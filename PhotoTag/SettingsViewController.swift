@@ -43,14 +43,11 @@ class SettingsViewController: UIViewController{
         var state = !automaticTagOn
         UserDefaults.standard.set(state, forKey: "Autotag")
         automaticTagOn = !automaticTagOn
-        print("HII")
         if(state){
             //if automatic tag is on
-            print("Automatic Tag is ON: Server enabled:" )
             serverTaggingSwitch.isEnabled = true
             serverTaggingLabel.isEnabled = true
         }else{
-            print("Autom Tag is OFF: Server disabled:" )
             UserDefaults.standard.set(false, forKey: "Servertag")
             serverTagOn = false
             serverTaggingSwitch.setOn(false, animated: false)
