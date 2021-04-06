@@ -6,13 +6,17 @@
 
 import UIKit
 import Firebase
+import TTGTagCollectionView
 
-class SinglePhotoViewController: UIViewController {
+class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDelegate {
 
     @IBOutlet weak var imageDisplay: UIImageView!
-    @IBOutlet var tagLabel: UILabel!    //a label to display the tags
-    @IBOutlet var textField: UITextField!   //the text field used to manually tag
-    @IBOutlet weak var suggestedLabel: UILabel!
+    
+    @IBOutlet weak var textField: UITextField!
+    let tagCollectionView = TTGTextTagCollectionView()
+    
+    var tags: [String] = []
+    var selectedTagIndex = 0
     
     //TODO: Change this when Ryan's login code modifies a user object
     let testUser = User(un: "testUsername")
@@ -21,14 +25,97 @@ class SinglePhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(photo.id)
         loadPhoto()
-        self.tagLabel.text = photo.getTags().joined(separator: ", ")
+
+        addTagsToView(tagList: photo.getTags(), selected: true)
+        
+        setupTagUI()
         
         // listen for keyboard events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
+    }
+    
+    private func setupTagUI() {
+        tagCollectionView.alignment = .center
+        tagCollectionView.delegate = self
+        tagCollectionView.frame = CGRect(x: 0, y: view.frame.size.height - 200, width: view.frame.size.width, height: 200)
+        view.addSubview(tagCollectionView)
+    }
+    
+    func textTagCollectionView(_ textTagCollectionView: TTGTextTagCollectionView!, didTapTag tagText: String!, at index: UInt, selected: Bool, tagConfig config: TTGTextTagConfig!) {
+        
+        if tagText != nil {
+            print("Tag: \(tagText!) : Selected: \(selected)")
+            
+            if selected == true {
+                // A suggested tag was added
+                if photo.addTag(tag: tagText!) == false {
+                    return
+                }
+                
+                // Send tag location to the end of the selected tag list
+                tagCollectionView.removeTag(at: index)
+                tagCollectionView.insertTag(tagText!, at: UInt(selectedTagIndex))
+                selectedTagIndex += 1
+            } else {
+                // An existing tag was de-selected
+                photo.removeTag(tag: tagText!)
+                selectedTagIndex -= 1
+                
+            }
+
+        }
+    }
+    
+    /*
+     * Add a list of tags to the tag view. Tag them as selected or not
+     * @param   [String]    List of tags to add
+     * @param   Bool        True - Tags should be marked as selected, False otherwise
+     */
+    private func addTagsToView(tagList: [String], selected: Bool) {
+        for tag in tagList {
+            
+            print("Adding tag: \(tag)")
+            
+            if tags.contains(tag) {
+                // Tag already exists, so only update the tag to marked if the selected bool is true
+                if selected == true && tags.firstIndex(of: tag) != nil && tags.firstIndex(of: tag)! > selectedTagIndex {
+                    let curIndex = tags.firstIndex(of: tag)!
+                    print("Current index: \(curIndex), SelectedTagIndex: \(selectedTagIndex)")
+                    
+                    // Remove tag from current index
+                    tags.remove(at: curIndex)
+                    tagCollectionView.removeTag(at: UInt(curIndex))
+                    
+                    // Insert at new index
+                    tags.insert(tag, at: selectedTagIndex)
+                    tagCollectionView.insertTag(tag, at: UInt(selectedTagIndex))
+                    
+                    // Mark tag as selected
+                    tagCollectionView.setTagAt(UInt(selectedTagIndex), selected: true)
+                    
+                    selectedTagIndex += 1
+                }
+            } else {
+                // Tag doesn't yet exist. Add it as a marked tag or an unmarked tag
+                if selected == true {
+                    // Add new tag to the end of the selected tags and mark as selected
+                    tags.insert(tag, at: selectedTagIndex)
+                    tagCollectionView.insertTag(tag, at: UInt(selectedTagIndex))
+                    tagCollectionView.setTagAt(UInt(selectedTagIndex), selected: true)
+                    selectedTagIndex += 1
+                } else {
+                    // Add new tag to the end of the list and do NOT mark as selected
+                    tags.append(tag)
+                    tagCollectionView.addTag(tag)
+                }
+            }
+            
+        }
     }
     
     //removes the listeners for keyboard events after theyre needed
@@ -48,8 +135,8 @@ class SinglePhotoViewController: UIViewController {
             DispatchQueue.main.async {
                 self.imageDisplay.image = image
                 let labeler = MLKitProcess()
-                labeler.labelImage(image: image) { [self] (tags: [String]) -> () in
-                    suggestedLabel.text! = tags.joined(separator: ", ")
+                labeler.labelImage(image: image) { (tags: [String]) -> () in
+                    self.addTagsToView(tagList: tags, selected: false)
                 }
             }
         }
@@ -76,6 +163,7 @@ class SinglePhotoViewController: UIViewController {
     
     //when the user clicks on the text box, bring up the keyboard
     @IBAction func onTextFieldTouched(_ sender: UITextField) {
+        print("Became first responder")
         self.textField.becomeFirstResponder()
     }
     
@@ -83,21 +171,18 @@ class SinglePhotoViewController: UIViewController {
     @IBAction func ReturnButtonTriggered(_ sender: UITextField) {
         let tagString = (sender.text ?? "") as String
         
-        if !tagString.isEmpty{
+        print(tagString)
+        
+        if !tagString.isEmpty {
             if !photo.addTag(tag: tagString){
-                print("failed to save")
+                print("Failed to add tag: \(tagString) to photo: \(photo.id)")
+            } else {
+                addTagsToView(tagList: [tagString], selected: true)
             }
-        }else{
+        } else {
             print("Tag string empty")
         }
-        
-        // Update tag label
-        self.tagLabel.text = photo.getTags().joined(separator: ", ")
-        
-        //clear the text in the textfield
-        if self.textField.text != ""{
-            self.textField.text = ""
-        }
+        textField.text = ""
         
         self.textField.resignFirstResponder()
     }

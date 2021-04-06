@@ -12,32 +12,55 @@ class SettingsViewController: UIViewController{
     
     
     @IBOutlet weak var automaticTaggingLabel: UILabel!
-    @IBOutlet weak var localTaggingLabel: UILabel!
+    @IBOutlet weak var serverTaggingLabel: UILabel!
     
     @IBOutlet weak var automaticTaggingSwitch: UISwitch!
-    @IBOutlet weak var localTaggingSwitch: UISwitch!
+    @IBOutlet weak var serverTaggingSwitch: UISwitch!
     
-    var settingsArray: [String] = ["Automatic Tagging", "Local Tagging"]
-
+    var automaticTagOn  = UserDefaults.standard.bool(forKey: "Autotag")
+    var serverTagOn = UserDefaults.standard.bool(forKey: "Servertag")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var automaticTagOn  = UserDefaults.standard.bool(forKey: "Autotag")
-        var localTagOn = UserDefaults.standard.bool(forKey: "Localtag")
-
+    
+        //set swithces to saved settings
         automaticTaggingSwitch.setOn(automaticTagOn, animated: false)
-        localTaggingSwitch.setOn(localTagOn, animated: false)
+        serverTaggingSwitch.setOn(serverTagOn, animated: false)
+        
+        if(automaticTagOn){
+            //enable server tag on if auto tag is on
+            serverTaggingSwitch.isEnabled = true
+            serverTaggingLabel.isEnabled = true
+        }else{
+            serverTaggingSwitch.isEnabled = false
+            serverTaggingLabel.isEnabled = false
+        }
         
     }
 
-
+    //on switch, reverse "Autotag" value in user defaults, enable/disable server tag as necessary
     @IBAction func automaticTagSwitchChange(_ sender: Any) {
-        var state = UserDefaults.standard.bool(forKey: "Autotag")
-        state = !state
+        var state = !automaticTagOn
         UserDefaults.standard.set(state, forKey: "Autotag")
+        automaticTagOn = !automaticTagOn
+        if(state){
+            //if automatic tag is on
+            serverTaggingSwitch.isEnabled = true
+            serverTaggingLabel.isEnabled = true
+        }else{
+            UserDefaults.standard.set(false, forKey: "Servertag")
+            serverTagOn = false
+            serverTaggingSwitch.setOn(false, animated: false)
+            serverTaggingSwitch.isEnabled = false
+            serverTaggingLabel.isEnabled = false
+        }
     }
     
-    @IBAction func localTagSwitchChange(_ sender: Any) {
+    //on switch, update user defaults
+    @IBAction func serverTagSwitchChange(_ sender: Any) {
+        var state = !serverTagOn
+        UserDefaults.standard.set(state, forKey: "Servertag")
+        serverTagOn = !serverTagOn
     }
     
     
