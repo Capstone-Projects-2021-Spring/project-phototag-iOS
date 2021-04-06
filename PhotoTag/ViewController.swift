@@ -34,7 +34,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let searchResultsSegueIdentifier = "SearchResultsViewSegue"
     
     let autoTagGlobalVarName = "Autotag"
-    let onDeviceProcessingGlobalVarName = "Localtag"
+    let onDeviceProcessingGlobalVarName = "Servertag"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -245,18 +245,40 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Process all of the photos in the gallery view
      */
     private func processAllPhotos() {
+        print("Processing all photos")
+        
         if processingAllPhotos == true {
+            print("Exiting processing photos. Photos already being processed")
             return
         }
         
         if let autoTagCheck: Bool = UserDefaults.standard.object(forKey: autoTagGlobalVarName) as? Bool {
-            if autoTagCheck == true {
-                processingAllPhotos = true
-                let labeler = MLKitProcess()
+            
+            if let serverProcessCheck: Bool = UserDefaults.standard.object(forKey: onDeviceProcessingGlobalVarName) as? Bool {
                 
-                labeler.labelAllPhotos(photos: user.photos) {() in
-                    self.processingAllPhotos = false
-                    print("Done processing all photos")
+                print("Autotag: \(autoTagCheck)")
+                print("Server side processing: \(serverProcessCheck)")
+                
+                if autoTagCheck == true {
+                    processingAllPhotos = true
+                    let labeler = MLKitProcess()
+                    
+                    labeler.labelAllPhotos(photos: user.photos, serverProcess: serverProcessCheck, username: user.username) {() in
+                        self.processingAllPhotos = false
+                        print("Done processing all photos")
+                    }
+                }
+            } else {
+                print("Server side processing tag not found. Defaulting to on device processing if autotag is on.")
+                print("Autotag: \(autoTagCheck)")
+                if autoTagCheck == true {
+                    processingAllPhotos = true
+                    let labeler = MLKitProcess()
+                    
+                    labeler.labelAllPhotos(photos: user.photos, serverProcess: false, username: user.username) {() in
+                        self.processingAllPhotos = false
+                        print("Done processing all photos")
+                    }
                 }
             }
         }
@@ -269,6 +291,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      */
     private func doneSyncingPhoto() {
         numPhotosSynced += 1
+        print("Synced: \(numPhotosSynced)/\(user.photos.count) photos")
         
         if numPhotosSynced == user.photos.count {
             // Done syncing all photos from database
@@ -390,10 +413,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {        
         //let photo = user.photos[indexPath.item]
         let photo = user.getPhoto(index: indexPath.item)
-        
-        let serverProcess = MLKitProcess()
-        serverProcess.labelImageServer(photo: self.user.getPhoto(index: indexPath.item))
-        
+
         performSegue(withIdentifier: self.singlePhotoSegueIdentifier, sender: photo)
     }
     
