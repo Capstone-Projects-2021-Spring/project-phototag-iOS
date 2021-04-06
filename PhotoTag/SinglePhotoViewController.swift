@@ -27,8 +27,12 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
         super.viewDidLoad()
         print(photo.id)
         loadPhoto()
+        
+        photo.getTags { (tags: [String]) in
+            self.addTagsToView(tagList: tags, selected: true)
+        }
 
-        addTagsToView(tagList: photo.getTags(), selected: true)
+        // addTagsToView(tagList: photo.getTags(), selected: true)
         
         setupTagUI()
         
