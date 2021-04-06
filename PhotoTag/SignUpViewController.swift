@@ -20,6 +20,7 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var signUpButton: UIButton!
     
+    var username = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +93,7 @@ class SignUpViewController: UIViewController {
                 }
 
             }
+            self.username = Auth.auth().currentUser!.email! //Auth.auth().currentUser!.uid
             self.goToGallery()
         }
 
@@ -101,7 +103,7 @@ class SignUpViewController: UIViewController {
 
     func goToGallery(){
         let galleryView = storyboard?.instantiateViewController(identifier: "GalleryView") as! ViewController
-
+        galleryView.username = username
         self.navigationController?.pushViewController(galleryView, animated: true)
         
 

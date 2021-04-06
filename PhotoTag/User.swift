@@ -18,7 +18,8 @@ class User{
     
     //initializer
     init(un: String){
-        self.username = un
+        self.username = Photo.firebaseEncodeString(str: un)
+        print(self.username)
         schedules = [String]()
         settings()
     }
