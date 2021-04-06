@@ -20,7 +20,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // Class variables
     var username = ""
-    var user = User(un: "")
+    var user: User!
     var loadingPhotos: Bool = true
     var processingAllPhotos: Bool = false
 
