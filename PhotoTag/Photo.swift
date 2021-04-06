@@ -167,11 +167,24 @@ class Photo {
     }
     
     /*
-     * Getter for the tag list
-     * @return  the string array of tags
+     * Getter for the tag list, updated to current status of the database
+     * @param   Callback    A callback function passing an array of tags associated with this photo
      */
-    public func getTags() -> [String] {
-        return Array(self.tags)
+    public func getTags(callback: @escaping ([String]) -> ()) {
+        
+        ref.child("photo_tags").getData { (error, snapshot) in
+            if let error = error {
+                print("Error updating tags from the database: Error: \(error)")
+            } else if snapshot.exists() {
+                for child in snapshot.children {
+                    let childTag = child as! DataSnapshot
+                    let tag = childTag.key
+                    self.tags.insert(tag)
+                    
+                    callback(Array(self.tags))
+                }
+            }
+        }
     }
     
     /*
