@@ -220,10 +220,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         print("Did not receive the appropriate permission to view gallery")
     }
     
-    //MARK: Map View Segue
-    @IBAction func onMapButtonClicked(_ sender: Any) {
-        self.performSegue(withIdentifier: self.mapViewSegueIdentifier, sender: self.user)
-    }
     
     /*
      * Checks the user permission to make sure the application has access to the local photo gallery
@@ -447,7 +443,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         else if segue.identifier == mapViewSegueIdentifier{
             if let viewController = segue.destination as? MapViewController{
-                viewController.user = sender as? User
+                viewController.user = user
             }
         }
     }

@@ -52,8 +52,7 @@
                             </barButtonItem>
                             <barButtonItem title="Map" image="map.fill" catalog="system" id="FBa-0J-mbb">
                                 <connections>
-                                    <action selector="onMapButtonClicked:" destination="BYZ-38-t0r" id="670-8S-eDa"/>
-                                    <segue destination="flu-VH-EuT" kind="showDetail" identifier="MapViewSegue" id="N8X-a9-GG8"/>
+                                    <segue destination="sWN-0l-pYY" kind="show" identifier="MapViewSegue" id="bul-EZ-Ltn"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -91,10 +90,7 @@
                             <constraint firstItem="C77-t1-jT2" firstAttribute="leading" secondItem="ueZ-ZS-2SC" secondAttribute="leading" id="jj1-ng-Sq6"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="YQR-ET-F4h">
-                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Item" image="chevron.down" catalog="system" id="HRx-CC-7Sx"/>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Item" image="chevron.down" catalog="system" id="ebz-Fx-h6Q"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="YQR-ET-F4h"/>
                     <connections>
                         <outlet property="mapView" destination="C77-t1-jT2" id="lDm-Bj-XBA"/>
                     </connections>
@@ -484,24 +480,6 @@
             </objects>
             <point key="canvasLocation" x="234.78260869565219" y="822.99107142857144"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="bD9-Ay-5EI">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="flu-VH-EuT" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eMK-8G-Dvm">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="sWN-0l-pYY" kind="relationship" relationship="rootViewController" id="qNt-Ej-hl0"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1Rd-wi-W0q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-271.01449275362319" y="-829.01785714285711"/>
-        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="0iy-fG-87I"/>
@@ -510,7 +488,6 @@
     <resources>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
-        <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="logo" width="1024" height="1024"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
