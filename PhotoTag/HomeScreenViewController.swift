@@ -23,6 +23,8 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
     //google sign in button
     @IBOutlet var gIDSignInButton: GIDSignInButton!
     
+    var g_username = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,7 +33,7 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.delegate = self
-        //GIDSignIn.sharedInstance().signIn()
+        //GIDSignIn.sharedInstance()?.signOut()
     }
 
     /*
@@ -48,6 +50,8 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
         if (error == nil) {
         // successful sign in
             //get Google id & access tokens
+           // g_username = Auth.auth().currentUser!.email!
+            
             guard let authentication = user.authentication else {return}
             let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
             
@@ -56,6 +60,7 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
                 if let error = error {
                 }
                 // User is signed in
+                self.g_username = Auth.auth().currentUser!.email! //Auth.auth().currentUser!.uid
                 self.goToGallery()
             }
         } else {
@@ -73,6 +78,8 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
     func goToGallery(){
        //performSegue
         let galleryView = storyboard?.instantiateViewController(withIdentifier: "GalleryView") as! ViewController
+        galleryView.username = g_username
+        //galleryView.user.username = g_username
         self.navigationController?.pushViewController(galleryView, animated: true)
     }
 }

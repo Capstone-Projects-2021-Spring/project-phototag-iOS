@@ -38,8 +38,7 @@ class Photo {
         }
         */
         
-        let escapedId = self.id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        self.id = escapedId.replacingOccurrences(of: "%", with: "|")
+        self.id = Photo.firebaseEncodeString(str: self.id)
         
         ref = ref.child("iOS/\(username)/Photos/\(self.id)")
         tagRef = tagRef.child("iOS/\(username)/photoTags")
@@ -56,6 +55,22 @@ class Photo {
             }
             callback()
         })
+    }
+    
+    /*
+     * Encode a string to be firebase key friendly
+     * @param   String  String to encode
+     * @return  String  Endoded, firebase friendly, string
+     */
+    static func firebaseEncodeString(str: String) -> String {
+        var newStr = str
+        newStr = newStr.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        newStr = newStr.replacingOccurrences(of: ".", with: "---|")
+        newStr = newStr.replacingOccurrences(of: "#", with: "--|-")
+        newStr = newStr.replacingOccurrences(of: "$", with: "-|--")
+        newStr = newStr.replacingOccurrences(of: "[", with: "|---")
+        newStr = newStr.replacingOccurrences(of: "]", with: "|--|")
+        return newStr
     }
     
     private func hashImage(image: UIImage) -> String {
@@ -152,11 +167,24 @@ class Photo {
     }
     
     /*
-     * Getter for the tag list
-     * @return  the string array of tags
+     * Getter for the tag list, updated to current status of the database
+     * @param   Callback    A callback function passing an array of tags associated with this photo
      */
-    public func getTags() -> [String] {
-        return Array(self.tags)
+    public func getTags(callback: @escaping ([String]) -> ()) {
+        
+        ref.child("photo_tags").getData { (error, snapshot) in
+            if let error = error {
+                print("Error updating tags from the database: Error: \(error)")
+            } else if snapshot.exists() {
+                for child in snapshot.children {
+                    let childTag = child as! DataSnapshot
+                    let tag = childTag.key
+                    self.tags.insert(tag)
+                    
+                    callback(Array(self.tags))
+                }
+            }
+        }
     }
     
     /*
@@ -196,6 +224,8 @@ class Photo {
     public func removeTag(tag: String) {
         if let index = tags.firstIndex(of: tag) {
             tags.remove(at: index)
+            ref.child("photo_tags").child(tag).removeValue()
+            tagRef.child(tag).child(self.id).removeValue()
         }
     }
     
