@@ -108,6 +108,9 @@
                                         <integer key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="yQm-rt-qT1" kind="show" id="0BJ-gW-em6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u7k-oy-ewk"/>
@@ -138,6 +141,80 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Xp-YB-O62" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1105.7971014492755" y="-704.46428571428567"/>
+        </scene>
+        <!--Schedule Tag View Controller-->
+        <scene sceneID="LYD-tl-1JP">
+            <objects>
+                <viewController id="yQm-rt-qT1" customClass="ScheduleTagViewController" customModule="PhotoTag" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4PV-vi-sf5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="MJy-81-628">
+                                <rect key="frame" x="0.0" y="118" width="414" height="216"/>
+                            </datePicker>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gTc-DW-Tp3">
+                                <rect key="frame" x="20" y="94" width="52.5" height="25.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AO-hB-ETT">
+                                <rect key="frame" x="174" y="794" width="66" height="45"/>
+                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="saveScheduleButtonDidClick:" destination="yQm-rt-qT1" eventType="touchUpInside" id="yeS-Oc-4sc"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R1B-bJ-fo8">
+                                <rect key="frame" x="20" y="320" width="27" height="26"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="Xpd-ch-BM9">
+                                <rect key="frame" x="0.0" y="340" width="414" height="216"/>
+                            </datePicker>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="WQw-8o-cpO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Xpd-ch-BM9" firstAttribute="leading" secondItem="WQw-8o-cpO" secondAttribute="leading" id="0TN-St-bKl"/>
+                            <constraint firstItem="WQw-8o-cpO" firstAttribute="bottom" secondItem="1AO-hB-ETT" secondAttribute="bottom" constant="23" id="AHm-Tq-UEV"/>
+                            <constraint firstItem="Xpd-ch-BM9" firstAttribute="trailing" secondItem="WQw-8o-cpO" secondAttribute="trailing" id="HxL-2O-ES5"/>
+                            <constraint firstItem="MJy-81-628" firstAttribute="leading" secondItem="WQw-8o-cpO" secondAttribute="leading" id="LmK-uQ-7la"/>
+                            <constraint firstItem="MJy-81-628" firstAttribute="trailing" secondItem="WQw-8o-cpO" secondAttribute="trailing" id="Sc8-Ny-Jtc"/>
+                            <constraint firstItem="gTc-DW-Tp3" firstAttribute="top" secondItem="WQw-8o-cpO" secondAttribute="top" constant="6" id="fr1-9y-3RE"/>
+                            <constraint firstItem="1AO-hB-ETT" firstAttribute="width" secondItem="4PV-vi-sf5" secondAttribute="width" multiplier="0.15942" id="hwQ-df-9Na"/>
+                            <constraint firstItem="R1B-bJ-fo8" firstAttribute="top" secondItem="MJy-81-628" secondAttribute="bottom" constant="-14" id="jiP-cq-qje"/>
+                            <constraint firstItem="1AO-hB-ETT" firstAttribute="centerX" secondItem="WQw-8o-cpO" secondAttribute="centerX" id="mVA-Io-Vvb"/>
+                            <constraint firstItem="1AO-hB-ETT" firstAttribute="height" secondItem="4PV-vi-sf5" secondAttribute="height" multiplier="0.0502232" id="ndG-TY-QWC"/>
+                            <constraint firstItem="gTc-DW-Tp3" firstAttribute="leading" secondItem="WQw-8o-cpO" secondAttribute="leading" constant="20" id="pTJ-Wp-HG8"/>
+                            <constraint firstItem="Xpd-ch-BM9" firstAttribute="top" secondItem="MJy-81-628" secondAttribute="bottom" constant="6" id="r8B-nb-ocm"/>
+                            <constraint firstItem="MJy-81-628" firstAttribute="top" secondItem="WQw-8o-cpO" secondAttribute="top" constant="30" id="wM2-QF-b4i"/>
+                            <constraint firstItem="R1B-bJ-fo8" firstAttribute="leading" secondItem="WQw-8o-cpO" secondAttribute="leading" constant="20" id="zeW-Z6-88T"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="aQm-U7-tzI"/>
+                    <connections>
+                        <outlet property="fromDatePicker" destination="MJy-81-628" id="LM9-DY-6ar"/>
+                        <outlet property="saveScheduleButton" destination="1AO-hB-ETT" id="aPe-WA-x4b"/>
+                        <outlet property="toDatePicker" destination="Xpd-ch-BM9" id="im0-ve-Szy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yrU-0t-p3x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2153.6231884057975" y="-704.46428571428567"/>
         </scene>
         <!--Single Photo View Controller-->
         <scene sceneID="7Rq-1s-g8T">
