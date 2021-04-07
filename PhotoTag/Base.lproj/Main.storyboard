@@ -77,13 +77,13 @@
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Automatic Tagging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SZD-cU-iOp" userLabel="Automatic Tagging Label">
-                                <rect key="frame" x="60" y="161" width="142.5" height="21"/>
+                                <rect key="frame" x="52" y="161" width="142.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Server Tagging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwK-bz-xcY" userLabel="Server Tagging Label">
-                                <rect key="frame" x="60" y="224" width="114.5" height="21"/>
+                                <rect key="frame" x="52" y="224" width="114.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -94,18 +94,37 @@
                                     <action selector="serverTagSwitchChange:" destination="uea-SY-bCe" eventType="valueChanged" id="Wyi-bc-Ff2"/>
                                 </connections>
                             </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fjj-qS-piu">
+                                <rect key="frame" x="52" y="270" width="310" height="60"/>
+                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Create Scheduled Tag">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u7k-oy-ewk"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Qvl-GE-gwr" firstAttribute="top" secondItem="dB2-OK-YDB" secondAttribute="bottom" constant="32" id="0RU-6b-7SO"/>
                             <constraint firstItem="GwK-bz-xcY" firstAttribute="centerY" secondItem="Qvl-GE-gwr" secondAttribute="centerY" id="45h-Ok-pRk"/>
+                            <constraint firstItem="fjj-qS-piu" firstAttribute="width" secondItem="y22-Z3-feN" secondAttribute="width" multiplier="0.748792" id="8ef-mJ-Zen"/>
                             <constraint firstItem="SZD-cU-iOp" firstAttribute="centerY" secondItem="dB2-OK-YDB" secondAttribute="centerY" id="JI4-Hd-zbq"/>
                             <constraint firstItem="dB2-OK-YDB" firstAttribute="top" secondItem="u7k-oy-ewk" secondAttribute="top" constant="68" id="TdB-8f-v2o"/>
                             <constraint firstItem="dB2-OK-YDB" firstAttribute="leading" secondItem="Qvl-GE-gwr" secondAttribute="leading" id="W7s-bD-SqY"/>
                             <constraint firstItem="SZD-cU-iOp" firstAttribute="leading" secondItem="GwK-bz-xcY" secondAttribute="leading" id="ZHy-HN-ynm"/>
                             <constraint firstItem="u7k-oy-ewk" firstAttribute="trailing" secondItem="dB2-OK-YDB" secondAttribute="trailing" constant="52" id="mc6-xx-x2q"/>
-                            <constraint firstItem="SZD-cU-iOp" firstAttribute="leading" secondItem="u7k-oy-ewk" secondAttribute="leading" constant="60" id="o1Q-Vt-qjz"/>
+                            <constraint firstItem="SZD-cU-iOp" firstAttribute="leading" secondItem="u7k-oy-ewk" secondAttribute="leading" constant="52" id="o1Q-Vt-qjz"/>
+                            <constraint firstItem="fjj-qS-piu" firstAttribute="top" secondItem="GwK-bz-xcY" secondAttribute="bottom" constant="25" id="p0R-yp-umw"/>
+                            <constraint firstItem="fjj-qS-piu" firstAttribute="height" secondItem="y22-Z3-feN" secondAttribute="height" multiplier="0.0669643" id="tfI-1D-8uS"/>
+                            <constraint firstItem="fjj-qS-piu" firstAttribute="centerX" secondItem="u7k-oy-ewk" secondAttribute="centerX" id="uoI-Wk-zSX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="0SY-V7-7mC"/>
@@ -118,7 +137,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Xp-YB-O62" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1106" y="-704"/>
+            <point key="canvasLocation" x="1105.7971014492755" y="-704.46428571428567"/>
         </scene>
         <!--Single Photo View Controller-->
         <scene sceneID="7Rq-1s-g8T">
@@ -459,6 +478,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
