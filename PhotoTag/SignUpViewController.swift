@@ -7,7 +7,7 @@
 import UIKit
 import FirebaseAuth
 import Firebase
-import FirebaseFirestore
+//import FirebaseFirestore
 
 class SignUpViewController: UIViewController {
 
@@ -71,29 +71,16 @@ class SignUpViewController: UIViewController {
                 //enter user data in firebase
                 else{
                     print(2)
-                    //let database = Firestore.firestore()
                     
                     let database = Database.database().reference()
-                    //database.child("User").setValue(["uid": res!.user.uid])
-                   // database.child("User").child(res!.user.uid).setValue(["user_first_name": self.firstNameTextField.text!])
-                   // database.child("User").child(res!.user.uid).setValue(["user_last_name": self.lastNameTextField.text!])
-                   // database.child("User").child(res!.user.uid).setValue(["user_email": self.emailTextField.text!])
-                    
 
                     database.child("User/\(res!.user.uid)/user_first_name").setValue(self.firstNameTextField.text!)
                     database.child("User/\(res!.user.uid)/user_last_name").setValue(self.lastNameTextField.text!)
                     database.child("User/\(res!.user.uid)/user_email").setValue(self.emailTextField.text!)
-
-                    /*database.collection("User").addDocument(data: ["user_first_name" : self.firstNameTextField.text!, "user_last_name" : self.lastNameTextField.text!, "user_email" : self.emailTextField.text!, "uid" : res!.user.uid]) { (error) in
-                        if error != nil{
-                            self.errorLabel.text = "Error entering user data in database"
-                            self.errorLabel.alpha = 1
-                        }
-                    }*/
                 }
 
             }
-            self.username = Auth.auth().currentUser!.email! //Auth.auth().currentUser!.uid
+            self.username = Auth.auth().currentUser!.email!
             self.goToGallery()
         }
 
