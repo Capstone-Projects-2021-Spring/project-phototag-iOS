@@ -29,6 +29,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var totalSearchTerms = 0        //the total number of search terms
     var searchCounter = 0           //the number of search terms already retrieved by DB
     
+    var scheduleList: [[String: Any]] = []
+    
     let galleryViewCellNibName = "GalleryCollectionViewCell"
     let galleryViewCellIdentifier = "GalleryItem"
     let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
@@ -42,6 +44,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         user = User(un: username)
         print("Username: ", username)
+        UserDefaults.standard.set(username, forKey: "Username")
         
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate = self
@@ -322,9 +325,85 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Retrieve local photos (photos only, no video)
             let photoResults: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             
+            //tag schedule populating starts here
+            var ref: DatabaseReference!     //reference to the database
+            ref = Database.database().reference()
+            let tempRef = ref.child("iOS/\(self.user.username)/Schedules/")
+            tempRef.getData(completion: { (error, snapshot) in
+                if let error = error {
+                    print("Error getting data for schedules: Error: \(error)")
+                }else {
+                    //let the callback handle adding the new entries into the combined list
+                    
+                    for child in snapshot.children {
+                        let childDict = child as! DataSnapshot
+                        //let tag = childTag.key
+                        //self.searchResults.insert(tag)
+                        print("ChildDict: ", childDict)
+  
+                        guard let values = childDict.value as? [String: Any] else{
+                            return
+                        }
+                        let startDate = values["start date"] as! String
+                        let endDate = values["end date"] as! String
+                        let startTime = values["start time"] as! String
+                        let endTime = values["end time"] as! String
+                        let days = values["days"] as! String
+                        let tag = values["tag"] as! String
+                        
+                        let tempSchedule = ["start date" : startDate,
+                                               "end date" : endDate,
+                                               "start time" : startTime,
+                                               "end time" : endTime,
+                                               "days" : days,
+                                               "tag" : tag
+                        ]
+                        print("temp: ", tempSchedule)
+                        self.scheduleList.append(tempSchedule)
+
+                        /*for case let child as DataSnapshot in childDict.children{
+                            
+                            //let egr = child.value["Days"] as? [String:Any]
+                            //print("1", egr)
+                            
+                            print("Child: ", child.value)
+                            /*let val = child["start date"] as! String
+                            
+                            var str:[[String : Any]] = child.value["start date"] as! String
+                            scheduleList[count] = ["start date" : child.value["start date"] as! String]
+                            count+=1*/
+                        }*/
+                        
+                        print(self.scheduleList)
+                        
+                    }
+                    //print(self.searchResults)
+                    //self.processSearchResults()
+                }
+            })
+            
+            //end of populate schedules
             var counter = 0
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
+                    
+                    
+                    //start tag scheduling
+                    //loop through all schedules
+                    for schedule in scheduleList {
+                        let pDate:Date = photoResults[i].modificationDate
+                        let d1:Date = schedule["start date"]
+                        let d2:Date = schedule["end date"]
+                        if inDateRange(photoDate: pDate, date1: d1, date2: d2) == 1{
+                            print("adding ")
+                        }
+                        print("Date:", photoResults[i].modificationDate)
+                            //if in date time
+                                //if on day of week
+                    }
+                    
+                    //end of tag scheduling
+                    
                     if !self.user.photosMap.contains(photoResults[i].localIdentifier) {
                         self.user.addPhoto(photo: Photo(asset: photoResults[i], username: self.user.username, callback: self.doneSyncingPhoto), index: counter)
                     }
@@ -442,6 +521,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if let foregroundObserver = foregroundObserver {
             NotificationCenter.default.removeObserver(foregroundObserver)
             
+        }
+    }
+    
+    
+    /*
+     checks if a photo was taken within a scheduled date range
+     */
+    func inDateRange(photoDate: Date, date1: Date, date2: Date) -> Int{
+        if photoDate > date 1 && photoDate < date2{
+        //dateInRange
+            return 1
         }
     }
 }
