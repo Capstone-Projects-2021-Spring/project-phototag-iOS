@@ -29,7 +29,9 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
         loadPhoto()
         
         photo.getTags { (tags: [String]) in
-            self.addTagsToView(tagList: tags, selected: true)
+            DispatchQueue.main.async {
+                self.addTagsToView(tagList: tags, selected: true)
+            }
         }
 
         // addTagsToView(tagList: photo.getTags(), selected: true)
@@ -87,7 +89,7 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
             
             if tags.contains(tag) {
                 // Tag already exists, so only update the tag to marked if the selected bool is true
-                if selected == true && tags.firstIndex(of: tag) != nil && tags.firstIndex(of: tag)! > selectedTagIndex {
+                if selected == true && tags.firstIndex(of: tag) != nil && tags.firstIndex(of: tag)! >= selectedTagIndex {
                     let curIndex = tags.firstIndex(of: tag)!
                     print("Current index: \(curIndex), SelectedTagIndex: \(selectedTagIndex)")
                     
