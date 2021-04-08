@@ -98,49 +98,51 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 //        var tagString = ""              //the tag being searched
 //        var foundPhotos: Set<String> = []  // A set of the photo objects returned by the search
 
-        var searchKeys = [String]()     //the list of search terms
         var ref: DatabaseReference!     //reference to the database
         ref = Database.database().reference()
         
         //get the tag from the search bar
-        if let stringvalue = searchBar.text?.lowercased() {
-            if(stringvalue.contains(",")){  //ONLY SUPPORTS COMMA-SEPARATED LIST
-                searchKeys = stringvalue.components(separatedBy: ",")
-            }else{
-                searchKeys.append(stringvalue)
-            }//searchKeys now contains the user-defined search terms as a comma-separated, lowercase list
-        }
-
-        //set the totalSearchTerms
-        totalSearchTerms = searchKeys.count
-        
-        for key in searchKeys {  //for each term the user is searching for
-            //search the database for that tag
-            print("searching DB for: |\(key)|")
-            //ref = ref.child("iOS/\(user.username)/photoTags/\(key)")
-            let tempRef = ref.child("iOS/\(self.user.username)/photoTags/\(key)")
-            tempRef.getData(completion: { (error, snapshot) in
-                if let error = error {
-                    print("Error getting data for tag: \(key). Error: \(error)")
-                } else if !snapshot.exists() {
-                    print("At least one of these tags was not found. Please try again")
-                    self.presentEmptySearchDialogue()
-                } else {
-                    //let the callback handle adding the new entries into the combined list
+        if let searchString = searchBar.text?.lowercased() {
+            user.getAllTags { (tags: [String]) in
+                DispatchQueue.main.async {
+                    print("Find tags from this search string: \(searchString)")
+                    print("Finding tags from this list: \(tags)")
+                    let searchKeys: [String] = Search.getTagsFromText(searchText: searchString, tags: tags)
+                    print("Found these tags: \(searchKeys)")
                     
-                    self.searchCounter += 1
-                    for child in snapshot.children {
-                        let childTag = child as! DataSnapshot
-                        let tag = childTag.key
-                        self.searchResults.insert(tag)
+                    //set the totalSearchTerms
+                    self.totalSearchTerms = searchKeys.count
+                    
+                    for key in searchKeys {  //for each term the user is searching for
+                        //search the database for that tag
+                        print("searching DB for: |\(key)|")
+                        //ref = ref.child("iOS/\(user.username)/photoTags/\(key)")
+                        let tempRef = ref.child("iOS/\(self.user.username)/photoTags/\(key)")
+                        tempRef.getData(completion: { (error, snapshot) in
+                            if let error = error {
+                                print("Error getting data for tag: \(key). Error: \(error)")
+                            } else if !snapshot.exists() {
+                                print("At least one of these tags was not found. Please try again")
+                                self.presentEmptySearchDialogue()
+                            } else {
+                                //let the callback handle adding the new entries into the combined list
+                                
+                                self.searchCounter += 1
+                                for child in snapshot.children {
+                                    let childTag = child as! DataSnapshot
+                                    let tag = childTag.key
+                                    self.searchResults.insert(tag)
+                                }
+                                print(self.searchResults)
+                                self.processSearchResults()
+                                
+                                // print("ids for \(key): \(snapshot.value as! [String])")
+                                // self.processSearchResults(photoIds: snapshot.value as! [String])
+                            }
+                        })
                     }
-                    print(self.searchResults)
-                    self.processSearchResults()
-                    
-                    // print("ids for \(key): \(snapshot.value as! [String])")
-                    // self.processSearchResults(photoIds: snapshot.value as! [String])
                 }
-            })
+            }
         }
     }
     
@@ -154,6 +156,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if searchCounter == totalSearchTerms{
             //as long as the result list is not empty
             if !searchResults.isEmpty{
+                print("Segue to photo display with photos: \(searchResults)")
                 self.segueToSearchResults(photos: Array(searchResults))
             }else{
                 presentEmptySearchDialogue()
@@ -169,10 +172,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         for id in photos{
             print("trying id \(id)")
             
+            print(user.photos)
+            
             // Only add the photo object to the results list if the photo object exists locally
             let tempPhoto = user.getPhoto(id: id)
             if tempPhoto != nil {
+                print("Adding photo")
                 photoObjects.append(tempPhoto!)
+            } else {
+                print("Photo not found")
             }
             
         }//photoObjects contains the local photo objects, not just their IDs

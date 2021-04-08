@@ -9,7 +9,7 @@ import Foundation
 
 class Search {
     
-    static let ignoreTerms: [String] = ["show me", "show", "photos of", "photos", "a photo", "including", "at", "in", "on", "the", "my", "we", "you", "i", "while", "during"]
+    static let ignoreTerms: [String] = ["show me", "show", "photos of", "photos", "a photo", "including", "at", "in", "on", "a", "the", "my", "we", "you", "i", "while", "during"]
     static let delimiters: [String] = [",", "and"]
     
     static func splitTeremsOnDelim(text: String) -> [String] {
@@ -38,7 +38,7 @@ class Search {
     }
     
     static func getTagsFromText(searchText: String, tags: [String]) -> [String] {
-        var searchText = searchText
+        var searchText = " \(searchText.trimmingCharacters(in: .whitespacesAndNewlines)) "
         searchText = removeIgnoreTerms(text: searchText)
 //        print("Text after removeIgnoreTerms: \(searchText)")
 
@@ -68,14 +68,17 @@ class Search {
                         print("Search: Not a valid tag: \(word)")
                     } else {
                         print("Search: Found term: \(termBuilder)")
-                        resTags.append(termBuilder)
-                        i -= 1
+                        
+                        if tags.contains(termBuilder) {
+                            resTags.append(termBuilder)
+                            i -= 1
+                        }
                     }
                     termBuilder = ""
                 }
                 i += 1
             }
-            if termBuilder != "" {
+            if termBuilder != "" && tags.contains(termBuilder) {
                 resTags.append(termBuilder)
             }
         }
