@@ -248,6 +248,9 @@ class ScheduleViewController: UIViewController{
         
         ref.child(keyAsStr).setValue(scheduleDict)
         
+        //let galleryView = storyboard?.instantiateViewController(withIdentifier: "GalleryView") as! ViewController
+        //galleryView.username = User.username!
+        self.navigationController?.popViewController(animated: true)
         
         
     }
