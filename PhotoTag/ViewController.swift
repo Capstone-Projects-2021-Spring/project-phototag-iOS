@@ -30,6 +30,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var searchCounter = 0           //the number of search terms already retrieved by DB
     
     var scheduleList: [[String: Any]] = []
+    var test:Int = 0
     
     let galleryViewCellNibName = "GalleryCollectionViewCell"
     let galleryViewCellIdentifier = "GalleryItem"
@@ -326,6 +327,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let photoResults: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             
             //tag schedule populating starts here
+            //CountDownLatch done = new CountDownLatch(1)
             var ref: DatabaseReference!     //reference to the database
             ref = Database.database().reference()
             let tempRef = ref.child("iOS/\(self.user.username)/Schedules/")
@@ -359,24 +361,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                                                "tag" : tag
                         ]
                         print("temp: ", tempSchedule)
+                        self.test = 7
                         self.scheduleList.append(tempSchedule)
-
-                        /*for case let child as DataSnapshot in childDict.children{
-                            
-                            //let egr = child.value["Days"] as? [String:Any]
-                            //print("1", egr)
-                            
-                            print("Child: ", child.value)
-                            /*let val = child["start date"] as! String
-                            
-                            var str:[[String : Any]] = child.value["start date"] as! String
-                            scheduleList[count] = ["start date" : child.value["start date"] as! String]
-                            count+=1*/
-                        }*/
-                        
-                        print(self.scheduleList)
-                        
+     
+                        print(self.scheduleList, Date(), self.test)
                     }
+                    sleep(3)
                     //print(self.searchResults)
                     //self.processSearchResults()
                 }
@@ -384,23 +374,32 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             //end of populate schedules
             var counter = 0
+            sleep(3)
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
                     
                     
                     //start tag scheduling
                     //loop through all schedules
-                    for schedule in scheduleList {
-                        let pDate:Date = photoResults[i].modificationDate
-                        let d1:Date = schedule["start date"]
-                        let d2:Date = schedule["end date"]
-                        if inDateRange(photoDate: pDate, date1: d1, date2: d2) == 1{
-                            print("adding ")
+                    let pDate:Date = photoResults[i].modificationDate!
+                   print(394)
+                    if pDate != nil{
+                        print(396, self.scheduleList, Date(), self.test)
+                        //if current photo has a date
+                        for schedule in self.scheduleList {
+                            let d1:Date = self.dateStrToDate(str: schedule["start date" ] as! String)
+                            let d2:Date = self.dateStrToDate(str: schedule["end date"] as! String)
+                            if self.inDateRange(photoDate: pDate, date1: d1, date2: d2) == 1{
+                                print("adding tag...")
+                            }else{
+                                print("not adding tag")
+                            }
+                            print("Date:", photoResults[i].modificationDate)
+                                //if in date time
+                                    //if on day of week
                         }
-                        print("Date:", photoResults[i].modificationDate)
-                            //if in date time
-                                //if on day of week
                     }
+                    print(409)
                     
                     //end of tag scheduling
                     
@@ -529,10 +528,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      checks if a photo was taken within a scheduled date range
      */
     func inDateRange(photoDate: Date, date1: Date, date2: Date) -> Int{
-        if photoDate > date 1 && photoDate < date2{
+        if photoDate > date1 && photoDate < date2{
         //dateInRange
             return 1
         }
+        return -1
     }
+    
+    func dateStrToDate(str: String) -> Date{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yy, hh:mm a"
+        let newDate = formatter.date(from: str)
+        print(newDate)
+        return newDate!
+    }
+    
+    
 }
 
