@@ -21,10 +21,9 @@ class MapViewController: UIViewController{
         if user != nil {
             for id in user!.photosMap {   //for each photo
                 let tempPhoto = user!.getPhoto(id: id)
-                if tempPhoto?.location != nil {    //if the photo has a location
+                if tempPhoto!.location != nil {    //if the photo has a location
                     let tempAnnotation = MKPointAnnotation()
-                    tempAnnotation.title = tempPhoto?.id
-                    tempAnnotation.coordinate =  (tempPhoto?.location!.coordinate)!
+                    tempAnnotation.coordinate =  tempPhoto!.location!.coordinate
                     mapView.addAnnotation(tempAnnotation)
                 }
             }
