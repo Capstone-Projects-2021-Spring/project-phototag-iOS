@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DFB23AD261E450A00D0A5B5 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFB23AC261E450A00D0A5B5 /* Search.swift */; };
 		601A456525F1CD1000E782D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601A456425F1CD1000E782D1 /* User.swift */; };
 		60501BF925EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
 		60501BFA25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		4A4A2FCC700F62739B66D7DA /* Pods-PhotoTag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.debug.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.debug.xcconfig"; sourceTree = "<group>"; };
+		4DFB23AC261E450A00D0A5B5 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		601A456425F1CD1000E782D1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		60501BF825EF130200DC86E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		606F544125FAD7AC00AFB68A /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				F4D5416125F98D02008DAA4A /* HomeScreenViewController.swift */,
 				F4D5416625F990BE008DAA4A /* SignUpViewController.swift */,
 				F45E340425FEDBB8008F0A2D /* SettingsViewController.swift */,
+				4DFB23AC261E450A00D0A5B5 /* Search.swift */,
 			);
 			path = PhotoTag;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				601A456525F1CD1000E782D1 /* User.swift in Sources */,
 				F4D5416225F98D02008DAA4A /* HomeScreenViewController.swift in Sources */,
 				F45E340525FEDBB8008F0A2D /* SettingsViewController.swift in Sources */,
+				4DFB23AD261E450A00D0A5B5 /* Search.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
