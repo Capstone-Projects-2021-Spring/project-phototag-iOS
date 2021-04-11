@@ -64,7 +64,7 @@ class Photo {
      */
     static func firebaseEncodeString(str: String) -> String {
         var newStr = str
-        newStr = newStr.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        // newStr = newStr.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         newStr = newStr.replacingOccurrences(of: ".", with: "---|")
         newStr = newStr.replacingOccurrences(of: "#", with: "--|-")
         newStr = newStr.replacingOccurrences(of: "$", with: "-|--")
