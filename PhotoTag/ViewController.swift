@@ -128,12 +128,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                                 //let the callback handle adding the new entries into the combined list
                                 
                                 self.searchCounter += 1
+                                
+                                var tempIds: Set<String> = []
                                 for child in snapshot.children {
                                     let childTag = child as! DataSnapshot
-                                    let tag = childTag.key
-                                    self.searchResults.insert(tag)
+                                    let id = childTag.key
+                                    // self.searchResults.insert(id)
+                                    tempIds.insert(id)
                                 }
-                                print(self.searchResults)
+                                
+                                if self.searchResults.count == 0 {
+                                    self.searchResults = tempIds
+                                } else {
+                                    self.searchResults = tempIds.intersection(self.searchResults)
+                                }
+                                
                                 self.processSearchResults()
                                 
                                 // print("ids for \(key): \(snapshot.value as! [String])")
@@ -171,8 +180,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         for id in photos{
             print("trying id \(id)")
-            
-            print(user.photos)
             
             // Only add the photo object to the results list if the photo object exists locally
             let tempPhoto = user.getPhoto(id: id)
