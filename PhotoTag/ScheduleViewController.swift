@@ -228,7 +228,7 @@ class ScheduleViewController: UIViewController{
         print(scheduleDict)
         
         var username = UserDefaults.standard.string(forKey: "Username")
-        username = ScheduleViewController.firebaseEncodeString(str: username!)
+        username = Photo.firebaseEncodeString(str: username!)
         
         var ref: DatabaseReference = Database.database().reference()
         
