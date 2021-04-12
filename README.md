@@ -19,6 +19,11 @@ PhotoTag is a mobile application on both Android and iOS which is designed to el
 * Ryan O' Connor (iOS)
 * Tadeusz J Rzepka (Android, Git, Scrum-master)
 
+***
+# Testing Document
+<https://tuprd.sharepoint.com/:x:/s/PhotoTag/ERevMYmlenpCgUyQsPsEZe4BNDv7zJY_jYF4JbRz6R4Shg?e=gB8asz>
+***
+
 # Instructions for buliding
 
 **NOTE: The building process requires the user to build via XCode on an Apple computer. Please download the latest version of XCode if you do not already have it and continue the steps below. This process also only allows for usage of the app for a few days, at which point access to the app will be revoked. For this release, to continue using the application after this occurs, uninstall the application and repeat the steps below.**
