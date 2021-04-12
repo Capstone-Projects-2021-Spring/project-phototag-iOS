@@ -244,7 +244,7 @@ class ScheduleViewController: UIViewController{
         
         print(timeInterval)
         print(key)
-        var keyAsStr = ScheduleViewController.firebaseEncodeString(str: String(key))
+        var keyAsStr = Photo.firebaseEncodeString(str: String(key))
         
         ref.child(keyAsStr).setValue(scheduleDict)
         
