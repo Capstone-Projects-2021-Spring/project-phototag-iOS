@@ -13,6 +13,7 @@
 		60501BFA25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
 		60501BFB25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
 		606F544225FAD7AC00AFB68A /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606F544125FAD7AC00AFB68A /* SearchResultsViewController.swift */; };
+		60B9AAB626167E24000A0E52 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B9AAB526167E24000A0E52 /* MapViewController.swift */; };
 		86B6D80A268E948B2C250E74 /* Pods_PhotoTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */; };
 		D94F753E25EDAAB6007A0DA8 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94F753C25EDAAB6007A0DA8 /* GalleryCollectionViewCell.swift */; };
 		D94F753F25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D94F753D25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib */; };
@@ -26,9 +27,11 @@
 		D9B02DCE25EC3D79009B5AC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9B02DCD25EC3D79009B5AC2 /* Assets.xcassets */; };
 		D9B02DD125EC3D79009B5AC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9B02DCF25EC3D79009B5AC2 /* LaunchScreen.storyboard */; };
 		F45E340525FEDBB8008F0A2D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E340425FEDBB8008F0A2D /* SettingsViewController.swift */; };
+		F468048F261E1D6600C058D1 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F468048E261E1D6600C058D1 /* ScheduleViewController.swift */; };
 		F4D5411A25F96D17008DAA4A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5411925F96D17008DAA4A /* LoginViewController.swift */; };
 		F4D5416225F98D02008DAA4A /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5416125F98D02008DAA4A /* HomeScreenViewController.swift */; };
 		F4D5416725F990BE008DAA4A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5416625F990BE008DAA4A /* SignUpViewController.swift */; };
+		F4E12D1C261D4939002DA837 /* ScheduleTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E12D1B261D4939002DA837 /* ScheduleTagViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +57,7 @@
 		601A456425F1CD1000E782D1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		60501BF825EF130200DC86E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		606F544125FAD7AC00AFB68A /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		60B9AAB526167E24000A0E52 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		7D50361FE77CA582AF1073D8 /* Pods-PhotoTag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.release.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.release.xcconfig"; sourceTree = "<group>"; };
 		D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D94F753C25EDAAB6007A0DA8 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -72,9 +76,11 @@
 		D9B02DD725EC3D7A009B5AC2 /* PhotoTagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B02DE225EC3D7A009B5AC2 /* PhotoTagUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45E340425FEDBB8008F0A2D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		F468048E261E1D6600C058D1 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		F4D5411925F96D17008DAA4A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F4D5416125F98D02008DAA4A /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		F4D5416625F990BE008DAA4A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		F4E12D1B261D4939002DA837 /* ScheduleTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTagViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				D9B02DC425EC3D79009B5AC2 /* AppDelegate.swift */,
+				60B9AAB526167E24000A0E52 /* MapViewController.swift */,
 				D9B02DC625EC3D79009B5AC2 /* SceneDelegate.swift */,
 				D9B02DC825EC3D79009B5AC2 /* ViewController.swift */,
 				D9B02DCA25EC3D79009B5AC2 /* Main.storyboard */,
@@ -163,6 +170,8 @@
 				F4D5416625F990BE008DAA4A /* SignUpViewController.swift */,
 				F45E340425FEDBB8008F0A2D /* SettingsViewController.swift */,
 				4DFB23AC261E450A00D0A5B5 /* Search.swift */,
+				F4E12D1B261D4939002DA837 /* ScheduleTagViewController.swift */,
+				F468048E261E1D6600C058D1 /* ScheduleViewController.swift */,
 			);
 			path = PhotoTag;
 			sourceTree = "<group>";
@@ -363,6 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F468048F261E1D6600C058D1 /* ScheduleViewController.swift in Sources */,
 				F4D5416725F990BE008DAA4A /* SignUpViewController.swift in Sources */,
 				606F544225FAD7AC00AFB68A /* SearchResultsViewController.swift in Sources */,
 				F4D5411A25F96D17008DAA4A /* LoginViewController.swift in Sources */,
@@ -373,10 +383,12 @@
 				D9B02DC525EC3D79009B5AC2 /* AppDelegate.swift in Sources */,
 				D9B02DC725EC3D79009B5AC2 /* SceneDelegate.swift in Sources */,
 				D94F754725EDAF08007A0DA8 /* Photo.swift in Sources */,
+				F4E12D1C261D4939002DA837 /* ScheduleTagViewController.swift in Sources */,
 				601A456525F1CD1000E782D1 /* User.swift in Sources */,
 				F4D5416225F98D02008DAA4A /* HomeScreenViewController.swift in Sources */,
 				F45E340525FEDBB8008F0A2D /* SettingsViewController.swift in Sources */,
 				4DFB23AD261E450A00D0A5B5 /* Search.swift in Sources */,
+				60B9AAB626167E24000A0E52 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +497,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -540,6 +553,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=*]" = edu.temple.phototag;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -602,7 +617,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = photoTag.PhotoTagTests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -623,7 +638,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = photoTag.PhotoTagTests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -643,7 +658,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = photoTag.PhotoTagUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -663,7 +678,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = photoTag.PhotoTagUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
