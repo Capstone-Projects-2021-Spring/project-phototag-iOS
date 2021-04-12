@@ -70,6 +70,7 @@ class Photo {
         newStr = newStr.replacingOccurrences(of: "$", with: "-|--")
         newStr = newStr.replacingOccurrences(of: "[", with: "|---")
         newStr = newStr.replacingOccurrences(of: "]", with: "|--|")
+        newStr = newStr.replacingOccurrences(of: "/", with: "||-|")
         return newStr
     }
     
