@@ -26,9 +26,11 @@
 		D9B02DCE25EC3D79009B5AC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9B02DCD25EC3D79009B5AC2 /* Assets.xcassets */; };
 		D9B02DD125EC3D79009B5AC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9B02DCF25EC3D79009B5AC2 /* LaunchScreen.storyboard */; };
 		F45E340525FEDBB8008F0A2D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E340425FEDBB8008F0A2D /* SettingsViewController.swift */; };
+		F468048F261E1D6600C058D1 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F468048E261E1D6600C058D1 /* ScheduleViewController.swift */; };
 		F4D5411A25F96D17008DAA4A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5411925F96D17008DAA4A /* LoginViewController.swift */; };
 		F4D5416225F98D02008DAA4A /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5416125F98D02008DAA4A /* HomeScreenViewController.swift */; };
 		F4D5416725F990BE008DAA4A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5416625F990BE008DAA4A /* SignUpViewController.swift */; };
+		F4E12D1C261D4939002DA837 /* ScheduleTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E12D1B261D4939002DA837 /* ScheduleTagViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,9 +74,11 @@
 		D9B02DD725EC3D7A009B5AC2 /* PhotoTagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B02DE225EC3D7A009B5AC2 /* PhotoTagUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45E340425FEDBB8008F0A2D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		F468048E261E1D6600C058D1 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		F4D5411925F96D17008DAA4A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F4D5416125F98D02008DAA4A /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		F4D5416625F990BE008DAA4A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		F4E12D1B261D4939002DA837 /* ScheduleTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTagViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,8 @@
 				F4D5416125F98D02008DAA4A /* HomeScreenViewController.swift */,
 				F4D5416625F990BE008DAA4A /* SignUpViewController.swift */,
 				F45E340425FEDBB8008F0A2D /* SettingsViewController.swift */,
+				F4E12D1B261D4939002DA837 /* ScheduleTagViewController.swift */,
+				F468048E261E1D6600C058D1 /* ScheduleViewController.swift */,
 			);
 			path = PhotoTag;
 			sourceTree = "<group>";
@@ -363,6 +369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F468048F261E1D6600C058D1 /* ScheduleViewController.swift in Sources */,
 				F4D5416725F990BE008DAA4A /* SignUpViewController.swift in Sources */,
 				606F544225FAD7AC00AFB68A /* SearchResultsViewController.swift in Sources */,
 				F4D5411A25F96D17008DAA4A /* LoginViewController.swift in Sources */,
@@ -373,6 +380,7 @@
 				D9B02DC525EC3D79009B5AC2 /* AppDelegate.swift in Sources */,
 				D9B02DC725EC3D79009B5AC2 /* SceneDelegate.swift in Sources */,
 				D94F754725EDAF08007A0DA8 /* Photo.swift in Sources */,
+				F4E12D1C261D4939002DA837 /* ScheduleTagViewController.swift in Sources */,
 				601A456525F1CD1000E782D1 /* User.swift in Sources */,
 				F4D5416225F98D02008DAA4A /* HomeScreenViewController.swift in Sources */,
 				F45E340525FEDBB8008F0A2D /* SettingsViewController.swift in Sources */,

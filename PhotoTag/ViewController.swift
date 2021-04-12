@@ -29,6 +29,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var totalSearchTerms = 0        //the total number of search terms
     var searchCounter = 0           //the number of search terms already retrieved by DB
     
+    var scheduleList: [[String: Any]] = []
+
+    
     let galleryViewCellNibName = "GalleryCollectionViewCell"
     let galleryViewCellIdentifier = "GalleryItem"
     let singlePhotoSegueIdentifier = "SinglePhotoViewSegue"
@@ -44,6 +47,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         user = User(un: username)
         print("Username: ", username)
+        UserDefaults.standard.set(username, forKey: "Username")
         
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate = self
@@ -325,9 +329,94 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Retrieve local photos (photos only, no video)
             let photoResults: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             
+            //tag schedule populating starts here
+            //CountDownLatch done = new CountDownLatch(1)
+            var ref: DatabaseReference!     //reference to the database
+            ref = Database.database().reference()
+            let tempRef = ref.child("iOS/\(self.user.username)/Schedules/")
+            tempRef.getData(completion: { (error, snapshot) in
+                if let error = error {
+                    print("Error getting data for schedules: Error: \(error)")
+                }else {
+                    //let the callback handle adding the new entries into the combined list
+                    
+                    for child in snapshot.children {
+                        let childDict = child as! DataSnapshot
+  
+                        guard let values = childDict.value as? [String: Any] else{
+                            return
+                        }
+                        let startDate = values["start date"] as! String
+                        let endDate = values["end date"] as! String
+                        let startTime = values["start time"] as! String
+                        let endTime = values["end time"] as! String
+                        let days = values["days"] as! String
+                        let tag = values["tag"] as! String
+                        
+                        let tempSchedule = ["start date" : startDate,
+                                               "end date" : endDate,
+                                               "start time" : startTime,
+                                               "end time" : endTime,
+                                               "days" : days,
+                                               "tag" : tag
+                        ]
+                        self.scheduleList.append(tempSchedule)
+                        //print(self.scheduleList, Date())
+                    }
+                    sleep(3)
+                }
+            })
+            
+            //end of populate schedules
             var counter = 0
+            sleep(3)
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
+                    
+                    //*****start tag scheduling******
+                    //loop through all schedules
+                    let pDate:Date = photoResults[i].modificationDate!
+                   //print("Date of Photo:", pDate)
+                    if pDate != nil{
+                        //print(396, self.scheduleList, Date())
+                        //if current photo has a date
+                        for schedule in self.scheduleList {
+                            let d1:Date = self.dateStrToDate(str: schedule["start date" ] as! String)
+                            let d2:Date = self.dateStrToDate(str: schedule["end date"] as! String)
+                            let t1:String = schedule["start time" ] as! String
+                            let t2:String =  schedule["end time"] as! String
+                            let dayMaskStr:String =  schedule["days"] as! String
+                            var dayMask:Int = Int(dayMaskStr)!
+                            if self.inDateRange(photoDate: pDate, date1: d1, date2: d2) == 1{
+                                //date is in range of dates
+                                if  self.inTimeRange(photoDate: pDate, time1: t1, time2: t2) == 1{
+                                    //date is in range of times
+                                    if self.dayOfWeekMatch(maskedInt: dayMask, date: pDate) {
+                                        //on day of week
+                                        print("Scheduled tag added for: " , pDate)
+                                        //check if tag is already there?
+                                        //database references
+                                        let photoRef =  ref.child("iOS/\(self.user.username)/Photos/")
+                                        let tagRef = ref.child("iOS/\(self.user.username)/photoTags")
+                                        var photoID = photoResults[i].localIdentifier
+                                        photoID = ViewController.firebaseEncodeString(str: photoID)
+                                        
+                                        var tag = schedule["tag"] as! String
+                                        tag = tag.trimmingCharacters(in: .whitespacesAndNewlines) //clean up tag
+                                        
+                                        photoRef.child(photoID).child("photo_tags").child(tag).setValue(true) //save
+                                        tagRef.child(tag).child(photoID).setValue(true)
+                                    }
+                                }
+                            }else{
+                                print("not adding tag")
+                            }
+                            print("Date:", photoResults[i].modificationDate)
+
+                        }
+                    }
+                    //******end of tag scheduling*****
+                    
                     if !self.user.photosMap.contains(photoResults[i].localIdentifier) {
                         self.user.addPhoto(photo: Photo(asset: photoResults[i], username: self.user.username, callback: self.doneSyncingPhoto), index: counter)
                     }
@@ -453,5 +542,177 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             NotificationCenter.default.removeObserver(foregroundObserver)
         }
     }
+    
+    
+    /*
+     checks if a photo was taken within a scheduled date range
+     * @param   PhotoDate: Date to see if range, date1: first date, date2: last date
+     * @return  1: true, -1: false, other flags for future optimization
+     */
+    func inDateRange(photoDate: Date, date1: Date, date2: Date) -> Int{
+        if photoDate > date1 && photoDate < date2{
+        //dateInRange
+            return 1
+        }
+        return -1
+    }
+    
+    func inTimeRange(photoDate: Date, time1: String, time2: String) -> Int{
+        
+        var t1:Int = timeStrToTime(str: time1)
+        var t2:Int = timeStrToTime(str: time2)
+        var pTime:Int = dateToJustMinutes(date: photoDate)
+
+        if pTime >= t1 && pTime <= t2{
+        //timeInRange
+           return 1
+        }
+        return -1
+    }
+    
+    /*
+     * Parse string as Date
+     * @param   String  String in format "MM/dd/yy, hh:mm a"
+     * @return  Date , .short, .short
+     */
+    func dateStrToDate(str: String) -> Date{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yy, hh:mm a"
+        let newDate = formatter.date(from: str)
+        //print(newDate)
+        return newDate!
+    }
+    
+    /*
+     * Parse string as time
+     * @param   String  String in format hh:mm a"
+     * @return  Date , .short, .short
+     */
+    func timeStrToTime(str: String) -> Int{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm a"
+        formatter.timeZone = TimeZone.current
+        let date = formatter.date(from: str)
+        print(date ?? "")
+        
+        let calendar = Calendar.current
+        let comp = calendar.dateComponents([.hour, .minute], from: date!)
+        let hour = comp.hour ?? 0
+        let minute = comp.minute ?? 0
+        let finalT:Int = (hour * 60) + minute
+        //print("TIME:", finalT, "Was:", str)
+        return finalT
+    }
+    
+    func dateToJustMinutes(date: Date) -> Int{
+        
+        let dFormatter = DateFormatter()
+        dFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dFormatter.dateFormat = "HH:mm"
+        let now = dFormatter.string(from: date)
+        let now2 = dFormatter.date(from: now)
+
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(abbreviation: "UTC")!
+        let comp = calendar.dateComponents([.hour, .minute], from: now2!)
+        let hour = comp.hour ?? 0
+        let minute = comp.minute ?? 0
+        
+        let finalT:Int = (hour * 60) + minute
+        //print("TIME:", finalT, "Was:", now)
+        return finalT
+    }
+    
+    /*
+     * Encode a string to be firebase key friendly
+     * @param   String  String to encode
+     * @return  String  Endoded, firebase friendly, string
+     */
+    static func firebaseEncodeString(str: String) -> String {
+        var newStr = str
+        newStr = newStr.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        newStr = newStr.replacingOccurrences(of: ".", with: "---|")
+        newStr = newStr.replacingOccurrences(of: "#", with: "--|-")
+        newStr = newStr.replacingOccurrences(of: "$", with: "-|--")
+        newStr = newStr.replacingOccurrences(of: "[", with: "|---")
+        newStr = newStr.replacingOccurrences(of: "]", with: "|--|")
+        return newStr
+    }
+    
+    
+    func dayOfWeekMatch(maskedInt: Int, date: Date)-> Bool{
+        //let dayOfWeek = Calendar.current.component(.weekday, from: date)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "ccc"
+        let dayOfWeek = dateFormatter.string(from: date)
+        var mask = maskedInt
+        
+        var dayAsInt = 0;
+        print("DAY", dayOfWeek)
+        if dayOfWeek == "Mon"{
+            dayAsInt = 1
+        }
+        if dayOfWeek == "Tue"{
+            dayAsInt = 2
+        }
+        if dayOfWeek == "Wed"{
+            dayAsInt = 4
+        }
+        if dayOfWeek == "Thu"{
+            dayAsInt = 8
+        }
+        if dayOfWeek == "Fri"{
+            dayAsInt = 16
+        }
+        if dayOfWeek == "Sat"{
+            dayAsInt = 32
+        }
+        if dayOfWeek == "Sun"{
+            dayAsInt = 64
+        }
+        //unmask
+        if(mask <= dayAsInt){
+            return true
+        }else{
+            mask = mask - 64 //sunday
+        }
+        if(mask <= dayAsInt){
+            return true
+        }else{
+            mask = mask - 32 //sat
+        }
+        if(mask <= dayAsInt){
+            return true
+        }else{
+            mask = mask - 16 //fri
+        }
+        if(mask <= dayAsInt){
+            return true
+        }else{
+            mask = mask - 8//thu
+        }
+        if(mask <= dayAsInt){
+            return true
+        }else{
+            mask = mask - 4//wed
+        }
+        if(mask <= dayAsInt){
+            return true
+        }else{
+            mask = mask - 2//tue
+        }
+        if(mask <= dayAsInt){
+            return true
+        }else{
+            mask = mask - 1 //mon
+        }
+        
+        return false
+        
+    }
+    
+    
 }
 
