@@ -6,6 +6,7 @@
 //  Created by Alex St.Clair on 3/4/21.
 
 import Foundation
+import Firebase
 
 class User{
     
@@ -61,5 +62,30 @@ class User{
         if(UserDefaults.standard.object(forKey: "Servertag") == nil){
             defaults.set(false, forKey: "Servertag")
         }
+    }
+    
+    /*
+     * Get all of the tags associated with any photo this user has access to
+     * @param   Callback    Callback function passing resulting tags as a parameter
+     */
+    public func getAllTags(callback: @escaping ([String]) -> ()) {
+        let ref: DatabaseReference = Database.database().reference().child("iOS/\(username)/photoTags")
+        ref.getData { (error, dataSnapshot) in
+            var tags: [String] = []
+            if let error = error {
+                print("Error getting all tags belonging to this user. Error: \(error)")
+            } else if dataSnapshot.exists() {
+                for child in dataSnapshot.children {
+                    let childTag = child as! DataSnapshot
+                    let tag = childTag.key
+                    tags.append(tag)
+                }
+            } else {
+                print("No tags exist for this user")
+            }
+            
+            callback(tags)
+        }
+
     }
 }

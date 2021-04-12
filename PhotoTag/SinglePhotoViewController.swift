@@ -20,7 +20,7 @@ class SinglePhotoViewController: UIViewController, TTGTextTagCollectionViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(photo.id)
+        print("Showing single photo id: \(photo.id)")
         loadPhoto()
         
         photo.getTags { (tags: [String]) in
