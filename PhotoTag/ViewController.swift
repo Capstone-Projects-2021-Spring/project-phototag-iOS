@@ -414,7 +414,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                                         let photoRef =  ref.child("iOS/\(self.user.username)/Photos/")
                                         let tagRef = ref.child("iOS/\(self.user.username)/photoTags")
                                         var photoID = photoResults[i].localIdentifier
-                                        photoID = ViewController.firebaseEncodeString(str: photoID)
+                                        photoID = Photo.firebaseEncodeString(str: photoID)
                                         
                                         var tag = schedule["tag"] as! String
                                         tag = tag.trimmingCharacters(in: .whitespacesAndNewlines) //clean up tag
