@@ -274,8 +274,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQv-cr-aWt">
-                                <rect key="frame" x="51" y="805" width="297" height="42"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQv-cr-aWt">
+                                <rect key="frame" x="54" y="805" width="289" height="42"/>
                                 <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                 <state key="normal" title="Create Scheduled Tag">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -307,7 +307,6 @@
                             <constraint firstItem="qQv-cr-aWt" firstAttribute="height" secondItem="vD6-YK-xKt" secondAttribute="height" multiplier="0.046875" id="Oc1-Ep-SaG"/>
                             <constraint firstItem="x1P-Im-Hks" firstAttribute="leading" secondItem="tvW-h1-5gF" secondAttribute="leading" constant="20" id="Oqd-Kr-1yd"/>
                             <constraint firstItem="V5K-V9-L7t" firstAttribute="centerX" secondItem="tvW-h1-5gF" secondAttribute="centerX" id="P1D-dl-jDc"/>
-                            <constraint firstItem="tvW-h1-5gF" firstAttribute="trailing" secondItem="St3-zl-oJT" secondAttribute="trailing" constant="18" id="PKO-Oq-zHJ"/>
                             <constraint firstItem="tvW-h1-5gF" firstAttribute="trailing" secondItem="Rik-bD-kBE" secondAttribute="trailing" constant="20" id="Sgn-sQ-wb4"/>
                             <constraint firstItem="wgn-Vk-aoV" firstAttribute="top" secondItem="tvW-h1-5gF" secondAttribute="top" constant="26" id="Xwr-xm-gvl"/>
                             <constraint firstItem="Rik-bD-kBE" firstAttribute="width" secondItem="vD6-YK-xKt" secondAttribute="width" multiplier="0.2343" constant="90" id="YEZ-UZ-hPY"/>
@@ -315,6 +314,7 @@
                             <constraint firstItem="tvW-h1-5gF" firstAttribute="bottom" secondItem="qQv-cr-aWt" secondAttribute="bottom" constant="15" id="b10-zO-QsZ"/>
                             <constraint firstItem="wgn-Vk-aoV" firstAttribute="leading" secondItem="tvW-h1-5gF" secondAttribute="leading" constant="20" id="bHr-Av-JjR"/>
                             <constraint firstItem="mxd-lZ-x4Q" firstAttribute="top" secondItem="x1P-Im-Hks" secondAttribute="bottom" constant="26" id="cDK-xw-cLF"/>
+                            <constraint firstItem="tvW-h1-5gF" firstAttribute="trailing" secondItem="St3-zl-oJT" secondAttribute="trailing" constant="18" id="cqS-Kq-h3Y"/>
                             <constraint firstItem="St3-zl-oJT" firstAttribute="top" secondItem="c86-Ve-uy6" secondAttribute="bottom" constant="29" id="dJb-IN-efG"/>
                             <constraint firstItem="qQv-cr-aWt" firstAttribute="width" secondItem="vD6-YK-xKt" secondAttribute="width" multiplier="0.47343" constant="100.99997999999999" id="eiR-h6-AnV"/>
                             <constraint firstItem="St3-zl-oJT" firstAttribute="width" secondItem="vD6-YK-xKt" secondAttribute="width" multiplier="0.908213" id="ig7-d9-TCs"/>
