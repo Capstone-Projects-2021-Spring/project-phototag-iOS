@@ -44,11 +44,18 @@
                                 <action selector="onClick:" destination="BYZ-38-t0r" id="hVm-Rj-422"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="gearshape" catalog="system" id="5Ch-4E-eYS">
-                            <connections>
-                                <segue destination="uea-SY-bCe" kind="show" id="WYz-9r-15O"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" image="gearshape" catalog="system" id="5Ch-4E-eYS">
+                                <connections>
+                                    <segue destination="uea-SY-bCe" kind="show" id="WYz-9r-15O"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Map" image="map.fill" catalog="system" id="FBa-0J-mbb">
+                                <connections>
+                                    <segue destination="sWN-0l-pYY" kind="show" identifier="MapViewSegue" id="bul-EZ-Ltn"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="galleryCollectionView" destination="L20-ue-c9D" id="AaL-JB-erP"/>
@@ -61,6 +68,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="234.78260869565219" y="8.7053571428571423"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="yOe-mG-Zhj">
+            <objects>
+                <viewController title="Map View Controller" id="sWN-0l-pYY" customClass="MapViewController" customModule="PhotoTag" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eUq-pZ-Jtj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="C77-t1-jT2">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ueZ-ZS-2SC"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="C77-t1-jT2" firstAttribute="top" secondItem="ueZ-ZS-2SC" secondAttribute="top" id="74z-km-En3"/>
+                            <constraint firstAttribute="bottom" secondItem="C77-t1-jT2" secondAttribute="bottom" id="GTB-Bd-mdz"/>
+                            <constraint firstItem="C77-t1-jT2" firstAttribute="trailing" secondItem="ueZ-ZS-2SC" secondAttribute="trailing" id="Yw6-Y6-1JJ"/>
+                            <constraint firstItem="C77-t1-jT2" firstAttribute="leading" secondItem="ueZ-ZS-2SC" secondAttribute="leading" id="jj1-ng-Sq6"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="YQR-ET-F4h"/>
+                    <connections>
+                        <outlet property="mapView" destination="C77-t1-jT2" id="lDm-Bj-XBA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mvd-RV-Ijz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="639.13043478260875" y="-829.01785714285711"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="J9Z-Hw-vLG">
@@ -123,6 +160,7 @@
                             <constraint firstItem="dB2-OK-YDB" firstAttribute="top" secondItem="u7k-oy-ewk" secondAttribute="top" constant="68" id="TdB-8f-v2o"/>
                             <constraint firstItem="dB2-OK-YDB" firstAttribute="leading" secondItem="Qvl-GE-gwr" secondAttribute="leading" id="W7s-bD-SqY"/>
                             <constraint firstItem="SZD-cU-iOp" firstAttribute="leading" secondItem="GwK-bz-xcY" secondAttribute="leading" id="ZHy-HN-ynm"/>
+                            <constraint firstItem="dB2-OK-YDB" firstAttribute="leading" secondItem="SZD-cU-iOp" secondAttribute="trailing" constant="110.5" id="dJ7-37-R6a"/>
                             <constraint firstItem="u7k-oy-ewk" firstAttribute="trailing" secondItem="dB2-OK-YDB" secondAttribute="trailing" constant="52" id="mc6-xx-x2q"/>
                             <constraint firstItem="SZD-cU-iOp" firstAttribute="leading" secondItem="u7k-oy-ewk" secondAttribute="leading" constant="52" id="o1Q-Vt-qjz"/>
                             <constraint firstItem="fjj-qS-piu" firstAttribute="top" secondItem="GwK-bz-xcY" secondAttribute="bottom" constant="25" id="p0R-yp-umw"/>
@@ -678,7 +716,7 @@
             <objects>
                 <navigationController storyboardIdentifier="NavigationController" title="NavigationController" automaticallyAdjustsScrollViewInsets="NO" id="c4E-IT-vO8" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oE9-jX-HNe">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorImage="chevron.backward" catalog="system" backIndicatorTransitionMaskImage="chevron.backward" id="oE9-jX-HNe">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -750,9 +788,11 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
+        <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="logo" width="1024" height="1024"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="map.fill" catalog="system" width="128" height="110"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
