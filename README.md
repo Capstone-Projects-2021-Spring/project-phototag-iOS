@@ -48,3 +48,10 @@ PhotoTag is a mobile application on both Android and iOS which is designed to el
 # Starting Guide
 
 When permission is granted to read local photos, and you log in successfully using an email/password or with Google, the application will load all of your photos into a gallery view. At this point, you may begin selecting photos and adding tags. In the settings page you will find an option to enable/disable auto-tagging, a feature where the application automatically processes your photos and applies searchable tags. PhotoTag offers two options for auto-tagging: on-device or server processing. On-device uses Google's ML Kit API, and server processing uses a more extensive library of photo labels for increased accuracy. 
+
+# Known Bugs
+
+1.	For users with large galleries, after creating a scheduled tag, there is a tendency for the program to crash.
+2. The current build of the app forces the user to log back in every time the app is closed. User login details should be stored in the keychain when using custom login
+3. Map view pins cannot be expanded to view corresponding photo
+
