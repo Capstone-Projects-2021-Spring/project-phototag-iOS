@@ -30,7 +30,7 @@ class Search {
     
     static func termContains(tags: [String], term: String) -> Bool {
         for tag in tags {
-            if tag.hasPrefix(term) {
+            if tag.lowercased().hasPrefix(term) {
                 return true
             }
         }
@@ -38,7 +38,7 @@ class Search {
     }
     
     static func getTagsFromText(searchText: String, tags: [String]) -> [String] {
-        var searchText = " \(searchText.trimmingCharacters(in: .whitespacesAndNewlines)) "
+        var searchText = " \(searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)) "
         searchText = removeIgnoreTerms(text: searchText)
 //        print("Text after removeIgnoreTerms: \(searchText)")
 
