@@ -40,6 +40,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     let autoTagGlobalVarName = "Autotag"
     let onDeviceProcessingGlobalVarName = "Servertag"
+    
+    let syncedPhotosSemaphore = DispatchSemaphore(value: 1)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -315,10 +317,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      *      autotagged or not.
      */
     private func doneSyncingPhoto() {
+        syncedPhotosSemaphore.wait()
         numPhotosSynced += 1
-        print("Synced: \(numPhotosSynced)/\(user.photos.count) photos")
+        let numSyncedTemp = numPhotosSynced
+        let totalPhotosTemp = user.photos.count
+        syncedPhotosSemaphore.signal()
         
-        if numPhotosSynced == user.photos.count {
+        print("Synced: \(numSyncedTemp)/\(totalPhotosTemp) photos")
+        
+        if numSyncedTemp == totalPhotosTemp {
             // Done syncing all photos from database
             self.processAllPhotos()
         }
@@ -387,7 +394,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             sleep(3)
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
-                    
                     //*****start tag scheduling******
                     //loop through all schedules
                     let pDate:Date = photoResults[i].modificationDate!
