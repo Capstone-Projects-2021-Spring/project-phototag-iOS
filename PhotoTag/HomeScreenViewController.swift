@@ -34,6 +34,13 @@ class HomeScreenViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.delegate = self
         //GIDSignIn.sharedInstance()?.signOut()
+        
+        if(GIDSignIn.sharedInstance().hasPreviousSignIn()) {
+            print("Already signed in")
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+        } else {
+            print("Not yet signed in")
+        }
     }
 
     /*
