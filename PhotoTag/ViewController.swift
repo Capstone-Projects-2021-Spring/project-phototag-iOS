@@ -59,11 +59,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         registerGalleryItemNib()
         viewWillLayoutSubviews()
         
+        /*
         // Register a new foreground observer to notify the application when it has re-entered the foreground (main application)
         foregroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { [unowned self] notification in
             getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)
             // PHPhotoLibrary.shared().register(self)
         }
+ */
         
         // searchBarListener()
         getGalleryPermission(callback: postPermissionCheck, failure: failedPermissionCheck)

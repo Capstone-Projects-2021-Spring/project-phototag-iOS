@@ -93,11 +93,12 @@
                     <navigationItem key="navigationItem" id="YQR-ET-F4h"/>
                     <connections>
                         <outlet property="mapView" destination="C77-t1-jT2" id="lDm-Bj-XBA"/>
+                        <segue destination="DnF-B5-VSm" kind="show" identifier="MapToPhotoSegueIdentifier" id="hln-g3-q2Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mvd-RV-Ijz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="391" y="-903"/>
+            <point key="canvasLocation" x="235" y="-781"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="J9Z-Hw-vLG">
@@ -722,7 +723,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="0iy-fG-87I"/>
+        <segue reference="hln-g3-q2Z"/>
         <segue reference="ylF-A7-Ccm"/>
     </inferredMetricsTieBreakers>
     <resources>

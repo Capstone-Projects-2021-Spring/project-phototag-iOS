@@ -9,6 +9,7 @@ class MapViewController: UIViewController, MKMapViewDelegate{
     var user: User?
     @IBOutlet var mapView: MKMapView!
     static var reuseIdentifier = "Annotation"
+    static var MapToPhotoSegueIdentifier = "MapToPhotoSegueIdentifier"
     
     //view loaded, pull all location data from photos in DB
     override func viewDidLoad() {
@@ -27,6 +28,7 @@ class MapViewController: UIViewController, MKMapViewDelegate{
                 let tempPhoto = user!.getPhoto(id: id)
                 if tempPhoto!.location != nil {    //if the photo has a location
                     let tempAnnotation = MKPointAnnotation()
+                    tempAnnotation.subtitle = tempPhoto!.id
                     tempAnnotation.coordinate =  tempPhoto!.location!.coordinate
                     mapView.addAnnotation(tempAnnotation)
                 }
@@ -41,31 +43,30 @@ class MapViewController: UIViewController, MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { return nil }
 
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MapViewController.reuseIdentifier) as? MKPinAnnotationView
-
-        if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: MapViewController.reuseIdentifier)
-            annotationView!.canShowCallout = true
-            annotationView!.animatesDrop = true
-        } else {
-            annotationView!.annotation = annotation
-        }
+        //var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MapViewController.reuseIdentifier)
         
-        let button = UIButton(type: UIButton.ButtonType.custom) as UIButton
-        button.setImage(UIImage(named: "photo.fill"), for: .normal)
-        
-        annotationView?.rightCalloutAccessoryView = button
-        
-        annotationView?.prepareForDisplay()
-        
+        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: MapViewController.reuseIdentifier)
+        annotationView.canShowCallout = true
+        annotationView.rightCalloutAccessoryView = UIButton.init(type: UIButton.ButtonType.detailDisclosure)
         return annotationView
     }
     
-    //this function is called when the photo button on the annotation view is clicked
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if control == view.rightCalloutAccessoryView{
-            //Take the user to the singlePhotoView for that photo
-            print("got here")
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        if let photoId = view.annotation?.subtitle, let user = user {
+            if photoId != nil {
+                
+                let photo = user.getPhoto(id: photoId!)
+                performSegue(withIdentifier: MapViewController.MapToPhotoSegueIdentifier, sender: photo)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == MapViewController.MapToPhotoSegueIdentifier {
+            if let viewController = segue.destination as? SinglePhotoViewController {
+                viewController.photo = (sender as! Photo)
+            }
         }
     }
 }
