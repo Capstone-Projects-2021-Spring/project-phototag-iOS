@@ -14,6 +14,7 @@ class User{
     var schedules: [String]     //list of user's schedules
     var photos: [String: Photo] = [:]
     var photosMap: [String] = []
+    var photoCount = 0
     
     let defaults = UserDefaults.standard
     
@@ -25,6 +26,10 @@ class User{
         settings()
     }
     
+    public func getPhotoCount() -> Int {
+        return photoCount
+    }
+    
     /*
      * Add a new photo to the user object
      * @param   Photo   New photo to be added
@@ -32,6 +37,7 @@ class User{
     public func addPhoto(photo: Photo){
         photosMap.append(photo.id)
         photos[photo.id] = photo
+        photoCount += 1
     }
     
     /*
@@ -42,6 +48,7 @@ class User{
     public func addPhoto(photo: Photo, index: Int) {
         photosMap.insert(photo.id, at: index)
         photos[photo.id] = photo
+        photoCount += 1
     }
     
     public func getPhoto(index: Int) -> Photo {
