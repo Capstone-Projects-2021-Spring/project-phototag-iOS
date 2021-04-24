@@ -10,11 +10,11 @@
 		4DFB23AD261E450A00D0A5B5 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFB23AC261E450A00D0A5B5 /* Search.swift */; };
 		601A456525F1CD1000E782D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601A456425F1CD1000E782D1 /* User.swift */; };
 		60501BF925EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
-		60501BFA25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
-		60501BFB25EF130200DC86E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60501BF825EF130200DC86E7 /* GoogleService-Info.plist */; };
 		606F544225FAD7AC00AFB68A /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606F544125FAD7AC00AFB68A /* SearchResultsViewController.swift */; };
 		60B9AAB626167E24000A0E52 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B9AAB526167E24000A0E52 /* MapViewController.swift */; };
 		86B6D80A268E948B2C250E74 /* Pods_PhotoTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */; };
+		C37D3433FB9992EB9AAF759D /* Pods_PhotoTagUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0559BD96BC5580AA6BABA8EA /* Pods_PhotoTagUnitTests.framework */; };
+		D92AEC562634BF890087C3D4 /* PhotoTagUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92AEC552634BF890087C3D4 /* PhotoTagUnitTests.swift */; };
 		D94F753E25EDAAB6007A0DA8 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94F753C25EDAAB6007A0DA8 /* GalleryCollectionViewCell.swift */; };
 		D94F753F25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D94F753D25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib */; };
 		D94F754725EDAF08007A0DA8 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94F754625EDAF08007A0DA8 /* Photo.swift */; };
@@ -35,14 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D9B02DD825EC3D7A009B5AC2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D9B02DB925EC3D79009B5AC2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D9B02DC025EC3D79009B5AC2;
-			remoteInfo = PhotoTag;
-		};
-		D9B02DE325EC3D7A009B5AC2 /* PBXContainerItemProxy */ = {
+		D92AEC582634BF890087C3D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D9B02DB925EC3D79009B5AC2 /* Project object */;
 			proxyType = 1;
@@ -52,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0559BD96BC5580AA6BABA8EA /* Pods_PhotoTagUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoTagUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		30EB3677EC3FF60BA5EF5A5A /* Pods-PhotoTagUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTagUnitTests.release.xcconfig"; path = "Target Support Files/Pods-PhotoTagUnitTests/Pods-PhotoTagUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 		4A4A2FCC700F62739B66D7DA /* Pods-PhotoTag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.debug.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.debug.xcconfig"; sourceTree = "<group>"; };
 		4DFB23AC261E450A00D0A5B5 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		601A456425F1CD1000E782D1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -60,6 +55,9 @@
 		60B9AAB526167E24000A0E52 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		7D50361FE77CA582AF1073D8 /* Pods-PhotoTag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTag.release.xcconfig"; path = "Target Support Files/Pods-PhotoTag/Pods-PhotoTag.release.xcconfig"; sourceTree = "<group>"; };
 		D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D92AEC532634BF890087C3D4 /* PhotoTagUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D92AEC552634BF890087C3D4 /* PhotoTagUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTagUnitTests.swift; sourceTree = "<group>"; };
+		D92AEC572634BF890087C3D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D94F753C25EDAAB6007A0DA8 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		D94F753D25EDAAB6007A0DA8 /* GalleryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GalleryCollectionViewCell.xib; sourceTree = "<group>"; };
 		D94F754625EDAF08007A0DA8 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -73,36 +71,29 @@
 		D9B02DCD25EC3D79009B5AC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9B02DD025EC3D79009B5AC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9B02DD225EC3D79009B5AC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D9B02DD725EC3D7A009B5AC2 /* PhotoTagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9B02DE225EC3D7A009B5AC2 /* PhotoTagUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTagUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45E340425FEDBB8008F0A2D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F468048E261E1D6600C058D1 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		F4D5411925F96D17008DAA4A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F4D5416125F98D02008DAA4A /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		F4D5416625F990BE008DAA4A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		F4E12D1B261D4939002DA837 /* ScheduleTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTagViewController.swift; sourceTree = "<group>"; };
+		F93100E985788A56A8EEED7E /* Pods-PhotoTagUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoTagUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-PhotoTagUnitTests/Pods-PhotoTagUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D92AEC502634BF890087C3D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C37D3433FB9992EB9AAF759D /* Pods_PhotoTagUnitTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D9B02DBE25EC3D79009B5AC2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				86B6D80A268E948B2C250E74 /* Pods_PhotoTag.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D9B02DD425EC3D7A009B5AC2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D9B02DDF25EC3D7A009B5AC2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				D4D00088DC10B56E2548BEE0 /* Pods_PhotoTag.framework */,
+				0559BD96BC5580AA6BABA8EA /* Pods_PhotoTagUnitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -122,14 +114,26 @@
 			children = (
 				4A4A2FCC700F62739B66D7DA /* Pods-PhotoTag.debug.xcconfig */,
 				7D50361FE77CA582AF1073D8 /* Pods-PhotoTag.release.xcconfig */,
+				F93100E985788A56A8EEED7E /* Pods-PhotoTagUnitTests.debug.xcconfig */,
+				30EB3677EC3FF60BA5EF5A5A /* Pods-PhotoTagUnitTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		D92AEC542634BF890087C3D4 /* PhotoTagUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				D92AEC552634BF890087C3D4 /* PhotoTagUnitTests.swift */,
+				D92AEC572634BF890087C3D4 /* Info.plist */,
+			);
+			path = PhotoTagUnitTests;
 			sourceTree = "<group>";
 		};
 		D9B02DB825EC3D79009B5AC2 = {
 			isa = PBXGroup;
 			children = (
 				D9B02DC325EC3D79009B5AC2 /* PhotoTag */,
+				D92AEC542634BF890087C3D4 /* PhotoTagUnitTests */,
 				D9B02DC225EC3D79009B5AC2 /* Products */,
 				9060E0EDE6DD1C4861457A4C /* Pods */,
 				166A955EE694328D2ECB4C3C /* Frameworks */,
@@ -140,8 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				D9B02DC125EC3D79009B5AC2 /* PhotoTag.app */,
-				D9B02DD725EC3D7A009B5AC2 /* PhotoTagTests.xctest */,
-				D9B02DE225EC3D7A009B5AC2 /* PhotoTagUITests.xctest */,
+				D92AEC532634BF890087C3D4 /* PhotoTagUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,6 +182,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D92AEC522634BF890087C3D4 /* PhotoTagUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D92AEC5C2634BF890087C3D4 /* Build configuration list for PBXNativeTarget "PhotoTagUnitTests" */;
+			buildPhases = (
+				0C73BC36E31B4CB115B6403A /* [CP] Check Pods Manifest.lock */,
+				D92AEC4F2634BF890087C3D4 /* Sources */,
+				D92AEC502634BF890087C3D4 /* Frameworks */,
+				D92AEC512634BF890087C3D4 /* Resources */,
+				B24A1606138C42204CEB33B3 /* [CP] Embed Pods Frameworks */,
+				B80B429A322260620A4EAA0A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D92AEC592634BF890087C3D4 /* PBXTargetDependency */,
+			);
+			name = PhotoTagUnitTests;
+			productName = PhotoTagUnitTests;
+			productReference = D92AEC532634BF890087C3D4 /* PhotoTagUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D9B02DC025EC3D79009B5AC2 /* PhotoTag */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9B02DEB25EC3D7A009B5AC2 /* Build configuration list for PBXNativeTarget "PhotoTag" */;
@@ -199,42 +223,6 @@
 			productReference = D9B02DC125EC3D79009B5AC2 /* PhotoTag.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D9B02DD625EC3D7A009B5AC2 /* PhotoTagTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D9B02DEE25EC3D7A009B5AC2 /* Build configuration list for PBXNativeTarget "PhotoTagTests" */;
-			buildPhases = (
-				D9B02DD325EC3D7A009B5AC2 /* Sources */,
-				D9B02DD425EC3D7A009B5AC2 /* Frameworks */,
-				D9B02DD525EC3D7A009B5AC2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D9B02DD925EC3D7A009B5AC2 /* PBXTargetDependency */,
-			);
-			name = PhotoTagTests;
-			productName = PhotoTagTests;
-			productReference = D9B02DD725EC3D7A009B5AC2 /* PhotoTagTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		D9B02DE125EC3D7A009B5AC2 /* PhotoTagUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D9B02DF125EC3D7A009B5AC2 /* Build configuration list for PBXNativeTarget "PhotoTagUITests" */;
-			buildPhases = (
-				D9B02DDE25EC3D7A009B5AC2 /* Sources */,
-				D9B02DDF25EC3D7A009B5AC2 /* Frameworks */,
-				D9B02DE025EC3D7A009B5AC2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D9B02DE425EC3D7A009B5AC2 /* PBXTargetDependency */,
-			);
-			name = PhotoTagUITests;
-			productName = PhotoTagUITests;
-			productReference = D9B02DE225EC3D7A009B5AC2 /* PhotoTagUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -244,16 +232,12 @@
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					D92AEC522634BF890087C3D4 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = D9B02DC025EC3D79009B5AC2;
+					};
 					D9B02DC025EC3D79009B5AC2 = {
 						CreatedOnToolsVersion = 12.4;
-					};
-					D9B02DD625EC3D7A009B5AC2 = {
-						CreatedOnToolsVersion = 12.4;
-						TestTargetID = D9B02DC025EC3D79009B5AC2;
-					};
-					D9B02DE125EC3D7A009B5AC2 = {
-						CreatedOnToolsVersion = 12.4;
-						TestTargetID = D9B02DC025EC3D79009B5AC2;
 					};
 				};
 			};
@@ -271,13 +255,19 @@
 			projectRoot = "";
 			targets = (
 				D9B02DC025EC3D79009B5AC2 /* PhotoTag */,
-				D9B02DD625EC3D7A009B5AC2 /* PhotoTagTests */,
-				D9B02DE125EC3D7A009B5AC2 /* PhotoTagUITests */,
+				D92AEC522634BF890087C3D4 /* PhotoTagUnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D92AEC512634BF890087C3D4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D9B02DBF25EC3D79009B5AC2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -290,25 +280,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D9B02DD525EC3D7A009B5AC2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				60501BFA25EF130200DC86E7 /* GoogleService-Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D9B02DE025EC3D7A009B5AC2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				60501BFB25EF130200DC86E7 /* GoogleService-Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0C73BC36E31B4CB115B6403A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhotoTagUnitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		668183CE04852C432BAD5350 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -365,9 +361,51 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B24A1606138C42204CEB33B3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoTagUnitTests/Pods-PhotoTagUnitTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoTagUnitTests/Pods-PhotoTagUnitTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhotoTagUnitTests/Pods-PhotoTagUnitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B80B429A322260620A4EAA0A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoTagUnitTests/Pods-PhotoTagUnitTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoTagUnitTests/Pods-PhotoTagUnitTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhotoTagUnitTests/Pods-PhotoTagUnitTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D92AEC4F2634BF890087C3D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D92AEC562634BF890087C3D4 /* PhotoTagUnitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D9B02DBD25EC3D79009B5AC2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -392,32 +430,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D9B02DD325EC3D7A009B5AC2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D9B02DDE25EC3D7A009B5AC2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D9B02DD925EC3D7A009B5AC2 /* PBXTargetDependency */ = {
+		D92AEC592634BF890087C3D4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D9B02DC025EC3D79009B5AC2 /* PhotoTag */;
-			targetProxy = D9B02DD825EC3D7A009B5AC2 /* PBXContainerItemProxy */;
-		};
-		D9B02DE425EC3D7A009B5AC2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D9B02DC025EC3D79009B5AC2 /* PhotoTag */;
-			targetProxy = D9B02DE325EC3D7A009B5AC2 /* PBXContainerItemProxy */;
+			targetProxy = D92AEC582634BF890087C3D4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -441,6 +460,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D92AEC5A2634BF890087C3D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F93100E985788A56A8EEED7E /* Pods-PhotoTagUnitTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5W9FB5T24W;
+				INFOPLIST_FILE = PhotoTagUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebtota.PhotoTagUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoTag.app/PhotoTag";
+			};
+			name = Debug;
+		};
+		D92AEC5B2634BF890087C3D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 30EB3677EC3FF60BA5EF5A5A /* Pods-PhotoTagUnitTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5W9FB5T24W;
+				INFOPLIST_FILE = PhotoTagUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebtota.PhotoTagUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoTag.app/PhotoTag";
+			};
+			name = Release;
+		};
 		D9B02DE925EC3D7A009B5AC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -604,91 +667,18 @@
 			};
 			name = Release;
 		};
-		D9B02DEF25EC3D7A009B5AC2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = PhotoTagTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoTag.app/PhotoTag";
-			};
-			name = Debug;
-		};
-		D9B02DF025EC3D7A009B5AC2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = PhotoTagTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoTag.app/PhotoTag";
-			};
-			name = Release;
-		};
-		D9B02DF225EC3D7A009B5AC2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = PhotoTagUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = PhotoTag;
-			};
-			name = Debug;
-		};
-		D9B02DF325EC3D7A009B5AC2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = PhotoTagUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.temple.phototag;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = PhotoTag;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D92AEC5C2634BF890087C3D4 /* Build configuration list for PBXNativeTarget "PhotoTagUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D92AEC5A2634BF890087C3D4 /* Debug */,
+				D92AEC5B2634BF890087C3D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D9B02DBC25EC3D79009B5AC2 /* Build configuration list for PBXProject "PhotoTag" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -703,24 +693,6 @@
 			buildConfigurations = (
 				D9B02DEC25EC3D7A009B5AC2 /* Debug */,
 				D9B02DED25EC3D7A009B5AC2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D9B02DEE25EC3D7A009B5AC2 /* Build configuration list for PBXNativeTarget "PhotoTagTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D9B02DEF25EC3D7A009B5AC2 /* Debug */,
-				D9B02DF025EC3D7A009B5AC2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D9B02DF125EC3D7A009B5AC2 /* Build configuration list for PBXNativeTarget "PhotoTagUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D9B02DF225EC3D7A009B5AC2 /* Debug */,
-				D9B02DF325EC3D7A009B5AC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
