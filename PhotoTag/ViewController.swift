@@ -233,7 +233,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      */
     private func postPermissionCheck() {
         print("Got the needed permissions")
-        loadPhotos()
+        getSchedulesFromDb {
+            self.loadPhotos()
+        }
     }
     
     /*
@@ -322,7 +324,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         syncedPhotosSemaphore.wait()
         numPhotosSynced += 1
         let numSyncedTemp = numPhotosSynced
-        let totalPhotosTemp = user.photos.count
+        let totalPhotosTemp = self.user.getPhotoCount()
         syncedPhotosSemaphore.signal()
         
         print("Synced: \(numSyncedTemp)/\(totalPhotosTemp) photos")
@@ -333,15 +335,53 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
+    private func getSchedulesFromDb(callback: @escaping () -> ()) {
+        //tag schedule populating starts here
+        //CountDownLatch done = new CountDownLatch(1)
+        let ref: DatabaseReference = Database.database().reference()
+        let tempRef = ref.child("iOS/\(self.user.username)/Schedules/")
+        tempRef.getData(completion: { (error, snapshot) in
+            if let error = error {
+                print("Error getting data for schedules: Error: \(error)")
+                callback()
+            }else {
+                //let the callback handle adding the new entries into the combined list
+                
+                for child in snapshot.children {
+                    let childDict = child as! DataSnapshot
+
+                    guard let values = childDict.value as? [String: Any] else{
+                        return
+                    }
+                    let startDate = values["start date"] as! String
+                    let endDate = values["end date"] as! String
+                    let startTime = values["start time"] as! String
+                    let endTime = values["end time"] as! String
+                    let days = values["days"] as! String
+                    let tag = values["tag"] as! String
+                    
+                    let tempSchedule = ["start date" : startDate,
+                                           "end date" : endDate,
+                                           "start time" : startTime,
+                                           "end time" : endTime,
+                                           "days" : days,
+                                           "tag" : tag
+                    ]
+                    self.scheduleList.append(tempSchedule)
+                    //print(self.scheduleList, Date())
+                }
+                callback()
+            }
+        })
+    }
+    
     /*
      * Create a list referncing all the local photos the application has access to
      * Is only refreshing photos, specify which index the photos should be added at
      * @param   Bool    Indcates if this is the first time the photos are being added or if the photos are being refreshed
      */
-    private func loadPhotos(refresh: Bool = false) {
-        // Reset current photos as permissions for certain photos could have changed
-        // self.user.photos = [:]
-        // self.user.photosMap = []
+    private func loadPhotos() {
+        print("Loading photos")
         
         // Create a background task
         DispatchQueue.global(qos: .utility).async {
@@ -353,63 +393,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Retrieve local photos (photos only, no video)
             let photoResults: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             
-            //tag schedule populating starts here
-            //CountDownLatch done = new CountDownLatch(1)
-            var ref: DatabaseReference!     //reference to the database
-            ref = Database.database().reference()
-            let tempRef = ref.child("iOS/\(self.user.username)/Schedules/")
-            tempRef.getData(completion: { (error, snapshot) in
-                if let error = error {
-                    print("Error getting data for schedules: Error: \(error)")
-                }else {
-                    //let the callback handle adding the new entries into the combined list
-                    
-                    for child in snapshot.children {
-                        let childDict = child as! DataSnapshot
-  
-                        guard let values = childDict.value as? [String: Any] else{
-                            return
-                        }
-                        let startDate = values["start date"] as! String
-                        let endDate = values["end date"] as! String
-                        let startTime = values["start time"] as! String
-                        let endTime = values["end time"] as! String
-                        let days = values["days"] as! String
-                        let tag = values["tag"] as! String
-                        
-                        let tempSchedule = ["start date" : startDate,
-                                               "end date" : endDate,
-                                               "start time" : startTime,
-                                               "end time" : endTime,
-                                               "days" : days,
-                                               "tag" : tag
-                        ]
-                        self.scheduleList.append(tempSchedule)
-                        //print(self.scheduleList, Date())
-                    }
-                    sleep(3)
-                }
-            })
+            let ref: DatabaseReference = Database.database().reference()
             
             //end of populate schedules
             var counter = 0
-            sleep(3)
             if (photoResults.count > 0) {
                 for i in 0..<photoResults.count {
                     //*****start tag scheduling******
                     //loop through all schedules
-                    let pDate:Date = photoResults[i].modificationDate!
+                    let pDate: Date? = photoResults[i].modificationDate
                    //print("Date of Photo:", pDate)
-                    if pDate != nil{
+                    if let pDate = pDate{
                         //print(396, self.scheduleList, Date())
                         //if current photo has a date
                         for schedule in self.scheduleList {
-                            let d1:Date = self.dateStrToDate(str: schedule["start date" ] as! String)
+                            let d1:Date = self.dateStrToDate(str: schedule["start date"] as! String)
                             let d2:Date = self.dateStrToDate(str: schedule["end date"] as! String)
                             let t1:String = schedule["start time" ] as! String
                             let t2:String =  schedule["end time"] as! String
                             let dayMaskStr:String =  schedule["days"] as! String
-                            var dayMask:Int = Int(dayMaskStr)!
+                            let dayMask:Int = Int(dayMaskStr)!
                             if self.inDateRange(photoDate: pDate, date1: d1, date2: d2) == 1{
                                 //date is in range of dates
                                 if  self.inTimeRange(photoDate: pDate, time1: t1, time2: t2) == 1{
@@ -434,8 +437,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                             }else{
                                 print("not adding tag")
                             }
-                            print("Date:", photoResults[i].modificationDate)
-
+                            //print("Date:", photoResults[i].modificationDate)
                         }
                     }
                     //******end of tag scheduling*****
@@ -509,7 +511,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * Collection view function - Returns the number of individual cells the gallery view controler should display
      */
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.user.photos.count
+        self.user.getPhotoCount()
     }
     
     /*
