@@ -164,4 +164,28 @@ class PhotoTagUnitTests: XCTestCase {
         XCTAssertNotNil(user.getPhoto(id: photo.id))
     }
 
+    func testGetAllTags() throws {
+        let user = User(un: "unitTest")
+        
+        // Create test photo to add
+        let testAsset: PHAsset = PHAsset.init()
+        let photo: Photo = Photo(asset: testAsset, username: "unitTest") {}
+        
+        // Add photo to test user
+        user.addPhoto(photo: photo)
+        
+        // Add test tags to photo
+        photo.addTag(tag: "testtag1")
+        photo.addTag(tag: "testtag2")
+        
+        let asyncExpectation = expectation(description: "Async block executed")
+        user.getAllTags { (allTags: [String]) in
+            XCTAssertTrue(allTags.contains("testtag1"))
+            XCTAssertTrue(allTags.contains("testtag2"))
+            XCTAssertFalse(allTags.contains("testtag3"))
+            asyncExpectation.fulfill()
+        }
+        waitForExpectations(timeout: 2, handler: nil)
+
+    }
 }
