@@ -11,6 +11,9 @@ import Foundation
 import Firebase
 @testable import PhotoTag
 
+let testSemaphore = DispatchSemaphore(value: 1)
+
+
 class PhotoTagUnitTests: XCTestCase {
     
     let ref: DatabaseReference = Database.database().reference().ref.child("iOS/unitTest/Photos/(null)||-|L0||-|001")
@@ -35,38 +38,55 @@ class PhotoTagUnitTests: XCTestCase {
         ref.removeValue()
     }
     
+    func getAllTagsAssociatedWithUnitTestPhotoObj(callback: @escaping ([String]) -> ()) {
+        self.ref.child("photo_tags").getData { (error, snapshot) in
+            var retreivedTags: [String] = []
+            XCTAssertFalse(error != nil)
+            XCTAssertTrue(snapshot.exists())
+            
+            if snapshot.exists() {
+                for child in snapshot.children {
+                    let childTag = child as! DataSnapshot
+                    let tag = childTag.key
+                    retreivedTags.append(tag)
+                }
+                
+                callback(retreivedTags)
+            }
+        }
+    }
+    
     func testGetTags() throws {
+        testSemaphore.wait()
         resetUnitTestPhotoDbObject()
         ref.child("photo_tags/testTag1").setValue(true)
         ref.child("photo_tags/testTag2").setValue(true)
         
         let testAsset: PHAsset = PHAsset.init()
         let photo: Photo = Photo(asset: testAsset, username: "unitTest") {
-            
-            var retreivedTags: [String] = []
-            
-            self.ref.child("photo_tags").getData { (error, snapshot) in
-                if let error = error {
-                    print("Error updating tags from the database: Error: \(error)")
-                } else if snapshot.exists() {
-                    for child in snapshot.children {
-                        let childTag = child as! DataSnapshot
-                        let tag = childTag.key
-                        retreivedTags.append(tag)
-                    }
-                    
-                    XCTAssertTrue(retreivedTags.contains("testTag1"))
-                    XCTAssertTrue(retreivedTags.contains("testTag2"))
-                }
+            self.getAllTagsAssociatedWithUnitTestPhotoObj { (tags: [String]) in
+                XCTAssertTrue(tags.contains("testTag1"))
+                XCTAssertTrue(tags.contains("testTag2"))
+                testSemaphore.signal()
             }
         }
         XCTAssertNotNil(photo)
     }
+    
+    func testAddTag() throws {
+        testSemaphore.wait()
+        resetUnitTestPhotoDbObject()  // Reset test object in db
+        let testAsset: PHAsset = PHAsset.init()
+        let photo: Photo = Photo(asset: testAsset, username: "unitTest") {}
+        XCTAssertNotNil(photo)
+        
+        // Add a new tag
+        photo.addTag(tag: "testTag1")
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+        // Make sure new tag was added
+        self.getAllTagsAssociatedWithUnitTestPhotoObj { (tags: [String]) in
+            XCTAssertTrue(tags.contains("testTag1"))
+            testSemaphore.signal()
         }
     }
 
