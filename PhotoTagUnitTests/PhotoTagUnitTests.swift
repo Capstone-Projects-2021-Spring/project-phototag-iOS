@@ -135,5 +135,17 @@ class PhotoTagUnitTests: XCTestCase {
         }
         waitForExpectations(timeout: 2, handler: nil)
     }
+    
+    func testAddPhoto() throws {
+        let user = User(un: "unitTest")
+        
+        // Create test photo to add
+        let testAsset: PHAsset = PHAsset.init()
+        let photo: Photo = Photo(asset: testAsset, username: "unitTest") {}
+        
+        user.addPhoto(photo: photo)
+        
+        XCTAssertTrue(user.photos[photo.id] != nil)
+    }
 
 }
