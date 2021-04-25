@@ -89,5 +89,25 @@ class PhotoTagUnitTests: XCTestCase {
             testSemaphore.signal()
         }
     }
+    
+    func testRemoveTag() throws {
+        testSemaphore.wait()
+        resetUnitTestPhotoDbObject()  // Reset test object in db
+        let testAsset: PHAsset = PHAsset.init()
+        let photo: Photo = Photo(asset: testAsset, username: "unitTest") {}
+        XCTAssertNotNil(photo)
+        
+        // Add a new tag
+        ref.child("photo_tags/testTag1").setValue(true)
+        
+        // Test remove tag function
+        photo.removeTag(tag: "testTag1")
+
+        // Make sure new tag was added
+        self.getAllTagsAssociatedWithUnitTestPhotoObj { (tags: [String]) in
+            XCTAssertFalse(tags.contains("testTag1"))
+            testSemaphore.signal()
+        }
+    }
 
 }
