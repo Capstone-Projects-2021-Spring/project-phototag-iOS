@@ -12,6 +12,8 @@ import Firebase
 @testable import PhotoTag
 
 class PhotoTagUnitTests: XCTestCase {
+    
+    let ref: DatabaseReference = Database.database().reference().ref.child("iOS/unitTest/Photos/(null)||-|L0||-|001")
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -28,10 +30,13 @@ class PhotoTagUnitTests: XCTestCase {
         XCTAssertTrue(encStr == expectedEncStr)
     }
     
-    func testGetTags() throws {
+    func resetUnitTestPhotoDbObject() {
         // Reset unit test photo object in db
-        let ref: DatabaseReference = Database.database().reference().ref.child("iOS/unitTest/Photos/(null)||-|L0||-|001")
         ref.removeValue()
+    }
+    
+    func testGetTags() throws {
+        resetUnitTestPhotoDbObject()
         ref.child("photo_tags/testTag1").setValue(true)
         ref.child("photo_tags/testTag2").setValue(true)
         
@@ -40,7 +45,7 @@ class PhotoTagUnitTests: XCTestCase {
             
             var retreivedTags: [String] = []
             
-            ref.child("photo_tags").getData { (error, snapshot) in
+            self.ref.child("photo_tags").getData { (error, snapshot) in
                 if let error = error {
                     print("Error updating tags from the database: Error: \(error)")
                 } else if snapshot.exists() {
