@@ -575,7 +575,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
      * @return  1: true, -1: false, other flags for future optimization
      */
     func inDateRange(photoDate: Date, date1: Date, date2: Date) -> Int{
-        if photoDate > date1 && photoDate < date2{
+        if photoDate >= date1 && photoDate <= date2{
         //dateInRange
             return 1
         }
