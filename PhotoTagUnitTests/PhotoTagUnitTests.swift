@@ -11,8 +11,6 @@ import Foundation
 import Firebase
 @testable import PhotoTag
 
-let testSemaphore = DispatchSemaphore(value: 1)
-
 
 class PhotoTagUnitTests: XCTestCase {
     
@@ -50,48 +48,48 @@ class PhotoTagUnitTests: XCTestCase {
                     let tag = childTag.key
                     retreivedTags.append(tag)
                 }
-                
-                callback(retreivedTags)
             }
+            callback(retreivedTags)
         }
     }
     
     func testGetTags() throws {
-        testSemaphore.wait()
         resetUnitTestPhotoDbObject()
-        ref.child("photo_tags/testTag1").setValue(true)
-        ref.child("photo_tags/testTag2").setValue(true)
+        ref.child("photo_tags/testtag1").setValue(true)
+        ref.child("photo_tags/testtag2").setValue(true)
         
         let testAsset: PHAsset = PHAsset.init()
+        let asyncExpectation = expectation(description: "Async block executed")
         let photo: Photo = Photo(asset: testAsset, username: "unitTest") {
             self.getAllTagsAssociatedWithUnitTestPhotoObj { (tags: [String]) in
-                XCTAssertTrue(tags.contains("testTag1"))
-                XCTAssertTrue(tags.contains("testTag2"))
-                testSemaphore.signal()
+                XCTAssertTrue(tags.contains("testtag1"))
+                XCTAssertTrue(tags.contains("testtag2"))
+                asyncExpectation.fulfill()
             }
         }
         XCTAssertNotNil(photo)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testAddTag() throws {
-        testSemaphore.wait()
         resetUnitTestPhotoDbObject()  // Reset test object in db
         let testAsset: PHAsset = PHAsset.init()
         let photo: Photo = Photo(asset: testAsset, username: "unitTest") {}
         XCTAssertNotNil(photo)
         
         // Add a new tag
-        photo.addTag(tag: "testTag1")
+        XCTAssertTrue(photo.addTag(tag: "testtag1"))
 
         // Make sure new tag was added
+        let asyncExpectation = expectation(description: "Async block executed")
         self.getAllTagsAssociatedWithUnitTestPhotoObj { (tags: [String]) in
-            XCTAssertTrue(tags.contains("testTag1"))
-            testSemaphore.signal()
+            XCTAssertTrue(tags.contains("testtag1"))
+            asyncExpectation.fulfill()
         }
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testRemoveTag() throws {
-        testSemaphore.wait()
         resetUnitTestPhotoDbObject()  // Reset test object in db
         let testAsset: PHAsset = PHAsset.init()
         let photo: Photo = Photo(asset: testAsset, username: "unitTest") {}
@@ -104,10 +102,38 @@ class PhotoTagUnitTests: XCTestCase {
         photo.removeTag(tag: "testTag1")
 
         // Make sure new tag was added
+        let asyncExpectation = expectation(description: "Async block executed")
         self.getAllTagsAssociatedWithUnitTestPhotoObj { (tags: [String]) in
-            XCTAssertFalse(tags.contains("testTag1"))
-            testSemaphore.signal()
+            XCTAssertFalse(tags.contains("testtag1"))
+            asyncExpectation.fulfill()
         }
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+    
+    func testMarkTagged() throws {
+        resetUnitTestPhotoDbObject()  // Reset test object in db
+        let testAsset: PHAsset = PHAsset.init()
+        let photo: Photo = Photo(asset: testAsset, username: "unitTest") {}
+        XCTAssertNotNil(photo)
+
+        // Mark photo as tagged
+        photo.markTagged()
+
+        // Make sure photo was tagged and being auto tagged
+        let asyncExpectation = expectation(description: "Async block executed")
+        self.ref.getData { (error, snapshot) in
+            XCTAssertFalse(error != nil)
+            XCTAssertTrue(snapshot.exists())
+
+            if snapshot.exists() {
+                if snapshot.hasChild("auto_tagged") {
+                    let dbTagged: Bool = snapshot.childSnapshot(forPath: "auto_tagged").value! as! Bool
+                    XCTAssertTrue(dbTagged)
+                    asyncExpectation.fulfill()
+                }
+            }
+        }
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
 }
