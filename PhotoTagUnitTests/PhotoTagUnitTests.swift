@@ -6,6 +6,9 @@
 //
 
 import XCTest
+import Photos
+import Foundation
+import Firebase
 @testable import PhotoTag
 
 class PhotoTagUnitTests: XCTestCase {
@@ -23,6 +26,36 @@ class PhotoTagUnitTests: XCTestCase {
         let expectedEncStr = "abc||-|abc--|-abc-|--abc|---abc|--|abc---|abc"
         let encStr = Photo.firebaseEncodeString(str: str)
         XCTAssertTrue(encStr == expectedEncStr)
+    }
+    
+    func testGetTags() throws {
+        // Reset unit test photo object in db
+        let ref: DatabaseReference = Database.database().reference().ref.child("iOS/unitTest/Photos/(null)||-|L0||-|001")
+        ref.removeValue()
+        ref.child("photo_tags/testTag1").setValue(true)
+        ref.child("photo_tags/testTag2").setValue(true)
+        
+        let testAsset: PHAsset = PHAsset.init()
+        let photo: Photo = Photo(asset: testAsset, username: "unitTest") {
+            
+            var retreivedTags: [String] = []
+            
+            ref.child("photo_tags").getData { (error, snapshot) in
+                if let error = error {
+                    print("Error updating tags from the database: Error: \(error)")
+                } else if snapshot.exists() {
+                    for child in snapshot.children {
+                        let childTag = child as! DataSnapshot
+                        let tag = childTag.key
+                        retreivedTags.append(tag)
+                    }
+                    
+                    XCTAssertTrue(retreivedTags.contains("testTag1"))
+                    XCTAssertTrue(retreivedTags.contains("testTag2"))
+                }
+            }
+        }
+        XCTAssertNotNil(photo)
     }
 
     func testPerformanceExample() throws {
