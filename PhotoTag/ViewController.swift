@@ -401,7 +401,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 for i in 0..<photoResults.count {
                     //*****start tag scheduling******
                     //loop through all schedules
-                    let pDate: Date? = photoResults[i].modificationDate
+                    let pDate: Date? = photoResults[i].creationDate
                    //print("Date of Photo:", pDate)
                     if let pDate = pDate{
                         //print(396, self.scheduleList, Date())
