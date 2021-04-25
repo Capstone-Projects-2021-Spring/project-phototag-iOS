@@ -147,5 +147,21 @@ class PhotoTagUnitTests: XCTestCase {
         
         XCTAssertTrue(user.photos[photo.id] != nil)
     }
+    
+    func testGetPhoto() throws {
+        let user = User(un: "unitTest")
+        
+        // Create test photo to add
+        let testAsset: PHAsset = PHAsset.init()
+        let photo: Photo = Photo(asset: testAsset, username: "unitTest") {}
+        
+        // Add test photo
+        user.photosMap.append(photo.id)
+        user.photos[photo.id] = photo
+        user.photoCount += 1
+        
+        // Ensure when photo is retrieved it is not nil
+        XCTAssertNotNil(user.getPhoto(id: photo.id))
+    }
 
 }
